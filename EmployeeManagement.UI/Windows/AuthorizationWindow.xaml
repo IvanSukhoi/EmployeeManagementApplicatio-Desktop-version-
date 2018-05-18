@@ -1,0 +1,30 @@
+﻿<Window x:Class="EmployeeManagement.UI.AuthorizationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmployeeManagement.UI"
+        mc:Ignorable="d"
+        Title="LoginScreen" Height="225" Width="300" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="68*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1" Content="Enter Login:" Margin="5"/>
+        <Label Grid.Row="2" Content="Enter Password:" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="5" Name="LoginTextBox" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Margin="5" Name="PasswordTextBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Column="0" Grid.Row="3" Name="EnterLogin" Height="30" Command="{Binding LogInCommand}" Width="100" Content="Enter" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
+</Window>
