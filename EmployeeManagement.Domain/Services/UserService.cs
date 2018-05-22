@@ -14,9 +14,9 @@ namespace EmployeeManagement.Domain.Services
             _managementContext = managementContext;
         }
 
-        public User Check(string Login, string Password)
+        public User GetUser(string login, string password)
         {
-            return _managementContext.Users.FirstOrDefault(x => x.Login == Login && x.Password == Password);
+            return _managementContext.Users.FirstOrDefault(x => x.Login == login && x.Password == password);
         }
     }
 }

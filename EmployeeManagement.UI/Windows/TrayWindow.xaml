@@ -1,19 +1,22 @@
 ﻿<Window x:Class="EmployeeManagement.UI.Windows.TrayWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmployeeManagement.UI"
-        mc:Ignorable="d"
-        Title="TrayWindow" Height="176.942" Width="230.85">
-    <Grid Height="243" VerticalAlignment="Top">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Button Grid.Row="0" Name="Log"  Height="49" Width="190" Content="{Binding LogInOrLogOut, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding TransitionToAuthorizationCommand}" Margin="32,0,0,73"/>
-        <Button Name="Main"  Height="49" Width="190" Content="Main" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding TransitionToMainCommand}" Margin="32,49,0,24"/>
-        <Button Name="Exit" Height="49"  Width="190" Content="Exit" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding TransitionToExitCommand}" Margin="32,98,0,97" Grid.RowSpan="2"/>
-    </Grid>
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters">
+    <tb:TaskbarIcon
+        IconSource="../Images/30.ico">
+        <tb:TaskbarIcon.TrayPopup>
+            <Grid>
+                <StackPanel>
+                    <Button Name="Log"  Height="30" Width="150" Content="{converters:SwitchBinding IsLogged, LogOut, LogIn}" 
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding TransitionToAuthorizationCommand}" />
+                    <Button Name="Main" Height="30" Width="150" Content="Main" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding IsLogged}" Command="{Binding TransitionToMainCommand}"/>
+                    <Button Name="Exit" Height="30"  Width="150" Content="Exit"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding TransitionToExitCommand}" />
+                </StackPanel>
+            </Grid>
+        </tb:TaskbarIcon.TrayPopup>
+    </tb:TaskbarIcon>
 </Window>

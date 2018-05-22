@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using EmployeeManagement.Domain.Services;
-using EmployeeManagement.UI.Interfaces;
-using EmployeeManagement.UI.ViewModels;
+﻿using EmployeeManagement.UI.Interfaces;
 
 namespace EmployeeManagement.UI.Windows
 {
@@ -10,7 +7,6 @@ namespace EmployeeManagement.UI.Windows
         public TrayWindow()
         {
             InitializeComponent();
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         public void CloseWindow()

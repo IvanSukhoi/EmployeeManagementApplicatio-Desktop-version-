@@ -9,25 +9,25 @@ namespace EmployeeManagement.UI.ViewModels
 {
     public class AuthorizationViewModel : INotifyPropertyChanged
     {
-        private readonly UserService _userService;
         private readonly AuthorizationService _authorizationService;
         private readonly IWindow _currentWindow;
 
         public string Login { get; set; }
         public string Password { get; set; }
+        public bool RememberMe { get; set; }
+
         public IDelegateCommand LogInCommand { protected set; get; }
 
-        public AuthorizationViewModel(IWindow currentWindow, UserService userService, AuthorizationService authorizationService)
+        public AuthorizationViewModel(IWindow currentWindow, AuthorizationService authorizationService)
         {
             _currentWindow = currentWindow;
-            _userService = userService;
             _authorizationService = authorizationService;
             LogInCommand = new DelegateCommand.DelegateCommand(ExecutePrintResultAuthorization);
         }
 
         void ExecutePrintResultAuthorization(object parametr)
         {
-            _authorizationService.LogIn(Login, Password);
+            _authorizationService.LogIn(Login, Password, RememberMe);
             if (_authorizationService.IsLogged)
             {
                 MessageBox.Show("Successful Authorization!", "Authorization", MessageBoxButton.OK);

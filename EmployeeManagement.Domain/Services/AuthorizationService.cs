@@ -1,17 +1,48 @@
 ﻿using EmployeeManagement.DataEF;
+using EmployeeManagement.Domain.Helpers;
 
 namespace EmployeeManagement.Domain.Services
 {
     public class AuthorizationService
     {
         private User _currentUser;
-        private UserService _userService;
-        public  bool IsLogged { get; set; }
+        public bool IsLogged => _currentUser != null;
+        public bool IsRemembered { get; set; }
 
-        public void LogIn(string login, string password)
+        private readonly UserService _userService;
+
+        public AuthorizationService(UserService userService)
         {
-            _currentUser = _userService.Check(login, password);
-            IsLogged = _currentUser != null;
+            _userService = userService;
+        }
+
+        public void LogIn(string login, string password, bool rememberMe)
+        {
+            _currentUser = _userService.GetUser(login, password);
+            
+            if (_currentUser != null)
+            {
+                if (rememberMe)
+                {
+                    IsRemembered = true;
+                    RegistryHelper.SetData("Login", login);
+                    RegistryHelper.SetData("Password", password);
+                }
+            }
+        }
+
+        public void LogOut()
+        {
+            _currentUser = null;
+            if (IsRemembered)
+            {
+                RegistryHelper.RemoveData("Login", "Password");
+            }
+        }
+
+        public void IsAuthorized()
+        {
+            _currentUser = _userService.GetUser(RegistryHelper.GetData("Login"), RegistryHelper.GetData("Password"));
         }
     }
 }

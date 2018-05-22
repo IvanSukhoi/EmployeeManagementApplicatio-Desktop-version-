@@ -12,14 +12,11 @@ namespace EmployeeManagement.UI.Windows
             base.OnStartup(e);
 
             var userService = new UserService(new ManagementContext());
-            var authorizationService = new AuthorizationService();
-            //var userModel = new AuthorizationViewModel(userService);
-            //var window = new AuthorizationWindow(userModel);
-            //window.Show();
-
+            var authorizationService = new AuthorizationService(userService);
             var trayWindow = new TrayWindow();
-            trayWindow.DataContext = new TrayViewModel(trayWindow, userService, authorizationService);
-            trayWindow.Show();
+            var trayViewModel = new TrayViewModel(trayWindow, authorizationService);
+            trayWindow.DataContext = trayViewModel;
+            trayViewModel.Init();
         }
     }
 }

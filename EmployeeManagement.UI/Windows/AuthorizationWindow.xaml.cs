@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using EmployeeManagement.UI.Interfaces;
-using EmployeeManagement.UI.ViewModels;
 
-namespace EmployeeManagement.UI
+namespace EmployeeManagement.UI.Windows
 {
     public partial class AuthorizationWindow : IWindow
     {
