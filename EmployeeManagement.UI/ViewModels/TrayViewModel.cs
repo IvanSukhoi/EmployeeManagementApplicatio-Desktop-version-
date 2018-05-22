@@ -26,8 +26,6 @@ namespace EmployeeManagement.UI.ViewModels
         }
 
         public bool IsOpenWindow { get; set; }
-
-
         public bool IsLogged => _authorizationService.IsLogged;
 
         public void Init()
