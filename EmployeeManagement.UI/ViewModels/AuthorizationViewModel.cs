@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using EmployeeManagement.Domain.Services;
+using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.Interfaces;
 
@@ -10,7 +10,6 @@ namespace EmployeeManagement.UI.ViewModels
     public class AuthorizationViewModel : INotifyPropertyChanged
     {
         private readonly AuthorizationService _authorizationService;
-        private readonly IWindow _currentWindow;
 
         public string Login { get; set; }
         public string Password { get; set; }
@@ -18,9 +17,8 @@ namespace EmployeeManagement.UI.ViewModels
 
         public IDelegateCommand LogInCommand { protected set; get; }
 
-        public AuthorizationViewModel(IWindow currentWindow, AuthorizationService authorizationService)
+        public AuthorizationViewModel(AuthorizationService authorizationService)
         {
-            _currentWindow = currentWindow;
             _authorizationService = authorizationService;
             LogInCommand = new DelegateCommand.DelegateCommand(ExecutePrintResultAuthorization);
         }
@@ -31,7 +29,6 @@ namespace EmployeeManagement.UI.ViewModels
             if (_authorizationService.IsLogged)
             {
                 MessageBox.Show("Successful Authorization!", "Authorization", MessageBoxButton.OK);
-                _currentWindow.CloseWindow();
             }
             else
             {

@@ -1,9 +1,8 @@
-﻿using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using EmployeeManagement.DataEF.DAL;
+﻿using System.Linq;
 using EmployeeManagement.DataEF;
+using EmployeeManagement.DataEF.DAL;
 
-namespace EmployeeManagement.Domain.Services
+namespace EmployeeManagement.Domain.DomainServices
 {
     public class UserService
     {

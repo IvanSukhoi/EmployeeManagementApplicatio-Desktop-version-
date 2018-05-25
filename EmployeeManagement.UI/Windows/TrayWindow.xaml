@@ -9,7 +9,7 @@
         <tb:TaskbarIcon.TrayPopup>
             <Grid>
                 <StackPanel>
-                    <Button Name="Log"  Height="30" Width="150" Content="{converters:SwitchBinding IsLogged, LogOut, LogIn}" 
+                    <Button Name="Log"  Height="30" Width="150" Content="{converters:BoolToTextSwitchBinding IsLogged, LogOut, LogIn}" 
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding TransitionToAuthorizationCommand}" />
                     <Button Name="Main" Height="30" Width="150" Content="Main" 
                             HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding IsLogged}" Command="{Binding TransitionToMainCommand}"/>

@@ -1,7 +1,7 @@
 ﻿using EmployeeManagement.DataEF;
 using EmployeeManagement.Domain.Helpers;
 
-namespace EmployeeManagement.Domain.Services
+namespace EmployeeManagement.Domain.DomainServices
 {
     public class AuthorizationService
     {
@@ -10,7 +10,7 @@ namespace EmployeeManagement.Domain.Services
         public bool IsRemembered { get; set; }
 
         private readonly UserService _userService;
-
+        
         public AuthorizationService(UserService userService)
         {
             _userService = userService;
@@ -43,6 +43,10 @@ namespace EmployeeManagement.Domain.Services
         public void IsAuthorized()
         {
             _currentUser = _userService.GetUser(RegistryHelper.GetData("Login"), RegistryHelper.GetData("Password"));
+            if (_currentUser != null)
+            {
+                IsRemembered = true;
+            }
         }
     }
 }

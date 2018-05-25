@@ -1,14 +1,15 @@
 ﻿using System.Windows;
 using EmployeeManagement.UI.Interfaces;
+using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
 {
     public partial class AuthorizationWindow : IWindow
     {
-        public AuthorizationWindow()
+        public AuthorizationWindow(AuthorizationViewModel viewModel)
         {
             InitializeComponent();
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            DataContext = viewModel;
         }
 
         public void CloseWindow()

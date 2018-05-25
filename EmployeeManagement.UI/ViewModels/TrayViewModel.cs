@@ -1,25 +1,30 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EmployeeManagement.Domain.Services;
+using System.Windows;
+using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.Interfaces;
 using EmployeeManagement.UI.Windows;
+using Unity.ServiceLocation;
+using EmployeeManagement.UI.CustomLifetimeManager;
 
 namespace EmployeeManagement.UI.ViewModels
 {
     public class TrayViewModel : INotifyPropertyChanged
     {
         private readonly AuthorizationService _authorizationService;
-        private readonly IWindow _currentWindow;
+        private readonly UnityServiceLocator _unityServiceLocator;
+        private readonly CustomWindowFactory _windowFactory;
 
         public IDelegateCommand TransitionToMainCommand { protected set; get; }
         public IDelegateCommand TransitionToExitCommand { protected set; get; }
         public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
 
-        public TrayViewModel(IWindow currentWindow, AuthorizationService authorizationService)
+        public TrayViewModel(AuthorizationService authorizationService, UnityServiceLocator unityServiceLocator, CustomWindowFactory windowFactory)
         {
-            _currentWindow = currentWindow;
             _authorizationService = authorizationService;
+            _unityServiceLocator = unityServiceLocator;
+            _windowFactory = windowFactory;
             TransitionToMainCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToMain);
             TransitionToAuthorizationCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToAuthorizationCommand);
             TransitionToExitCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToExit);
@@ -51,10 +56,7 @@ namespace EmployeeManagement.UI.ViewModels
 
         void ExecuteTransitionToExit(object parametr)
         {
-            if (!IsOpenWindow)
-            {
-                _currentWindow.CloseWindow();
-            }
+             Application.Current.Shutdown();
         }
 
         void ExecuteTransitionToAuthorizationCommand(object parametr)
@@ -76,13 +78,10 @@ namespace EmployeeManagement.UI.ViewModels
 
         public void CreateMainWindow()
         {
-            if (!IsOpenWindow)
-            {
-                IsOpenWindow = true;
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.ShowDialog();
-                IsOpenWindow = false;
-            }
+            var mainWindow = _windowFactory.Create<MainWindow>();
+            //var mainWindow = _unityServiceLocator.GetInstance<MainWindow>();
+            mainWindow.Show();
+            //mainWindow.Close();
         }
 
         public void CreateAuthorizationWindow()
@@ -90,9 +89,7 @@ namespace EmployeeManagement.UI.ViewModels
             if (!IsOpenWindow)
             {
                 IsOpenWindow = true;
-                var authorizationWindow = new AuthorizationWindow();
-                authorizationWindow.DataContext =
-                    new AuthorizationViewModel(authorizationWindow, _authorizationService);
+                var authorizationWindow = _unityServiceLocator.GetInstance<AuthorizationWindow>();
                 authorizationWindow.ShowDialog();
                 IsOpenWindow = false;
             }
