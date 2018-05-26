@@ -4,33 +4,29 @@ using System.Windows;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.Interfaces;
+using EmployeeManagement.UI.WindowFactory;
 using EmployeeManagement.UI.Windows;
-using Unity.ServiceLocation;
-using EmployeeManagement.UI.CustomLifetimeManager;
 
 namespace EmployeeManagement.UI.ViewModels
 {
     public class TrayViewModel : INotifyPropertyChanged
     {
         private readonly AuthorizationService _authorizationService;
-        private readonly UnityServiceLocator _unityServiceLocator;
-        private readonly CustomWindowFactory _windowFactory;
+        private readonly WindowFactory.WindowFactory _windowFactory;
 
         public IDelegateCommand TransitionToMainCommand { protected set; get; }
         public IDelegateCommand TransitionToExitCommand { protected set; get; }
         public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
 
-        public TrayViewModel(AuthorizationService authorizationService, UnityServiceLocator unityServiceLocator, CustomWindowFactory windowFactory)
+        public TrayViewModel(AuthorizationService authorizationService, WindowFactory.WindowFactory windowFactory)
         {
             _authorizationService = authorizationService;
-            _unityServiceLocator = unityServiceLocator;
             _windowFactory = windowFactory;
             TransitionToMainCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToMain);
             TransitionToAuthorizationCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToAuthorizationCommand);
             TransitionToExitCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToExit);
         }
 
-        public bool IsOpenWindow { get; set; }
         public bool IsLogged => _authorizationService.IsLogged;
 
         public void Init()
@@ -61,37 +57,31 @@ namespace EmployeeManagement.UI.ViewModels
 
         void ExecuteTransitionToAuthorizationCommand(object parametr)
         {
-            if (!IsOpenWindow)
+            if (!_authorizationService.IsLogged)
             {
-                if (!_authorizationService.IsLogged)
-                {
-                    CreateAuthorizationWindow();
-                    OnPropertyChanged(nameof(IsLogged));
-                }
-                else
-                {
-                    _authorizationService.LogOut();
-                    OnPropertyChanged(nameof(IsLogged));
-                }
+                CreateAuthorizationWindow();
+                OnPropertyChanged(nameof(IsLogged));
+            }
+            else
+            {
+                _authorizationService.LogOut();
+                _windowFactory.Remove(typeof(MainWindow));
+                OnPropertyChanged(nameof(IsLogged));
             }
         }
 
         public void CreateMainWindow()
         {
             var mainWindow = _windowFactory.Create<MainWindow>();
-            //var mainWindow = _unityServiceLocator.GetInstance<MainWindow>();
             mainWindow.Show();
-            //mainWindow.Close();
         }
 
         public void CreateAuthorizationWindow()
         {
-            if (!IsOpenWindow)
+            var authorizationWindow = _windowFactory.Create<AuthorizationWindow>();
+            if (authorizationWindow.Visibility == Visibility.Collapsed)
             {
-                IsOpenWindow = true;
-                var authorizationWindow = _unityServiceLocator.GetInstance<AuthorizationWindow>();
                 authorizationWindow.ShowDialog();
-                IsOpenWindow = false;
             }
         }
 

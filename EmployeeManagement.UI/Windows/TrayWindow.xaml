@@ -7,7 +7,6 @@
     <tb:TaskbarIcon
         IconSource="../Images/30.ico">
         <tb:TaskbarIcon.TrayPopup>
-            <Grid>
                 <StackPanel>
                     <Button Name="Log"  Height="30" Width="150" Content="{converters:BoolToTextSwitchBinding IsLogged, LogOut, LogIn}" 
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding TransitionToAuthorizationCommand}" />
@@ -16,7 +15,6 @@
                     <Button Name="Exit" Height="30"  Width="150" Content="Exit"
                             HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding TransitionToExitCommand}" />
                 </StackPanel>
-            </Grid>
         </tb:TaskbarIcon.TrayPopup>
     </tb:TaskbarIcon>
 </Window>

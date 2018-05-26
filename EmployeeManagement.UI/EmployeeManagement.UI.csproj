@@ -86,14 +86,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToTextConverter.cs" />
-    <Compile Include="CustomLifetimeManager\WindowFactory.cs" />
     <Compile Include="DelegateCommand\DelegateCommand.cs" />
     <Compile Include="DI\UnityServiceLocator.cs" />
     <Compile Include="Interfaces\IDelegateCommand.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
     <Compile Include="DI\RegistrationUnity.cs" />
-    <Compile Include="CustomLifetimeManager\ExtensionLifetimeManager.cs" />
     <Compile Include="ViewModels\TrayViewModel.cs" />
+    <Compile Include="WindowFactory\WindowFactory.cs" />
     <Compile Include="Windows\TrayWindow.xaml.cs">
       <DependentUpon>TrayWindow.xaml</DependentUpon>
     </Compile>

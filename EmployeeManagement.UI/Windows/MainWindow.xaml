@@ -7,6 +7,33 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Name="Button" Content="Ok"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="203*"/>
+            <ColumnDefinition Width="589*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="LightSlateGray">
+            <Run Foreground="White" FontSize="28" Text="     EmployeeManagementApplication"/>
+        </TextBlock>
+
+        <Button Grid.Column="0" Grid.Row="1" Content="Home" FontSize="20" Background="White"/>
+        <Button Grid.Column="0" Grid.Row="2" Content="Bookkeeping" FontSize="20" Background="White"/>
+        <Button Grid.Column="0" Grid.Row="3" Content="Design" FontSize="20" Background="White"/>
+        <Button Grid.Column="0" Grid.Row="4" Content="Human Resources" FontSize="20" Background="White"/>
+        <Button Grid.Column="0" Grid.Row="5" Content="IT" FontSize="20" Background="White"/>
+        <Button Grid.Column="0" Grid.Row="6" Content="Sales" FontSize="20" Background="White"/>
+        <Button Grid.Column="0" Grid.Row="7" Content="Service Stuff" FontSize="20" Background="White"/>
     </Grid>
+
 </Window>

@@ -2,10 +2,10 @@
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Interfaces;
 using EmployeeManagement.UI.ViewModels;
+using EmployeeManagement.UI.WindowFactory;
 using EmployeeManagement.UI.Windows;
 using Unity;
 using Unity.Lifetime;
-using EmployeeManagement.UI.CustomLifetimeManager;
 
 namespace EmployeeManagement.UI.DI
 {
@@ -22,16 +22,14 @@ namespace EmployeeManagement.UI.DI
 
             container.RegisterType<MainWindow>();
             container.RegisterType<TrayWindow>();
+            container.RegisterType<AuthorizationWindow>();
 
             container.RegisterType<TrayViewModel>();
-
-            container.RegisterType<IWindow, AuthorizationWindow>();
-
-            container.RegisterType<AuthorizationViewModel>(new ContainerControlledLifetimeManager());
+            container.RegisterType<AuthorizationViewModel>();
 
             container.RegisterType<UnityServiceLocator>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<CustomWindowFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<WindowFactory.WindowFactory>(new ContainerControlledLifetimeManager());
 
             return container;
         }

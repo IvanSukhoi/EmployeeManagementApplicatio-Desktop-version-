@@ -4,6 +4,8 @@ using System.Windows;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.Interfaces;
+using EmployeeManagement.UI.WindowFactory;
+using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -17,9 +19,12 @@ namespace EmployeeManagement.UI.ViewModels
 
         public IDelegateCommand LogInCommand { protected set; get; }
 
-        public AuthorizationViewModel(AuthorizationService authorizationService)
+        private readonly WindowFactory.WindowFactory _windowFactory;
+
+        public AuthorizationViewModel(AuthorizationService authorizationService, WindowFactory.WindowFactory windowFactory)
         {
             _authorizationService = authorizationService;
+            _windowFactory = windowFactory;
             LogInCommand = new DelegateCommand.DelegateCommand(ExecutePrintResultAuthorization);
         }
 
@@ -29,6 +34,7 @@ namespace EmployeeManagement.UI.ViewModels
             if (_authorizationService.IsLogged)
             {
                 MessageBox.Show("Successful Authorization!", "Authorization", MessageBoxButton.OK);
+                _windowFactory.Remove(typeof(AuthorizationWindow));
             }
             else
             {
