@@ -1,5 +1,8 @@
-﻿public enum Sex
+﻿namespace EmployeeManagement.DataEF.Enums
 {
-    Female,
-    Male
+    public enum Sex
+    {
+        Female,
+        Male
+    }
 }

@@ -1,9 +1,8 @@
-﻿using EmployeeManagement.UI.Interfaces;
-using EmployeeManagement.UI.ViewModels;
+﻿using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
 {
-    public partial class TrayWindow : IWindow
+    public partial class TrayWindow
     {
         public TrayWindow(TrayViewModel viewModel)
         {
@@ -14,11 +13,6 @@ namespace EmployeeManagement.UI.Windows
         public void Init()
         {
             ((TrayViewModel)DataContext).Init();
-        }
-
-        public void CloseWindow()
-        {
-            this.Close();
         }
     }
 }

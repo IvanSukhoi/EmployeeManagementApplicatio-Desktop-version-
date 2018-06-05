@@ -3,8 +3,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
-using EmployeeManagement.UI.Interfaces;
-using EmployeeManagement.UI.WindowFactory;
+using EmployeeManagement.UI.DelegateCommand;
+using EmployeeManagement.UI.DI.WindowFactory;
 using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -17,24 +17,24 @@ namespace EmployeeManagement.UI.ViewModels
         public string Password { get; set; }
         public bool RememberMe { get; set; }
 
-        public IDelegateCommand LogInCommand { protected set; get; }
+        public IDelegateCommand<object> LogInCommand { protected set; get; }
 
-        private readonly WindowFactory.WindowFactory _windowFactory;
+        private readonly WindowFactory _windowFactory;
 
-        public AuthorizationViewModel(AuthorizationService authorizationService, WindowFactory.WindowFactory windowFactory)
+        public AuthorizationViewModel(AuthorizationService authorizationService, WindowFactory windowFactory)
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            LogInCommand = new DelegateCommand.DelegateCommand(ExecutePrintResultAuthorization);
+            LogInCommand = new DelegateCommand<object>(ExecutePrintResultAuthorization);
         }
 
-        void ExecutePrintResultAuthorization(object parametr)
+        void ExecutePrintResultAuthorization<T>(T parametr)
         {
             _authorizationService.LogIn(Login, Password, RememberMe);
             if (_authorizationService.IsLogged)
             {
                 MessageBox.Show("Successful Authorization!", "Authorization", MessageBoxButton.OK);
-                _windowFactory.Remove(typeof(AuthorizationWindow));
+                _windowFactory.Close<AuthorizationWindow>();
             }
             else
             {

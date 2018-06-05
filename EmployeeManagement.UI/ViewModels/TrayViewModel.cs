@@ -3,8 +3,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
-using EmployeeManagement.UI.Interfaces;
-using EmployeeManagement.UI.WindowFactory;
+using EmployeeManagement.UI.DelegateCommand;
+using EmployeeManagement.UI.DI.WindowFactory;
 using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -12,40 +12,37 @@ namespace EmployeeManagement.UI.ViewModels
     public class TrayViewModel : INotifyPropertyChanged
     {
         private readonly AuthorizationService _authorizationService;
-        private readonly WindowFactory.WindowFactory _windowFactory;
+        private readonly WindowFactory _windowFactory;
 
-        public IDelegateCommand TransitionToMainCommand { protected set; get; }
-        public IDelegateCommand TransitionToExitCommand { protected set; get; }
-        public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
+        public IDelegateCommand<object> TransitionToMainCommand { protected set; get; }
+        public IDelegateCommand<object> TransitionToExitCommand { protected set; get; }
+        public IDelegateCommand<object> TransitionToAuthorizationCommand { protected set; get; }
 
-        public TrayViewModel(AuthorizationService authorizationService, WindowFactory.WindowFactory windowFactory)
+        public TrayViewModel(AuthorizationService authorizationService, WindowFactory windowFactory)
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            TransitionToMainCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToMain);
-            TransitionToAuthorizationCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToAuthorizationCommand);
-            TransitionToExitCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToExit);
+            TransitionToMainCommand = new DelegateCommand<object>(ExecuteTransitionToMain);
+            TransitionToAuthorizationCommand = new DelegateCommand<object>(ExecuteTransitionToAuthorizationCommand);
+            TransitionToExitCommand = new DelegateCommand<object>(ExecuteTransitionToExit);
         }
 
         public bool IsLogged => _authorizationService.IsLogged;
 
         public void Init()
         {
-            _authorizationService.IsAuthorized();
-            OnPropertyChanged(nameof(IsLogged));
-
-            if (_authorizationService.IsLogged)
+            if (_authorizationService.IsAuthorized())
             {
                 CreateMainWindow();
             }
             else
             {
                 CreateAuthorizationWindow();
-                OnPropertyChanged(nameof(IsLogged));
             }
+            OnPropertyChanged(nameof(IsLogged));
         }
 
-        void ExecuteTransitionToMain(object parametr)
+        void ExecuteTransitionToMain<T>(T parametr)
         {
               CreateMainWindow();
         }
@@ -65,7 +62,7 @@ namespace EmployeeManagement.UI.ViewModels
             else
             {
                 _authorizationService.LogOut();
-                _windowFactory.Remove(typeof(MainWindow));
+                _windowFactory.Close<MainWindow>();
                 OnPropertyChanged(nameof(IsLogged));
             }
         }

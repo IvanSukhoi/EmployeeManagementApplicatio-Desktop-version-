@@ -52,9 +52,9 @@
     <Compile Include="Entities\Department.cs" />
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="DAL\ManagementContext.cs" />
-    <Compile Include="Enums\Sex.cs" />
     <Compile Include="Enums\Position.cs" />
     <Compile Include="Enums\Profession.cs" />
+    <Compile Include="Enums\Sex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\User.cs" />
   </ItemGroup>

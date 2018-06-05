@@ -1,7 +1,10 @@
-﻿public enum Position
+﻿namespace EmployeeManagement.DataEF.Enums
 {
-    Intern,
-    Junior,
-    Middle,
-    Senior
+    public enum Position
+    {
+        Intern,
+        Junior,
+        Middle,
+        Senior
+    }
 }

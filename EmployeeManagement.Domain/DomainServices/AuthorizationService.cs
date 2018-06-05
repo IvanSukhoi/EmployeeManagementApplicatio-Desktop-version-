@@ -40,13 +40,15 @@ namespace EmployeeManagement.Domain.DomainServices
             }
         }
 
-        public void IsAuthorized()
+        public bool IsAuthorized()
         {
             _currentUser = _userService.GetUser(RegistryHelper.GetData("Login"), RegistryHelper.GetData("Password"));
             if (_currentUser != null)
             {
                 IsRemembered = true;
             }
+
+            return IsLogged;
         }
     }
 }

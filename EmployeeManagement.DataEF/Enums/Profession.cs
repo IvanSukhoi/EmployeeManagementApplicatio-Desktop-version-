@@ -1,10 +1,13 @@
-﻿public enum Profession
+﻿namespace EmployeeManagement.DataEF.Enums
 {
-    SystemAdministrator,
-    BusinessAnalyst,
-    Designer,
-    Recruiter,
-    Bookkeeper,
-    Developer,
-    Manager
+    public enum Profession
+    {
+        SystemAdministrator,
+        BusinessAnalyst,
+        Designer,
+        Recruiter,
+        Bookkeeper,
+        Developer,
+        Manager
+    }
 }

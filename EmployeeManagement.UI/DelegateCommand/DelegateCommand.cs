@@ -1,22 +1,21 @@
 ﻿using System;
-using EmployeeManagement.UI.Interfaces;
 
 namespace EmployeeManagement.UI.DelegateCommand
 {
-    public class DelegateCommand : IDelegateCommand
+    public class DelegateCommand<T>: IDelegateCommand<T>
     {
-        private Action<object> _execute;
-        private Func<object, bool> _canExecute;
+        private readonly Action<T> _execute;
+        private readonly Func<T, bool> _canExecute;
 
         public event EventHandler CanExecuteChanged;
 
-        public DelegateCommand(Action<object> execute, Func<object, bool> canExecute)
+        public DelegateCommand(Action<T> execute, Func<T, bool> canExecute)
         {
             _execute = execute;
             _canExecute = canExecute;
         }
 
-        public DelegateCommand(Action<object> execute)
+        public DelegateCommand(Action<T> execute)
         {
             _execute = execute;
             _canExecute = this.AlwaysCanExecute;
@@ -24,23 +23,20 @@ namespace EmployeeManagement.UI.DelegateCommand
 
         public void Execute(object parameter)
         {
-            _execute(parameter);
+            _execute((T)parameter);
         }
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute(parameter);
+            return _canExecute((T)parameter);
         }
 
         public void RaiseCanExecuteChanged()
         {
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private bool AlwaysCanExecute(object param)
+        private bool AlwaysCanExecute(T param)
         {
             return true;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using Unity;
 
-namespace EmployeeManagement.UI.WindowFactory
+namespace EmployeeManagement.UI.DI.WindowFactory
 {
     public class WindowFactory
     {
@@ -28,11 +28,23 @@ namespace EmployeeManagement.UI.WindowFactory
             return window;
         }
 
-        public void Remove(Type type)
+        public T Get<T>() where T : Window
         {
-            if (!_list.ContainsKey(type)) return;
-            if (_list[type].Visibility != Visibility.Visible) return;
-            _list[type].Close();
+            var serviceType = typeof(T);
+            if (_list.ContainsKey(serviceType))
+            {
+                return (T)_list[serviceType];
+            }
+
+            return null;
+        }
+
+        public void Close<T>() where T : Window
+        {
+            var serviceType = typeof(T);
+            if (!_list.ContainsKey(serviceType)) return;
+            if (_list[serviceType].Visibility != Visibility.Visible) return;
+            _list[serviceType].Close();
         }
 
         private void Window_Closed(object sender, EventArgs e)
