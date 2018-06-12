@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.6\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
@@ -49,6 +52,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -86,6 +90,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\EmployeeDetailsControl.xaml.cs">
+      <DependentUpon>EmployeeDetailsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EmployeeListControl.xaml.cs">
+      <DependentUpon>EmployeeListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BoolToTextConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="DelegateCommand\DelegateCommand.cs" />
@@ -93,10 +103,17 @@
     <Compile Include="DelegateCommand\IDelegateCommand.cs" />
     <Compile Include="DI\RegistrationUnity.cs" />
     <Compile Include="Domain\Managers\NavigationManager.cs" />
+    <Compile Include="Mappings\DomainMappingProfile.cs" />
+    <Compile Include="Mappings\ModelViewFactory.cs" />
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Pages.cs" />
+    <Compile Include="Settings\Topic.cs" />
+    <Compile Include="ViewModels\EmployeeDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DepartmentsViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\EmployeeListViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\TrayViewModel.cs" />
@@ -120,6 +137,14 @@
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\EmployeeDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EmployeeListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

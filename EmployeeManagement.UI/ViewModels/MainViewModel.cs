@@ -8,7 +8,7 @@ namespace EmployeeManagement.UI.ViewModels
     {
         private readonly NavigationManager _navigationManager;
 
-        public IDelegateCommand<object> SelectByDepartmentCommand { protected set; get; }
+        public IDelegateCommand SelectByDepartmentCommand { protected set; get; }
 
         public MainViewModel(NavigationManager navigationManager)
         {

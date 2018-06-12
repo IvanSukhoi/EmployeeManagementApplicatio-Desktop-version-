@@ -2,7 +2,7 @@
 
 namespace EmployeeManagement.UI.DelegateCommand
 {
-    public interface IDelegateCommand<T>: ICommand
+    public interface IDelegateCommand: ICommand
     {
         void RaiseCanExecuteChanged();
     }

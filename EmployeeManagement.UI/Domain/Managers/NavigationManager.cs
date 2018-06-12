@@ -2,7 +2,6 @@
 using EmployeeManagement.Domain.Enums;
 using EmployeeManagement.UI.DI;
 using EmployeeManagement.UI.Pages;
-using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Domain.Managers
 {
@@ -35,11 +34,6 @@ namespace EmployeeManagement.UI.Domain.Managers
 
                 _navigationService.Navigate(employeeListPage);
             }
-        }
-
-        public void Navigate(Departments department)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

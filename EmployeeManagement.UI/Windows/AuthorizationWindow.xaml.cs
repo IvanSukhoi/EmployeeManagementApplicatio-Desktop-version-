@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using EmployeeManagement.UI.ViewModels;
+﻿using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
 {

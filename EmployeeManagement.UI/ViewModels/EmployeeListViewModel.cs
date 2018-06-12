@@ -1,49 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using EmployeeManagement.DataEF;
+﻿using System.Collections.ObjectModel;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.Domain.Enums;
 using EmployeeManagement.UI.Annotations;
-using EmployeeManagement.DataEF.Enums;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using EmployeeManagement.UI.DelegateCommand;
+using EmployeeManagement.UI.Mappings;
 
 namespace EmployeeManagement.UI.ViewModels
 {
     public class EmployeeListViewModel : INotifyPropertyChanged
     {
         private readonly EmployeeService _employeeService;
-        private readonly DepartmentService _departmentService;
 
-        public List<Employee> Employees { get; set; }
-        public List<Department> Departments { get; set; }
+        private readonly ModelViewFactory _modelViewFactory;
 
-        public List<Sex> SexTypes => Enum.GetValues(typeof(Sex)).Cast<Sex>().ToList();
-        public List<Profession> ProfessionTypes => Enum.GetValues(typeof(Profession)).Cast<Profession>().ToList();
+        //rename
+        public delegate void AssignCurrentItem(EmployeeViewModel employeeViewModel);
 
-        public IDelegateCommand<object> EditCommand { protected set; get; }
+        public event AssignCurrentItem AssignEmployee;
 
-        public EmployeeListViewModel(EmployeeService employeeService, DepartmentService departmentService)
+        public IDelegateCommand CreateEmployeeCommand { protected set; get; }
+
+        public EmployeeListViewModel(EmployeeService employeeService, ModelViewFactory modelViewFactory)
         {
             _employeeService = employeeService;
-            _departmentService = departmentService;
-            EditCommand = new DelegateCommand<object>(ExecuteEditCommand);
+            _modelViewFactory = modelViewFactory;
+            CreateEmployeeCommand = new DelegateCommand<object>(ExecuteCreateEmployee);
         }
 
-        public bool IsEditingEmployee { get; set; }
-
-        public void ExecuteEditCommand(object parametr)
+        public void ExecuteCreateEmployee(object parameter)
         {
-            IsEditingEmployee = (bool)parametr;
-            OnPropertyChanged(nameof(IsEditingEmployee));
+            CurrentEmployeeViewItem = new EmployeeViewModel {IsNew = true};
         }
 
-        public void SetEmployees(Departments department)
+        public ObservableCollection<EmployeeViewModel> Employees { get; set; }
+
+        private EmployeeViewModel _currentEmployeeItem;
+        public EmployeeViewModel CurrentEmployeeViewItem
         {
-            Employees = _employeeService.GetByDepartment(department);
-            Departments = _departmentService.GetAll();
+            get => _currentEmployeeItem;
+            set
+            {
+                _currentEmployeeItem = value;
+                OnAssignEmployee(_currentEmployeeItem);
+            }
+        }
+
+        public void UpdateEmployees(Departments department)
+        {
+            Employees = new ObservableCollection<EmployeeViewModel>(); 
+            _employeeService.GetByDepartment(department)
+                .Select(x => _modelViewFactory.MappToEmployeeViewModel(x)).ToList()
+                .ForEach(x => Employees.Add(x));
+
+            CurrentEmployeeViewItem = Employees.FirstOrDefault();
+        }
+
+        public void UpdateCurrentEmployee()
+        {
+            if (!CurrentEmployeeViewItem.IsNew && CurrentEmployeeViewItem.IsEditedDepartment)
+            {
+                Employees.Remove(CurrentEmployeeViewItem);
+                CurrentEmployeeViewItem = Employees.FirstOrDefault();
+            }
+
+            if (CurrentEmployeeViewItem != null && CurrentEmployeeViewItem.IsNew)
+            {
+                Employees.Add(CurrentEmployeeViewItem);
+                CurrentEmployeeViewItem.IsNew = false;
+            }
+
+            OnPropertyChanged(nameof(Employees));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -52,6 +81,11 @@ namespace EmployeeManagement.UI.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void OnAssignEmployee(EmployeeViewModel employeemodel)
+        {
+            AssignEmployee?.Invoke(employeemodel);
         }
     }
 }

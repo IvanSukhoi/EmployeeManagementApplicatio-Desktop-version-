@@ -17,7 +17,7 @@ namespace EmployeeManagement.UI.ViewModels
         public string Password { get; set; }
         public bool RememberMe { get; set; }
 
-        public IDelegateCommand<object> LogInCommand { protected set; get; }
+        public IDelegateCommand LogInCommand { protected set; get; }
 
         private readonly WindowFactory _windowFactory;
 

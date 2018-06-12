@@ -1,11 +1,14 @@
-﻿using EmployeeManagement.DataEF.DAL;
-using EmployeeManagement.Domain.DomainServices;
+﻿using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Domain.Managers;
-using EmployeeManagement.UI.Pages;
 using EmployeeManagement.UI.ViewModels;
 using EmployeeManagement.UI.Windows;
-using Unity;
+using EmployeeManagement.DataEF.DAL;
+using EmployeeManagement.UI.Pages;
 using Unity.Lifetime;
+using AutoMapper;
+using EmployeeManagement.UI.Controls;
+using EmployeeManagement.UI.Mappings;
+using Unity;
 
 namespace EmployeeManagement.UI.DI
 {
@@ -31,11 +34,25 @@ namespace EmployeeManagement.UI.DI
 
             container.RegisterType<TrayViewModel>();
             container.RegisterType<AuthorizationViewModel>();
+            container.RegisterType<EmployeeDetailsViewModel>();
+            container.RegisterType<EmployeeListViewModel>();
 
             container.RegisterType<UnityServiceLocator>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<WindowFactory.WindowFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<NavigationManager>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<EmployeeListControl>();
+
+            var config = new MapperConfiguration(c =>
+            {
+                c.AddProfile(new DomainMappingProfile());
+            });
+
+            IMapper mapper = config.CreateMapper();
+            container.RegisterInstance(mapper);
+
+            container.RegisterType<ModelViewFactory>(new ContainerControlledLifetimeManager());
 
             return container;
         }

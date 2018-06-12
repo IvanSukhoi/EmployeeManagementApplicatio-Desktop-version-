@@ -6,14 +6,14 @@ namespace EmployeeManagement.UI.Pages
 {
     public partial class ListEmployeePage : Page
     {
-        public ListEmployeePage(EmployeeListViewModel employeeListViewModel)
+        public ListEmployeePage(DepartmentsViewModel departmentsViewModel)
         {
             InitializeComponent();
-            DataContext = employeeListViewModel;
+            DataContext = departmentsViewModel;
         }
         public void Init(Departments department)
         {
-            ((EmployeeListViewModel)DataContext).SetEmployees(department);
+            ((DepartmentsViewModel)DataContext).SetDepartment(department);
         }
     }
 }

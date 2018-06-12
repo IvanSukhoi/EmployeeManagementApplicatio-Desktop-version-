@@ -14,10 +14,10 @@ namespace EmployeeManagement.UI.ViewModels
         private readonly AuthorizationService _authorizationService;
         private readonly WindowFactory _windowFactory;
 
-        public IDelegateCommand<object> TransitionToMainCommand { protected set; get; }
-        public IDelegateCommand<object> TransitionToExitCommand { protected set; get; }
-        public IDelegateCommand<object> TransitionToAuthorizationCommand { protected set; get; }
-
+        public IDelegateCommand TransitionToMainCommand { protected set; get; }
+        public IDelegateCommand TransitionToExitCommand { protected set; get; }
+        public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
+   
         public TrayViewModel(AuthorizationService authorizationService, WindowFactory windowFactory)
         {
             _authorizationService = authorizationService;
