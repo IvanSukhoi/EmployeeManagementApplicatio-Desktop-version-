@@ -2,6 +2,7 @@
 using EmployeeManagement.Domain.Enums;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
+using EmployeeManagement.DataEF.Entities;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -19,7 +20,6 @@ namespace EmployeeManagement.UI.ViewModels
         }
 
         private EmployeeListViewModel _employeeListViewModel;
-
         public EmployeeListViewModel EmployeeListViewModel
         {
             get => _employeeListViewModel;
@@ -36,11 +36,13 @@ namespace EmployeeManagement.UI.ViewModels
             _employeeListViewModel = employeeListViewModel;
         }
 
-        public void SetDepartment(Departments department)
+        public void Init(Departments department)
         {
-            _employeeListViewModel.AssignEmployee += _employeeDetailsViewModel.SetEmployee;
-            _employeeDetailsViewModel.UpdateEmployee += _employeeListViewModel.UpdateCurrentEmployee;
+            _employeeListViewModel.AssignEmployeeHandler += _employeeDetailsViewModel.SetEmployeeHandler;
+            _employeeDetailsViewModel.UpdateEmployeeHandler += _employeeListViewModel.UpdateCurrentEmployeeHandler;
+            _employeeDetailsViewModel.SetDepartments();
             _employeeListViewModel.UpdateEmployees(department);
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

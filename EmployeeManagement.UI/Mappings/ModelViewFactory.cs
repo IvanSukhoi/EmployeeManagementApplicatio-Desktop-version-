@@ -28,9 +28,14 @@ namespace EmployeeManagement.UI.Mappings
             _mapper.Map(original, copy);
         }
 
-        public void CloneEmployeeToEmployeeViewModel(Employee employee, EmployeeViewModel employeeViewModel)
+        public void CloneEmployeeToEmployeeViewModel(Employee original, EmployeeViewModel copy)
         {
-            _mapper.Map(employee, employeeViewModel);
+            _mapper.Map(original, copy);
         }
+
+        public EmployeeViewModel CloneEmployeeViewModel(EmployeeViewModel original)
+        {
+            return _mapper.Map<EmployeeViewModel, EmployeeViewModel>(original);
+        } 
     }
 }

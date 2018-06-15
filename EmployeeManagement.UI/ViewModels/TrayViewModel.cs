@@ -22,9 +22,9 @@ namespace EmployeeManagement.UI.ViewModels
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            TransitionToMainCommand = new DelegateCommand<object>(ExecuteTransitionToMain);
-            TransitionToAuthorizationCommand = new DelegateCommand<object>(ExecuteTransitionToAuthorizationCommand);
-            TransitionToExitCommand = new DelegateCommand<object>(ExecuteTransitionToExit);
+            TransitionToMainCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToMain);
+            TransitionToAuthorizationCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToAuthorizationCommand);
+            TransitionToExitCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToExit);
         }
 
         public bool IsLogged => _authorizationService.IsLogged;
@@ -70,6 +70,7 @@ namespace EmployeeManagement.UI.ViewModels
         public void CreateMainWindow()
         {
             var mainWindow = _windowFactory.Create<MainWindow>();
+            mainWindow.Init();
             mainWindow.Show();
         }
 

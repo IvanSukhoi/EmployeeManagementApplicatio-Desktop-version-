@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.DataEF.Enums;
 
 namespace EmployeeManagement.DataEF
 {
     [Table("Employee")]
-    public partial class Employee
+    public class Employee
     {
         public int DepartmentID { get; set; }
 
@@ -33,3 +34,5 @@ namespace EmployeeManagement.DataEF
         public virtual Department Department { get; set; }
     }
 }
+
+

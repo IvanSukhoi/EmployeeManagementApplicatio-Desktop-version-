@@ -1,19 +1,20 @@
-﻿using System.Windows.Controls;
+﻿using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.Domain.Enums;
 using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Pages
 {
-    public partial class ListEmployeePage : Page
+    public partial class DepartmentsPage
     {
-        public ListEmployeePage(DepartmentsViewModel departmentsViewModel)
+        public DepartmentsPage(DepartmentsViewModel departmentsViewModel)
         {
             InitializeComponent();
             DataContext = departmentsViewModel;
         }
+
         public void Init(Departments department)
         {
-            ((DepartmentsViewModel)DataContext).SetDepartment(department);
+            ((DepartmentsViewModel)DataContext).Init(department);
         }
     }
 }

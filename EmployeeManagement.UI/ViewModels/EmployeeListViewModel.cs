@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using EmployeeManagement.UI.DelegateCommand;
+using EmployeeManagement.UI.Extensions;
 using EmployeeManagement.UI.Mappings;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -13,13 +14,10 @@ namespace EmployeeManagement.UI.ViewModels
     public class EmployeeListViewModel : INotifyPropertyChanged
     {
         private readonly EmployeeService _employeeService;
-
         private readonly ModelViewFactory _modelViewFactory;
 
-        //rename
-        public delegate void AssignCurrentItem(EmployeeViewModel employeeViewModel);
-
-        public event AssignCurrentItem AssignEmployee;
+        public delegate void AssignItemEventHandler(EmployeeViewModel employeeViewModel);
+        public event AssignItemEventHandler AssignEmployeeHandler;
 
         public IDelegateCommand CreateEmployeeCommand { protected set; get; }
 
@@ -27,12 +25,7 @@ namespace EmployeeManagement.UI.ViewModels
         {
             _employeeService = employeeService;
             _modelViewFactory = modelViewFactory;
-            CreateEmployeeCommand = new DelegateCommand<object>(ExecuteCreateEmployee);
-        }
-
-        public void ExecuteCreateEmployee(object parameter)
-        {
-            CurrentEmployeeViewItem = new EmployeeViewModel {IsNew = true};
+            CreateEmployeeCommand = new DelegateCommand.DelegateCommand(ExecuteCreateEmployee);
         }
 
         public ObservableCollection<EmployeeViewModel> Employees { get; set; }
@@ -48,17 +41,24 @@ namespace EmployeeManagement.UI.ViewModels
             }
         }
 
+        public void ExecuteCreateEmployee(object parameter)
+        {
+            CurrentEmployeeViewItem = new EmployeeViewModel { IsNew = true };
+        }
+
         public void UpdateEmployees(Departments department)
         {
-            Employees = new ObservableCollection<EmployeeViewModel>(); 
-            _employeeService.GetByDepartment(department)
-                .Select(x => _modelViewFactory.MappToEmployeeViewModel(x)).ToList()
-                .ForEach(x => Employees.Add(x));
+            Employees = new ObservableCollection<EmployeeViewModel>();
+
+            var listEmployees = _employeeService.GetByDepartment(department)
+                .Select(x => _modelViewFactory.MappToEmployeeViewModel(x)).ToList();
+
+            Employees.AddRange(listEmployees);
 
             CurrentEmployeeViewItem = Employees.FirstOrDefault();
         }
 
-        public void UpdateCurrentEmployee()
+        public void UpdateCurrentEmployeeHandler()
         {
             if (!CurrentEmployeeViewItem.IsNew && CurrentEmployeeViewItem.IsEditedDepartment)
             {
@@ -85,7 +85,7 @@ namespace EmployeeManagement.UI.ViewModels
 
         protected virtual void OnAssignEmployee(EmployeeViewModel employeemodel)
         {
-            AssignEmployee?.Invoke(employeemodel);
+            AssignEmployeeHandler?.Invoke(employeemodel);
         }
     }
 }

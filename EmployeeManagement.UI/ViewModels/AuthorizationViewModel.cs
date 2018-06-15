@@ -12,20 +12,19 @@ namespace EmployeeManagement.UI.ViewModels
     public class AuthorizationViewModel : INotifyPropertyChanged
     {
         private readonly AuthorizationService _authorizationService;
+        private readonly WindowFactory _windowFactory;
+
+        public IDelegateCommand LogInCommand { protected set; get; }
 
         public string Login { get; set; }
         public string Password { get; set; }
         public bool RememberMe { get; set; }
 
-        public IDelegateCommand LogInCommand { protected set; get; }
-
-        private readonly WindowFactory _windowFactory;
-
         public AuthorizationViewModel(AuthorizationService authorizationService, WindowFactory windowFactory)
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            LogInCommand = new DelegateCommand<object>(ExecutePrintResultAuthorization);
+            LogInCommand = new DelegateCommand.DelegateCommand(ExecutePrintResultAuthorization);
         }
 
         void ExecutePrintResultAuthorization<T>(T parametr)

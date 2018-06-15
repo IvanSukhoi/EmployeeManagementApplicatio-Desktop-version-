@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Navigation;
-using EmployeeManagement.UI.Domain.Managers;
+using EmployeeManagement.UI.Managers;
 using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
@@ -14,6 +14,11 @@ namespace EmployeeManagement.UI.Windows
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
             navigationManager.SetNavigationService(Frame.NavigationService);
+        }
+
+        public void Init()
+        {
+            ((MainViewModel)DataContext).Init();
         }
     }
 }

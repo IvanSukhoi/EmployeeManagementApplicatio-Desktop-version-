@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using EmployeeManagement.DataEF;
 using EmployeeManagement.DataEF.DAL;
 using EmployeeManagement.Domain.Enums;
@@ -9,9 +10,13 @@ namespace EmployeeManagement.Domain.DomainServices
     public class EmployeeService 
     {
         private readonly ManagementContext _managementContext;
-        public EmployeeService(ManagementContext managementContext)
+        //TODO wrapper
+        private readonly IMapper _mapper;
+
+        public EmployeeService(ManagementContext managementContext, IMapper mapper)
         {
             _managementContext = managementContext;
+            _mapper = mapper;
         }
 
         public List<Employee> GetByDepartment(Departments department)
@@ -23,8 +28,7 @@ namespace EmployeeManagement.Domain.DomainServices
 
         public Employee Create(Employee employee)
         {
-            employee.Department =
-                _managementContext.Departments.FirstOrDefault(x => x.ID == employee.Department.ID);
+            employee.Department = _managementContext.Departments.FirstOrDefault(x => x.ID == employee.Department.ID);
             _managementContext.Employees.Add(employee);
             _managementContext.SaveChanges();
 
@@ -37,12 +41,8 @@ namespace EmployeeManagement.Domain.DomainServices
 
             if (dbEntry == null) return;
 
-            dbEntry.FirstName = employee.FirstName;
-            dbEntry.MidleName = employee.MidleName;
-            dbEntry.LastName = employee.LastName;
-            dbEntry.Sex = employee.Sex;
-            dbEntry.Position = employee.Position;
-            dbEntry.Profession = employee.Profession;
+            _mapper.Map(employee, dbEntry);
+
             dbEntry.DepartmentID = employee.Department.ID;
             _managementContext.Entry(dbEntry).Reference(x => x.Department).Load();
             _managementContext.SaveChanges();

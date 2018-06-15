@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using EmployeeManagement.DataEF;
+using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.DataEF.Enums;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
@@ -17,11 +17,11 @@ namespace EmployeeManagement.UI.ViewModels
         private EmployeeViewModel _currentEmployeeView;
 
         private readonly EmployeeService _employeeService;
+        private readonly DepartmentService _departmentService;
         private readonly ModelViewFactory _modelViewFactory;
 
-        public delegate void UpdateCurrentItem();
-
-        public event UpdateCurrentItem UpdateEmployee;
+        public delegate void UpdateItemEventHandler();
+        public event UpdateItemEventHandler UpdateEmployeeHandler;
 
         public IDelegateCommand EditCommand { protected set; get; }
         public IDelegateCommand CancelCommand { protected set; get; }
@@ -31,15 +31,14 @@ namespace EmployeeManagement.UI.ViewModels
         public List<Sex> SexTypes => Enum.GetValues(typeof(Sex)).Cast<Sex>().ToList();
         public List<Profession> ProfessionTypes => Enum.GetValues(typeof(Profession)).Cast<Profession>().ToList();
 
-        public EmployeeDetailsViewModel(DepartmentService departmentService, EmployeeService employeeService, ModelViewFactory modelViewFactory)
+        public EmployeeDetailsViewModel(EmployeeService employeeService, ModelViewFactory modelViewFactory, DepartmentService departmentService)
         {
             _employeeService = employeeService;
             _modelViewFactory = modelViewFactory;
-            EditCommand = new DelegateCommand<object>(ExecuteEditCommand);
-            CancelCommand = new DelegateCommand<object>(ExecuteCancelCommand);
-            SaveCommand = new DelegateCommand<object>(ExecuteSaveCommand);
-            //move
-            Departments = departmentService.GetAll();
+            _departmentService = departmentService;
+            EditCommand = new DelegateCommand.DelegateCommand(ExecuteEditCommand);
+            CancelCommand = new DelegateCommand.DelegateCommand(ExecuteCancelCommand);
+            SaveCommand = new DelegateCommand.DelegateCommand(ExecuteSaveCommand);
         }
 
         private bool _isEditingEmployee;
@@ -64,6 +63,11 @@ namespace EmployeeManagement.UI.ViewModels
                 _employeeViewModel = value;
                 OnPropertyChanged(nameof(EmployeeViewModel));
             }
+        }
+
+        public void SetDepartments()
+        {
+            Departments = _departmentService.GetAll();
         }
 
         public void ExecuteEditCommand(object parameter)
@@ -99,7 +103,7 @@ namespace EmployeeManagement.UI.ViewModels
             OnUpdateEmployee();
         }
 
-        public void SetEmployee(EmployeeViewModel employee)
+        public void SetEmployeeHandler(EmployeeViewModel employee)
         {
             _currentEmployeeView = employee;
             AssignEmployeeModel();
@@ -120,15 +124,14 @@ namespace EmployeeManagement.UI.ViewModels
 
         protected virtual void OnUpdateEmployee()
         {
-            UpdateEmployee?.Invoke();
+            UpdateEmployeeHandler?.Invoke();
         }
 
         public void AssignEmployeeModel()
         {
             if (_currentEmployeeView == null) return;
 
-            EmployeeViewModel = new EmployeeViewModel();
-            _modelViewFactory.CloneEmployeeViewModel(_currentEmployeeView, EmployeeViewModel);
+            EmployeeViewModel = _modelViewFactory.CloneEmployeeViewModel(_currentEmployeeView);
         }
     }
 }

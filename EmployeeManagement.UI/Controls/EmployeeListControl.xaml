@@ -6,8 +6,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    
-    <Grid Background="White"  x:Name="LayoutRoot">
+        
+    <Grid Style="{DynamicResource MainGridControls}" x:Name="LayoutRoot">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*"/>
@@ -15,23 +15,25 @@
             <RowDefinition Height="0.17*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="15"
+        <TextBlock Grid.Row="0" Style="{DynamicResource TextBlockControls}"
                        Margin="5,20,0,10" FontWeight="Bold">Employees:</TextBlock>
 
-        <ListBox Grid.Row="1" HorizontalAlignment="Left" Name="list" ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding CurrentEmployeeViewItem}">
+        <ListBox Grid.Row="1" HorizontalAlignment="Left" Name="list" Style="{DynamicResource ListBoxConrols}" ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 SelectedItem="{Binding CurrentEmployeeViewItem}" BorderBrush="DarkSlateGray">
+            
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="1" BorderThickness="1" BorderBrush="Black" CornerRadius="4" Width="170">
-                            <Grid Margin="3">
+                        <Border Margin="1" Style="{DynamicResource BorderListBoxStyle}" Width="170">
+                            <Grid Margin="3" Style="{DynamicResource GridControls}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0">
+                                <TextBlock Grid.Row="0" Foreground="Black">
                                     <Run FontSize="15" Text="{Binding Path=FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <Run FontSize="15" Text="{Binding Path=LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </TextBlock>
-                                <TextBlock Grid.Row="1">
+                                <TextBlock Grid.Row="1" Foreground="Black">
                                     <Run FontSize="15" Text="{Binding Profession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </TextBlock>
                             </Grid>
@@ -45,6 +47,5 @@
                 HorizontalAlignment="Left" BorderBrush="Aqua" BorderThickness="1" VerticalAlignment="Bottom" Command="{Binding CreateEmployeeCommand}"/>
 
     </Grid>
-
 
 </UserControl>

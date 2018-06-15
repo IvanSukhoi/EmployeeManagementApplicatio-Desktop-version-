@@ -50,5 +50,10 @@ namespace EmployeeManagement.Domain.DomainServices
 
             return IsLogged;
         }
+
+        public User GetCureentUser()
+        {
+            return _currentUser;
+        }
     }
 }

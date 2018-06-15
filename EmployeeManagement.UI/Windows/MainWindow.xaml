@@ -5,34 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:enums="clr-namespace:EmployeeManagement.Domain.Enums;assembly=EmployeeManagement.Domain"
         xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
-        xmlns:pages="clr-namespace:EmployeeManagement.UI.Pages"
+        xmlns:pages="clr-namespace:EmployeeManagement.UI.Enums"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="600" Width="800" Background="Transparent">
     
     <Window.Resources>
-        <converters:MultiValueConverter x:Key="MultiValueConverter"/>
-
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="LightGray"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
+            <converters:MultiValueConverter x:Key="MultiValueConverter"/>
     </Window.Resources>
     
-    <Grid Margin="0,0,0,-2" Background="Lavender">
+    <Grid Background="Lavender">
         <Grid.RowDefinitions>
             <RowDefinition Height="65*"/>
             <RowDefinition Height="58*"/>
@@ -50,20 +31,24 @@
             <ColumnDefinition Width="589*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="Black" HorizontalAlignment="Stretch">
-            <Run Foreground="White" FontSize="28" Text="EmployeeManagementApplication" />
+        
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Padding="10" HorizontalAlignment="Stretch" Style="{DynamicResource TextBlockMain}">
+            <Run FontSize="28" Text="EmployeeManagementApplication" />
         </TextBlock>
 
-        <Button Name="Home" Grid.Column="0" Grid.Row="1" Content="Home" FontSize="20"  Command="{Binding SelectByDepartmentCommand}">
-              <Button.CommandParameter>
-                  <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                      <Binding Source="{x:Static pages:Pages.HomePage}"/>
-                      <Binding Source="{x:Static enums:Departments.NotSelected}"/>
-                  </MultiBinding>
-            </Button.CommandParameter>  
-        </Button>
-
-        <Button Name="Bookkeeping" Grid.Column="0" Grid.Row="2" Content="Bookkeeping" FontSize="20"  Command="{Binding SelectByDepartmentCommand}">
+        <Border Grid.Column="0" Grid.Row="1" CornerRadius=" 5">
+            <Button Name="Home"  Content="Home" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+                  <Button.CommandParameter>
+                      <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                          <Binding Source="{x:Static pages:Pages.HomePage}"/>
+                          <Binding Source="{x:Static enums:Departments.NotSelected}"/>
+                      </MultiBinding>
+                </Button.CommandParameter>  
+            </Button>
+        </Border>
+        
+        <Button Name="Bookkeeping" Grid.Column="0" Grid.Row="2" Content="Bookkeeping"
+                Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -72,7 +57,7 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="Design" Grid.Column="0" Grid.Row="3" Content="Design" FontSize="20"  Command="{Binding SelectByDepartmentCommand}">
+        <Button Name="Design" Grid.Column="0" Grid.Row="3" Content="Design" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -81,7 +66,8 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="HumanResources"  Grid.Column="0" Grid.Row="4" Content="Human Resources" FontSize="20"  Command="{Binding SelectByDepartmentCommand}">
+        <Button Name="HumanResources"  Grid.Column="0" Grid.Row="4" Content="Human Resources"
+                Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -90,7 +76,7 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="IT" Grid.Column="0" Grid.Row="5" Content="IT" FontSize="20"  Command="{Binding SelectByDepartmentCommand}">
+        <Button Name="IT" Grid.Column="0" Grid.Row="5" Content="IT" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -99,7 +85,7 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="Sales"  Grid.Column="0" Grid.Row="6" Content="Sales" FontSize="20" Command="{Binding SelectByDepartmentCommand}">
+        <Button Name="Sales"  Grid.Column="0" Grid.Row="6" Content="Sales" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -108,7 +94,8 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="ServiceStuff" Grid.Column="0" Grid.Row="7" Content="Service Stuff" FontSize="20" Command="{Binding SelectByDepartmentCommand}">
+        <Button Name="ServiceStuff" Grid.Column="0" Grid.Row="7" Content="Service Stuff"
+                Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -116,10 +103,11 @@
                 </MultiBinding>
             </Button.CommandParameter>
         </Button>
-        
-        <Button Name="Settings" Grid.Column="0" Grid.Row="8" Content="Settings" FontSize="20"/>
 
-        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="8" Margin="3" BorderBrush="Black" BorderThickness="2"/>
+        <Button Name="Settings" Grid.Column="0" Grid.Row="8" Content="Settings" Style="{DynamicResource ButtonStyle}" 
+                Command="{Binding ChangeSettingsCommand}" CommandParameter="{x:Static pages:Pages.SettingsPage}"/>
+
+        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="8" Margin="3" BorderBrush="Black" BorderThickness="2" Background="White"/>
     </Grid>
 
 </Window>

@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -52,15 +55,34 @@
     <Compile Include="Entities\Department.cs" />
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="DAL\ManagementContext.cs" />
+    <Compile Include="Entities\Settings.cs" />
     <Compile Include="Enums\Position.cs" />
     <Compile Include="Enums\Profession.cs" />
+    <Compile Include="Enums\Theme.cs" />
     <Compile Include="Enums\Sex.cs" />
+    <Compile Include="Migrations\201806121504445_InitialCreate.cs" />
+    <Compile Include="Migrations\201806121504445_InitialCreate.Designer.cs">
+      <DependentUpon>201806121504445_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806121511204_AddSettingsEntity.cs" />
+    <Compile Include="Migrations\201806121511204_AddSettingsEntity.Designer.cs">
+      <DependentUpon>201806121511204_AddSettingsEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201806121504445_InitialCreate.resx">
+      <DependentUpon>201806121504445_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806121511204_AddSettingsEntity.resx">
+      <DependentUpon>201806121511204_AddSettingsEntity.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,7 +2,7 @@
 
 namespace EmployeeManagement.UI.DelegateCommand
 {
-    public class DelegateCommand<T>: IDelegateCommand
+    public class DelegateCommand : IDelegateCommand
     {
         private readonly Action<object> _execute;
         private readonly Func<object, bool> _canExecute;
@@ -18,7 +18,7 @@ namespace EmployeeManagement.UI.DelegateCommand
         public DelegateCommand(Action<object> execute)
         {
             _execute = execute;
-            _canExecute = this.AlwaysCanExecute;
+            _canExecute = AlwaysCanExecute;
         }
 
         public void Execute(object parameter)

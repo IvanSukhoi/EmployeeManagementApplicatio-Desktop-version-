@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using EmployeeManagement.DataEF;
+using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Mappings
 {
-    public class DomainMappingProfile : Profile
+    public class UIMappingProfile : Profile
     {
-        public DomainMappingProfile()
+        public UIMappingProfile()
         {
             CreateMap<Employee, EmployeeViewModel>()
                 .ForMember(s => s.Id, opt => opt.MapFrom(c => c.ID))
@@ -21,6 +22,9 @@ namespace EmployeeManagement.UI.Mappings
                 .ForMember(s => s.MidleName, opt => opt.MapFrom(c => c.MiddleName));
 
             CreateMap<EmployeeViewModel, EmployeeViewModel>();
+            CreateMap<Department, Department>();
+
+            CreateMap<Employee, Employee>();
             CreateMap<Department, Department>();
         }
     }
