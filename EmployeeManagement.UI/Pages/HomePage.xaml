@@ -20,7 +20,7 @@
                         </GridViewColumn.HeaderTemplate>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                    <TextBlock FontSize="15" Text="{Binding Path=Department.Name}" Margin="3" Foreground="Black"/>
+                                <TextBlock FontSize="15" Text="{Binding Path=Name}" Margin="3" Foreground="Black"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

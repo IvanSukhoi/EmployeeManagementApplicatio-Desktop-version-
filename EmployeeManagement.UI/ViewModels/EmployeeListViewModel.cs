@@ -5,26 +5,29 @@ using EmployeeManagement.UI.Annotations;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using EmployeeManagement.Domain.Mappings;
+using EmployeeManagement.Domain.Models;
 using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.Extensions;
-using EmployeeManagement.UI.Mappings;
 
 namespace EmployeeManagement.UI.ViewModels
 {
     public class EmployeeListViewModel : INotifyPropertyChanged
     {
         private readonly EmployeeService _employeeService;
-        private readonly ModelViewFactory _modelViewFactory;
+        private readonly IMapperWrapper _mapperWrapper;
 
         public delegate void AssignItemEventHandler(EmployeeViewModel employeeViewModel);
         public event AssignItemEventHandler AssignEmployeeHandler;
 
         public IDelegateCommand CreateEmployeeCommand { protected set; get; }
 
-        public EmployeeListViewModel(EmployeeService employeeService, ModelViewFactory modelViewFactory)
+        public Departments CurrentDepartment { get; set; }
+
+        public EmployeeListViewModel(EmployeeService employeeService, IMapperWrapper mapperWrapper)
         {
             _employeeService = employeeService;
-            _modelViewFactory = modelViewFactory;
+            _mapperWrapper = mapperWrapper;
             CreateEmployeeCommand = new DelegateCommand.DelegateCommand(ExecuteCreateEmployee);
         }
 
@@ -43,15 +46,16 @@ namespace EmployeeManagement.UI.ViewModels
 
         public void ExecuteCreateEmployee(object parameter)
         {
-            CurrentEmployeeViewItem = new EmployeeViewModel { IsNew = true };
+            CurrentEmployeeViewItem = new EmployeeViewModel { IsNew = true, DepartmentId = (int)CurrentDepartment};
         }
 
         public void UpdateEmployees(Departments department)
         {
+            CurrentDepartment = department;
             Employees = new ObservableCollection<EmployeeViewModel>();
 
             var listEmployees = _employeeService.GetByDepartment(department)
-                .Select(x => _modelViewFactory.MappToEmployeeViewModel(x)).ToList();
+                .Select(x => _mapperWrapper.Map<EmployeeModel, EmployeeViewModel>(x)).ToList();
 
             Employees.AddRange(listEmployees);
 

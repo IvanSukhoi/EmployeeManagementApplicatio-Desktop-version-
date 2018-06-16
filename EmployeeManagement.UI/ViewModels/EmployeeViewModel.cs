@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.DataEF.Enums;
 using EmployeeManagement.UI.Annotations;
 
@@ -8,8 +7,6 @@ namespace EmployeeManagement.UI.ViewModels
 {
     public class EmployeeViewModel : INotifyPropertyChanged
     {
-        public int DepartmentId { get; set; }
-
         private string _firstName;
         
         public string FirstName
@@ -65,7 +62,9 @@ namespace EmployeeManagement.UI.ViewModels
 
         public int Id { get; set; }
 
-        public Department Department { get; set; }
+        public int DepartmentId { get; set; }
+
+        public string DepartmentName { get; set; }
 
         public bool IsNew { get; set; }
 

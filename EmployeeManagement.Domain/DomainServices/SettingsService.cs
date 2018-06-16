@@ -1,19 +1,20 @@
 ﻿using System.Linq;
-using AutoMapper;
 using EmployeeManagement.DataEF.DAL;
 using EmployeeManagement.DataEF.Entities;
+using EmployeeManagement.Domain.Mappings;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
     public class SettingsService
     {
         private readonly ManagementContext _managementContext;
-        private readonly IMapper _mapper;
 
-        public SettingsService(ManagementContext managementContext, IMapper mapper)
+        private readonly IMapperWrapper _mapperWrapper;
+
+        public SettingsService(ManagementContext managementContext, IMapperWrapper mapperWrapper)
         {
             _managementContext = managementContext;
-            _mapper = mapper;
+            _mapperWrapper = mapperWrapper;
         }
 
         public Settings GetById(int id)
@@ -32,7 +33,7 @@ namespace EmployeeManagement.Domain.DomainServices
             }
             else
             {
-                _mapper.Map(settings, dbEntry);
+                _mapperWrapper.Map(settings, dbEntry);
                 _managementContext.Entry(dbEntry).Reference(x => x.User).Load();
             }
 

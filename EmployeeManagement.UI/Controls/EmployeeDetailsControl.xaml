@@ -4,11 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="MyWindow"> 
     
     <UserControl.Resources>
+
+        <converters:BoolToBoolConverter x:Key="BoolConverter"/>
 
         <DataTemplate x:Key="DetailTemplate">
             <Border BorderBrush="Black" BorderThickness="1">
@@ -34,7 +37,7 @@
 
                     <TextBlock Style="{DynamicResource TextBlockControls}">
                             <Run Text="Department: "/>
-                            <Run Text="{Binding Path=Department.Name}"/>
+                            <Run Text="{Binding Path=DepartmentName}"/>
                     </TextBlock>
 
                     <Button Name="EditButton" Background="White" Foreground="Black" Margin="15" Content="Edit" 
@@ -86,10 +89,11 @@
                     </StackPanel>
 
                     <StackPanel Margin="5" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockControls}" Text="Department: "/>
-                        <ComboBox Margin="3" ItemsSource="{Binding DataContext.Departments, ElementName=MyWindow}"
-                                      DisplayMemberPath="Name"
-                                      SelectedItem="{Binding Department}" Width="200"/>
+                        <TextBlock Style="{DynamicResource TextBlockControls}" Visibility="{Binding IsNew, Converter={StaticResource BoolConverter}, Mode=OneWay}" Text="Department: "/>
+                        <ComboBox IsEnabled="{Binding IsNew, Converter={StaticResource BoolConverter}, Mode=OneWay}" Margin="3" ItemsSource="{Binding DataContext.Departments, ElementName=MyWindow}"
+                                      SelectedValue="{Binding DepartmentId, Mode=TwoWay}"
+                                      SelectedValuePath="Id" Width="200"
+                                      DisplayMemberPath="Name"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

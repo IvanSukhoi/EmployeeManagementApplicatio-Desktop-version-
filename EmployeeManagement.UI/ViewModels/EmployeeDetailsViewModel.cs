@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.DataEF.Enums;
 using EmployeeManagement.Domain.DomainServices;
+using EmployeeManagement.Domain.Mappings;
+using EmployeeManagement.Domain.Models;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
-using EmployeeManagement.UI.Mappings;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -18,7 +18,6 @@ namespace EmployeeManagement.UI.ViewModels
 
         private readonly EmployeeService _employeeService;
         private readonly DepartmentService _departmentService;
-        private readonly ModelViewFactory _modelViewFactory;
 
         public delegate void UpdateItemEventHandler();
         public event UpdateItemEventHandler UpdateEmployeeHandler;
@@ -27,15 +26,17 @@ namespace EmployeeManagement.UI.ViewModels
         public IDelegateCommand CancelCommand { protected set; get; }
         public IDelegateCommand SaveCommand { protected set; get; }
 
-        public List<Department> Departments { get; set; }
+        private readonly IMapperWrapper _mapperWrapper;
+
+        public List<DepartmentModel> Departments { get; set; }
         public List<Sex> SexTypes => Enum.GetValues(typeof(Sex)).Cast<Sex>().ToList();
         public List<Profession> ProfessionTypes => Enum.GetValues(typeof(Profession)).Cast<Profession>().ToList();
 
-        public EmployeeDetailsViewModel(EmployeeService employeeService, ModelViewFactory modelViewFactory, DepartmentService departmentService)
+        public EmployeeDetailsViewModel(EmployeeService employeeService, DepartmentService departmentService, IMapperWrapper mapperWrapper)
         {
             _employeeService = employeeService;
-            _modelViewFactory = modelViewFactory;
             _departmentService = departmentService;
+            _mapperWrapper = mapperWrapper;
             EditCommand = new DelegateCommand.DelegateCommand(ExecuteEditCommand);
             CancelCommand = new DelegateCommand.DelegateCommand(ExecuteCancelCommand);
             SaveCommand = new DelegateCommand.DelegateCommand(ExecuteSaveCommand);
@@ -85,21 +86,21 @@ namespace EmployeeManagement.UI.ViewModels
         {
             if (_employeeViewModel.IsNew)
             {
-                var employee = _employeeService.Create(_modelViewFactory.MappToEmployee(EmployeeViewModel));
-                _modelViewFactory.CloneEmployeeToEmployeeViewModel(employee, EmployeeViewModel);
+                var employee = _employeeService.Create(_mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(EmployeeViewModel));
+                _mapperWrapper.Map(employee, EmployeeViewModel);
             }
             else
             {
-                _employeeService.Save(_modelViewFactory.MappToEmployee(EmployeeViewModel));
+                _employeeService.Save(_mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(EmployeeViewModel));
 
-                if (_employeeViewModel.Department.ID != _currentEmployeeView.Department.ID)
+                if (_employeeViewModel.DepartmentId != _currentEmployeeView.DepartmentId)
                 {
                     _employeeViewModel.IsEditedDepartment = true;
                 }
             }
 
             IsEditingEmployee = false;
-            _modelViewFactory.CloneEmployeeViewModel(EmployeeViewModel, _currentEmployeeView);
+            _mapperWrapper.Map(EmployeeViewModel, _currentEmployeeView);
             OnUpdateEmployee();
         }
 
@@ -131,7 +132,7 @@ namespace EmployeeManagement.UI.ViewModels
         {
             if (_currentEmployeeView == null) return;
 
-            EmployeeViewModel = _modelViewFactory.CloneEmployeeViewModel(_currentEmployeeView);
+            EmployeeViewModel = _mapperWrapper.Map<EmployeeViewModel, EmployeeViewModel>(_currentEmployeeView);
         }
     }
 }

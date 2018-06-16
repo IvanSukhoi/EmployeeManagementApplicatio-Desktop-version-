@@ -1,12 +1,11 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.DataEF.Enums;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
+using EmployeeManagement.UI.Helpers;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -28,23 +27,15 @@ namespace EmployeeManagement.UI.ViewModels
 
         public void SetSettings()
         {
-            Settings = _settingsService.GetById(_authorizationService.GetCureentUser().ID);
+            Settings = _settingsService.GetById(_authorizationService.GetCurrentUser().ID);
         }
 
         public void ExecuteSelectTopic(object parameter)
         {
-         
             Settings.Topic = (Theme)parameter;
             OnPropertyChanged(nameof(Settings));
 
-            string style = Settings.Topic.ToString();
-
-            //TODO duplicate
-            var uri = new Uri("Settings/Themes/" + style + ".xaml", UriKind.Relative);
-
-            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            Application.Current.Resources.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+            SettingsHelper.SetTheme(Settings);
 
             _settingsService.Save(Settings);
         }

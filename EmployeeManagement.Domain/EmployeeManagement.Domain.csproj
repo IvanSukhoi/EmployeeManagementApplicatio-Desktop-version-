@@ -56,7 +56,9 @@
     <Compile Include="DomainServices\SettingsService.cs" />
     <Compile Include="Enums\Departments.cs" />
     <Compile Include="Mappings\DomainMappingProfile.cs" />
+    <Compile Include="Mappings\IMapperWrapper.cs" />
     <Compile Include="Models\DepartmentModel.cs" />
+    <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="DomainServices\AuthorizationService.cs" />

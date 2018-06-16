@@ -13,7 +13,7 @@
             <converters:MultiValueConverter x:Key="MultiValueConverter"/>
     </Window.Resources>
     
-    <Grid Background="Lavender">
+    <Grid Background="DarkGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="65*"/>
             <RowDefinition Height="58*"/>
@@ -32,20 +32,19 @@
         </Grid.ColumnDefinitions>
 
         
-        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Padding="10" HorizontalAlignment="Stretch" Style="{DynamicResource TextBlockMain}">
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="DarkSlateGray" Padding="10" HorizontalAlignment="Stretch"
+                   Style="{DynamicResource TextBlockMain}">
             <Run FontSize="28" Text="EmployeeManagementApplication" />
         </TextBlock>
 
-        <Border Grid.Column="0" Grid.Row="1" CornerRadius=" 5">
-            <Button Name="Home"  Content="Home" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
-                  <Button.CommandParameter>
-                      <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                          <Binding Source="{x:Static pages:Pages.HomePage}"/>
-                          <Binding Source="{x:Static enums:Departments.NotSelected}"/>
-                      </MultiBinding>
-                </Button.CommandParameter>  
-            </Button>
-        </Border>
+        <Button Name="Home" Grid.Column="0" Grid.Row="1" Content="Home" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+              <Button.CommandParameter>
+                  <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                      <Binding Source="{x:Static pages:Pages.HomePage}"/>
+                      <Binding Source="{x:Static enums:Departments.NotSelected}"/>
+                  </MultiBinding>
+            </Button.CommandParameter>  
+        </Button>
         
         <Button Name="Bookkeeping" Grid.Column="0" Grid.Row="2" Content="Bookkeeping"
                 Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">

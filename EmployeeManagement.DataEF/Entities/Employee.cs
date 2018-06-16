@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.DataEF.Enums;
 
-namespace EmployeeManagement.DataEF
+namespace EmployeeManagement.DataEF.Entities
 {
     [Table("Employee")]
     public class Employee

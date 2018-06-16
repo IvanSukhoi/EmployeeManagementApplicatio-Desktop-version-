@@ -4,7 +4,6 @@ using EmployeeManagement.UI.Windows;
 using EmployeeManagement.DataEF.DAL;
 using EmployeeManagement.UI.Pages;
 using Unity.Lifetime;
-using AutoMapper;
 using EmployeeManagement.Domain.Mappings;
 using EmployeeManagement.UI.Managers;
 using EmployeeManagement.UI.Mappings;
@@ -44,18 +43,10 @@ namespace EmployeeManagement.UI.DI
             container.RegisterType<UnityServiceLocator>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<WindowFactory.WindowFactory>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ModelViewFactory>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<NavigationManager>(new ContainerControlledLifetimeManager());
 
-            var config = new MapperConfiguration(c =>
-            {
-                c.AddProfile(new UIMappingProfile());
-                c.AddProfile(new DomainMappingProfile());
-            });
-
-            var mapper = config.CreateMapper();
-            container.RegisterInstance(mapper);
+            container.RegisterType<IMapperWrapper, MapperWrapper>(new ContainerControlledLifetimeManager());
 
             return container;
         }

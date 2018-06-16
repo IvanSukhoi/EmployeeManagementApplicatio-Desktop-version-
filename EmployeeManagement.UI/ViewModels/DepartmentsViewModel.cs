@@ -2,7 +2,6 @@
 using EmployeeManagement.Domain.Enums;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
-using EmployeeManagement.DataEF.Entities;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -42,7 +41,6 @@ namespace EmployeeManagement.UI.ViewModels
             _employeeDetailsViewModel.UpdateEmployeeHandler += _employeeListViewModel.UpdateCurrentEmployeeHandler;
             _employeeDetailsViewModel.SetDepartments();
             _employeeListViewModel.UpdateEmployees(department);
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

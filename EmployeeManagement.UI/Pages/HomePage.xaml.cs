@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-using EmployeeManagement.DataEF.Entities;
-using EmployeeManagement.UI.ViewModels;
+﻿using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Pages
 {

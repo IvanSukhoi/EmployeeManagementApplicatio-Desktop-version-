@@ -1,49 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using EmployeeManagement.DataEF;
 using EmployeeManagement.DataEF.DAL;
+using EmployeeManagement.DataEF.Entities;
 using EmployeeManagement.Domain.Enums;
+using EmployeeManagement.Domain.Mappings;
+using EmployeeManagement.Domain.Models;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
     public class EmployeeService 
     {
         private readonly ManagementContext _managementContext;
-        //TODO wrapper
-        private readonly IMapper _mapper;
+        private readonly IMapperWrapper _mapperWrapper;
 
-        public EmployeeService(ManagementContext managementContext, IMapper mapper)
+        public EmployeeService(ManagementContext managementContext, IMapperWrapper mapperWrapper)
         {
             _managementContext = managementContext;
-            _mapper = mapper;
+            _mapperWrapper = mapperWrapper;
         }
 
-        public List<Employee> GetByDepartment(Departments department)
+        public List<EmployeeModel> GetByDepartment(Departments department)
         {
-            var employees = _managementContext.Employees.Where(x => x.DepartmentID == (int) department).ToList();
+            var data = _managementContext.Employees.Include("Department").Where(x => x.DepartmentID == (int) department).ToList();
+            var employeeModels = _mapperWrapper.Map<List<Employee>, List<EmployeeModel>>(data);
 
-            return employees;
+            return employeeModels;
         }
 
-        public Employee Create(Employee employee)
+        public EmployeeModel Create(EmployeeModel employeeModel)
         {
-            employee.Department = _managementContext.Departments.FirstOrDefault(x => x.ID == employee.Department.ID);
+            var employee = _mapperWrapper.Map<EmployeeModel, Employee>(employeeModel);
+            employee.Department = _managementContext.Departments.FirstOrDefault(x => x.ID == employee.DepartmentID);
+
             _managementContext.Employees.Add(employee);
             _managementContext.SaveChanges();
 
-            return _managementContext.Employees.AsEnumerable().Last();
+            return _mapperWrapper.Map<Employee, EmployeeModel>(_managementContext.Employees.AsEnumerable().Last());
         }
 
-        public void Save(Employee employee)
+        public void Save(EmployeeModel employeeModel)
         {
-            var dbEntry = _managementContext.Employees.FirstOrDefault(x => x.ID == employee.ID);
+            var dbEntry = _managementContext.Employees.FirstOrDefault(x => x.ID == employeeModel.Id);
 
             if (dbEntry == null) return;
 
-            _mapper.Map(employee, dbEntry);
+            _mapperWrapper.Map(employeeModel, dbEntry);
 
-            dbEntry.DepartmentID = employee.Department.ID;
+            dbEntry.DepartmentID = dbEntry.DepartmentID;
             _managementContext.Entry(dbEntry).Reference(x => x.Department).Load();
             _managementContext.SaveChanges();
         }

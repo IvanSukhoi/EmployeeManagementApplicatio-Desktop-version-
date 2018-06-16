@@ -51,7 +51,7 @@ namespace EmployeeManagement.Domain.DomainServices
             return IsLogged;
         }
 
-        public User GetCureentUser()
+        public User GetCurrentUser()
         {
             return _currentUser;
         }

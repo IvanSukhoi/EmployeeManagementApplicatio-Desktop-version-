@@ -1,10 +1,7 @@
-﻿using System;
-using System.Web.Configuration;
-using System.Windows;
-using EmployeeManagement.DataEF.Entities;
-using EmployeeManagement.Domain.DomainServices;
+﻿using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.Domain.Enums;
 using EmployeeManagement.UI.DelegateCommand;
+using EmployeeManagement.UI.Helpers;
 using EmployeeManagement.UI.Managers;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -31,15 +28,8 @@ namespace EmployeeManagement.UI.ViewModels
         {
             _navigationManager.Navigate(Enums.Pages.HomePage, Departments.NotSelected);
 
-            //TODO move to ...
-            var settings = _settingsService.GetById(_authorizationService.GetCureentUser().ID);
-            string style = settings.Topic.ToString();
-
-            var uri = new Uri($"Settings/Themes/{style}.xaml", UriKind.Relative);
-
-            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            Application.Current.Resources.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+            var settings = _settingsService.GetById(_authorizationService.GetCurrentUser().ID);
+            SettingsHelper.SetTheme(settings);
         }
 
         void ExecuteSelectByDepartment(object parameter)
