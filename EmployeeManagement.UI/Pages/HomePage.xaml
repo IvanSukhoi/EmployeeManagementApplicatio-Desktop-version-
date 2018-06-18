@@ -7,38 +7,35 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage" Style="{DynamicResource PageStyle}">
 
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid >
         <ListView ItemsSource="{Binding Departments}" >
-            <ListView.View >
-                
+            <ListView.View>
                 <GridView>
-                    <GridViewColumn >
-                        <GridViewColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock FontSize="15" Text="Department" Background="White" Foreground="Black"/>
-                            </DataTemplate>
-                        </GridViewColumn.HeaderTemplate>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock FontSize="15" Text="{Binding Path=Name}" Margin="3" Foreground="Black"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    
                     <GridViewColumn>
                         <GridViewColumn.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="15" Text="QuantityEmployees" Background="White" Foreground="Black"/>
+                                <TextBlock Text="Department" Style="{DynamicResource HomePageTextBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.HeaderTemplate>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="15" Text="{Binding Path=QuantityEmployees}" Margin="3" Foreground="Black"/>
+                                <TextBlock Text="{Binding Path=Name}" Style="{DynamicResource HomePageTextBlock}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="QuantityEmployees" Style="{DynamicResource HomePageTextBlock}"/>
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=QuantityEmployees}" Style="{DynamicResource HomePageTextBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
-                
             </ListView.View>
         </ListView>
     </Grid>

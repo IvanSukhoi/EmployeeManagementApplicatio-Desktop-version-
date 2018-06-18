@@ -14,93 +14,88 @@
         <converters:BoolToBoolConverter x:Key="BoolConverter"/>
 
         <DataTemplate x:Key="DetailTemplate">
-            <Border BorderBrush="Black" BorderThickness="1">
-                <StackPanel Margin="3" Style="{DynamicResource StackPanelControls}">
-                    <TextBlock Style="{DynamicResource TextBlockControls}"
-                                   Margin="5,15,0,10" FontWeight="Bold">Information:</TextBlock>
+            <Border Style="{DynamicResource BorderEdit}">
+                <StackPanel Style="{DynamicResource StackPanelView}">
+                    <TextBlock Style="{DynamicResource TextBlockEdit}" Text="Information:"/>
 
-                    <TextBlock Style="{DynamicResource TextBlockControls}">
+                    <TextBlock Style="{DynamicResource TextBlockEdit}">
                             <Run Text="Name: "/>
                             <Run Text="{Binding FirstName}"/>
                             <Run Text="{Binding LastName}"/>
                     </TextBlock>
 
-                    <TextBlock Style="{DynamicResource TextBlockControls}">
+                    <TextBlock Style="{DynamicResource TextBlockEdit}">
                             <Run Text="Sex: "/>
                             <Run Text="{Binding Sex}"/>
                     </TextBlock>
 
-                    <TextBlock Style="{DynamicResource TextBlockControls}">
+                    <TextBlock Style="{DynamicResource TextBlockEdit}">
                             <Run Text="Profession: "/>
                             <Run Text="{Binding Profession}"/>
                     </TextBlock>
 
-                    <TextBlock Style="{DynamicResource TextBlockControls}">
+                    <TextBlock Style="{DynamicResource TextBlockEdit}">
                             <Run Text="Department: "/>
                             <Run Text="{Binding Path=DepartmentName}"/>
                     </TextBlock>
 
-                    <Button Name="EditButton" Background="White" Foreground="Black" Margin="15" Content="Edit" 
-                                FontFamily="Verdana" FontSize="15" Height="28" Width="100" 
-                                HorizontalAlignment="Left" BorderBrush="Aqua" BorderThickness="1"
-                                Command="{Binding DataContext.EditCommand, ElementName=MyWindow}">
+                    <Button Name="EditButton" Content="Edit"
+                            Command="{Binding DataContext.EditCommand, ElementName=MyWindow}" 
+                            Style="{DynamicResource ButtonStyleControls}">
                         <Button.CommandParameter>
                             <system:Boolean>
                                 True
                             </system:Boolean>
                         </Button.CommandParameter>
                     </Button>
-
                 </StackPanel>
             </Border>
         </DataTemplate>
 
         <DataTemplate x:Key="EployeeEdit">
-            <Border BorderBrush="Black" BorderThickness="1">
-                <StackPanel Margin="3" Style="{DynamicResource StackPanelControls}">
-                    <TextBlock Style="{DynamicResource TextBlockControls}"
-                                   Margin="5,15,0,10" FontWeight="Bold">Edit:</TextBlock>
+            <Border Style="{DynamicResource BorderEdit}"> 
+                <StackPanel Style="{DynamicResource StackPanelView}">
+                    <TextBlock Style="{DynamicResource TextBlockEdit}" Text="Edit:"/>
 
-                    <StackPanel  Margin="5" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockControls}" Text="FirstName: "/>
-                        <TextBox Style="{DynamicResource TextBoxControls}" Text="{Binding Path=FirstName}" Width="200"/>
+                    <StackPanel Style="{DynamicResource StackPanelEdit}">
+                        <TextBlock Style="{DynamicResource TextBlockEdit}" Text="FirstName: "/>
+                        <TextBox Style="{DynamicResource TextBoxEdit}" Text="{Binding Path=FirstName}"/>
                     </StackPanel>
 
-                    <StackPanel Margin="5" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockControls}" Text="MiddleName: "/>
-                            <TextBox Style="{DynamicResource TextBoxControls}" Text="{Binding Path=MiddleName}" Width="200"/>
+                    <StackPanel Style="{DynamicResource StackPanelEdit}">
+                        <TextBlock Style="{DynamicResource TextBlockEdit}" Text="MiddleName: "/>
+                        <TextBox Style="{DynamicResource TextBoxEdit}" Text="{Binding Path=MiddleName}"/>
                     </StackPanel>
 
-                    <StackPanel Margin="5" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockControls}" Text="LastName: "/>
-                            <TextBox Style="{DynamicResource TextBoxControls}" Text="{Binding Path=LastName}" Width="200"/>
+                    <StackPanel Style="{DynamicResource StackPanelEdit}">
+                        <TextBlock Style="{DynamicResource TextBlockEdit}" Text="LastName: "/>
+                        <TextBox Style="{DynamicResource TextBoxEdit}" Text="{Binding Path=LastName}"/>
                     </StackPanel>
 
-                    <StackPanel Margin="5" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockControls}" Text="Profession: "/>
-                        <ComboBox Margin ="3" ItemsSource="{Binding DataContext.ProfessionTypes, ElementName=MyWindow}" 
-                                      SelectedValue="{Binding Path=Profession}" Width="200"/>
+                    <StackPanel Style="{DynamicResource StackPanelEdit}">
+                        <TextBlock Style="{DynamicResource TextBlockEdit}" Text="Profession: "/>
+                        <ComboBox ItemsSource="{Binding DataContext.ProfessionTypes, ElementName=MyWindow}" 
+                                      SelectedValue="{Binding Path=Profession}" Style="{DynamicResource ComboBoxStyle}"/>
                     </StackPanel>
 
-                    <StackPanel Margin="5" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockControls}" Text="Sex: "/>
-                        <ComboBox Margin ="3" ItemsSource="{Binding DataContext.SexTypes, ElementName=MyWindow}" 
-                                      SelectedValue="{Binding Path=Sex}" Width="200"/>
+                    <StackPanel Style="{DynamicResource StackPanelEdit}">
+                        <TextBlock Style="{DynamicResource TextBlockEdit}" Text="Sex: "/>
+                        <ComboBox ItemsSource="{Binding DataContext.SexTypes, ElementName=MyWindow}" 
+                                      SelectedValue="{Binding Path=Sex}" Style="{DynamicResource ComboBoxStyle}"/>
                     </StackPanel>
 
-                    <StackPanel Margin="5" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockControls}" Visibility="{Binding IsNew, Converter={StaticResource BoolConverter}, Mode=OneWay}" Text="Department: "/>
-                        <ComboBox IsEnabled="{Binding IsNew, Converter={StaticResource BoolConverter}, Mode=OneWay}" Margin="3" ItemsSource="{Binding DataContext.Departments, ElementName=MyWindow}"
-                                      SelectedValue="{Binding DepartmentId, Mode=TwoWay}"
-                                      SelectedValuePath="Id" Width="200"
-                                      DisplayMemberPath="Name"/>
+                    <StackPanel Style="{DynamicResource StackPanelEdit}">
+                        <TextBlock Style="{DynamicResource TextBlockEdit}" Visibility="{Binding IsNew, Converter={StaticResource BoolConverter}, Mode=OneWay}" Text="Department: "/>
+                        <ComboBox IsEnabled="{Binding IsNew, Converter={StaticResource BoolConverter}}"
+                                  Style="{DynamicResource ComboBoxStyle}" ItemsSource="{Binding DataContext.Departments, ElementName=MyWindow}"
+                                  SelectedValue="{Binding DepartmentId, Mode=TwoWay}"
+                                  SelectedValuePath="Id"
+                                  DisplayMemberPath="Name"/>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Name="CancelButton" Margin="15" Content="Cancel" 
-                                    FontFamily="Verdana" FontSize="15" Height="28" Width="100" 
-                                    BorderBrush="Aqua" BorderThickness="1"
-                                    Command="{Binding DataContext.CancelCommand, ElementName=MyWindow}">
+                    <StackPanel HorizontalAlignment="Center" Style="{DynamicResource StackPanelEdit}"> 
+                        <Button Name="CancelButton" Content="Cancel"
+                                Command="{Binding DataContext.CancelCommand, ElementName=MyWindow}" Style="{StaticResource ButtonStyleControls}">
                             <Button.CommandParameter>
                                 <system:Boolean>
                                     False
@@ -108,8 +103,8 @@
                             </Button.CommandParameter>
                         </Button>
 
-                        <Button Name="Save" Margin="15" Content="Save" FontFamily="Verdana" FontSize="15" Height="28" Width="100" 
-                                     BorderBrush="Aqua" BorderThickness="1" Command="{Binding DataContext.SaveCommand, ElementName=MyWindow}"/>
+                        <Button Name="Save" Content="Save"
+                                Command="{Binding DataContext.SaveCommand, ElementName=MyWindow}" Style="{StaticResource ButtonStyleControls}"/>
                     </StackPanel>
                 </StackPanel>
             </Border>

@@ -9,16 +9,16 @@
       x:Name="MyWindow"
       xmlns:local="clr-namespace:EmployeeManagement.UI.Controls">
 
-    <Grid Background="Lavender" RenderTransformOrigin="0.281,0.504">
+    <Grid Background="Lavender">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <local:EmployeeListControl DataContext="{Binding EmployeeListViewModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                   Grid.Column="0" Background="White" HorizontalAlignment="Left" Width="209"/>
+                                   Grid.Column="0" Style="{StaticResource DetailsControlStyles}"/>
 
-        <local:EmployeeDetailsControl DataContext="{Binding EmployeeDetailsViewModel}" Grid.ColumnSpan="2" Margin="209,0,0,0"/>
+        <local:EmployeeDetailsControl DataContext="{Binding EmployeeDetailsViewModel}" Grid.ColumnSpan="2" Style="{StaticResource ListControlStyles}"/>
     </Grid>
 
 </Page>

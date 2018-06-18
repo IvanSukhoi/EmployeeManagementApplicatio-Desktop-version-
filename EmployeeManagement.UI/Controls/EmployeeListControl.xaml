@@ -15,26 +15,25 @@
             <RowDefinition Height="0.17*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Style="{DynamicResource TextBlockControls}"
-                       Margin="5,20,0,10" FontWeight="Bold">Employees:</TextBlock>
+        <TextBlock Grid.Row="0" Style="{DynamicResource TextBlockControls}" Text="Employees:"/>
 
-        <ListBox Grid.Row="1" HorizontalAlignment="Left" Name="list" Style="{DynamicResource ListBoxConrols}" ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 SelectedItem="{Binding CurrentEmployeeViewItem}" BorderBrush="DarkSlateGray">
+        <ListBox Grid.Row="1" HorizontalAlignment="Center" Name="list" Style="{DynamicResource ListBoxConrols}" ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 SelectedItem="{Binding CurrentEmployeeViewItem}" >
             
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="1" Style="{DynamicResource BorderListBoxStyle}" Width="170">
-                            <Grid Margin="3" Style="{DynamicResource GridControls}">
+                        <Border Style="{DynamicResource BorderListBoxStyle}">
+                            <Grid Style="{DynamicResource GridControls}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Foreground="Black">
-                                    <Run FontSize="15" Text="{Binding Path=FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <Run FontSize="15" Text="{Binding Path=LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Grid.Row="0" Margin="5 0 0 0">
+                                    <Run Text="{Binding Path=FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource RunStyleControl}"/>
+                                    <Run Text="{Binding Path=LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource RunStyleControl}"/>
                                 </TextBlock>
-                                <TextBlock Grid.Row="1" Foreground="Black">
-                                    <Run FontSize="15" Text="{Binding Profession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Grid.Row="1" Margin="5 0 0 0">
+                                    <Run Text="{Binding Profession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource RunStyleControl}"/>
                                 </TextBlock>
                             </Grid>
                         </Border>
@@ -42,9 +41,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-        <Button Grid.Row="2" Margin="15" Content="Create" 
-                FontFamily="Verdana" FontSize="15" Height="28" Width="100" 
-                HorizontalAlignment="Left" BorderBrush="Aqua" BorderThickness="1" VerticalAlignment="Bottom" Command="{Binding CreateEmployeeCommand}"/>
+        <Button Grid.Row="2" Content="Create" Command="{Binding CreateEmployeeCommand}" Style="{DynamicResource ButtonStyleDetails}"/>
 
     </Grid>
 

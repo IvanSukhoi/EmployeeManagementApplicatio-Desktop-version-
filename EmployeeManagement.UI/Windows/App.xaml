@@ -4,7 +4,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Settings/Themes/Dark.xaml"/>
+                <ResourceDictionary Source="../Settings/Themes/Ligth.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
