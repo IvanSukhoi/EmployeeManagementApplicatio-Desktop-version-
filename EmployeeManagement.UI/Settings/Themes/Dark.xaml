@@ -7,6 +7,7 @@
         <ResourceDictionary Source="../Styles/EmployeeDetailsStyles.xaml"/>
         <ResourceDictionary Source="../Styles/BasicStyles.xaml"/>
         <ResourceDictionary Source="../Styles/MainWindowStyles.xaml"/>
+        <ResourceDictionary Source="../Styles/SettingsPageStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
         
     <Style TargetType="{x:Type Button}" x:Key="ButtonStyle" BasedOn="{StaticResource BasicButtonStyle}">
@@ -31,6 +32,10 @@
                 <Setter Property="Foreground" Value="Black"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" x:Key="SettingsButtonStyle" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Height" Value="50"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="TextBlockControls" BasedOn="{StaticResource BasicTextBlockControls}">
@@ -86,4 +91,19 @@
     <Style TargetType="Grid" x:Key="HeaderGrid">
         <Setter Property="Background" Value="LightGray"/>
     </Style>
+
+    <Style TargetType="GroupBox" x:Key="GroupBoxStyle" BasedOn="{StaticResource BasicGroupBoxStyle}">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="DimGray"/>
+        <Setter Property="BorderBrush" Value="White"/>
+    </Style>
+
+    <Style TargetType="RadioButton" x:Key="RadioButtonStyle" BasedOn="{StaticResource BasicRadioButtonStyle}">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+    <Style TargetType="Grid" x:Key="GridSettings">
+        <Setter Property="Background" Value="DarkSlateGray"/>
+    </Style>
+
 </ResourceDictionary>

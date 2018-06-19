@@ -10,11 +10,12 @@
     <Grid Style="{DynamicResource MainGridControls}" x:Name="LayoutRoot">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
             <RowDefinition Height="0.17*"/>
         </Grid.RowDefinitions>
 
+        
         <TextBlock Grid.Row="0" Style="{DynamicResource TextBlockControls}" Text="Employees:"/>
 
         <ListBox Grid.Row="1" HorizontalAlignment="Center" Name="list" Style="{DynamicResource ListBoxConrols}" ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -39,7 +40,8 @@
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>
+        
+        </ListBox>
 
         <Button Grid.Row="2" Content="Create" Command="{Binding CreateEmployeeCommand}" Style="{DynamicResource ButtonStyleDetails}"/>
 

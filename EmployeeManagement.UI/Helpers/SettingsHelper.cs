@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Windows;
-using EmployeeManagement.DataEF.Entities;
 
 namespace EmployeeManagement.UI.Helpers
 {
     public static class SettingsHelper
     {
-        public static void SetTheme(Settings settings)
+        public static void SetTheme(DataEF.Entities.Settings settings)
         {
             var uri = new Uri($"Settings/Themes/{settings.Topic}.xaml", UriKind.Relative);
 

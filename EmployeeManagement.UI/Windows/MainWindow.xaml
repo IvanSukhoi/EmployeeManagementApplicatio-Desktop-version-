@@ -7,7 +7,7 @@
         xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
         xmlns:pages="clr-namespace:EmployeeManagement.UI.Enums"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Style="{DynamicResource MainWindowStyle}">
     
     <Window.Resources>
             <converters:MultiValueConverter x:Key="MultiValueConverter"/>
@@ -15,20 +15,20 @@
 
     <Grid Style="{DynamicResource HeaderGrid}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="65*"/>
-            <RowDefinition Height="58*"/>
-            <RowDefinition Height="58*"/>
-            <RowDefinition Height="58*"/>
-            <RowDefinition Height="58*"/>
-            <RowDefinition Height="58*"/>
-            <RowDefinition Height="58*"/>
-            <RowDefinition Height="58*"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="58"/>
+            <RowDefinition Height="58"/>
+            <RowDefinition Height="58"/>
+            <RowDefinition Height="58"/>
+            <RowDefinition Height="58"/>
+            <RowDefinition Height="58"/>
+            <RowDefinition Height="58"/>
             <RowDefinition Height="58*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="203*"/>
-            <ColumnDefinition Width="589*"/>
+            <ColumnDefinition Width="213"/>
+            <ColumnDefinition Width="689"/>
         </Grid.ColumnDefinitions>
 
 
@@ -101,8 +101,9 @@
                 </MultiBinding>
             </Button.CommandParameter>
         </Button>
-
-        <Button Name="Settings" Grid.Column="0" Grid.Row="8" Content="Settings" Style="{DynamicResource ButtonStyle}" 
+        
+        <Button VerticalAlignment="Bottom" Name="Settings" Grid.Column="0" Grid.Row="8" Content="Settings"
+                Style="{DynamicResource SettingsButtonStyle}" 
                 Command="{Binding ChangeSettingsCommand}" CommandParameter="{x:Static pages:Pages.SettingsPage}"/>
 
         <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="8" Style="{StaticResource FrameStyle}"/>

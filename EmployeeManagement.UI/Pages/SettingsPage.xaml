@@ -9,25 +9,35 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsPage"
-      x:Name="Page" Style="{DynamicResource PageStyle}">
+      x:Name="Page" >
 
     <Page.Resources>
         <converters:RadioBoolToIntConverter x:Key="RadioBoolToIntConverter"/>
     </Page.Resources>
     
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="White"> 
+    <Grid Style="{DynamicResource GridSettings}"> 
         <Grid.RowDefinitions>
             <RowDefinition Height="1.9*"/>
             <RowDefinition Height="1.9*"/>
             <RowDefinition Height="2.0*"/>
         </Grid.RowDefinitions>
         
-        <GroupBox Header="Topic" FontSize="15" Margin="15" Grid.Row="0" BorderBrush="Aquamarine">
-            <StackPanel Width="200" Height="200">
-                <RadioButton Content="Lite" FontSize="15" Margin="3" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
-                    ConverterParameter={x:Static enums:Theme.Ligth}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Ligth}"/>
-                <RadioButton Content="Dark" FontSize="15" Margin="3" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
-                    ConverterParameter={x:Static enums:Theme.Dark}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Dark}"/>
+        <GroupBox Header="Topic" Grid.Row="0" Style="{DynamicResource GroupBoxStyle}">
+            <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
+                <RadioButton Content="Lite" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
+                    ConverterParameter={x:Static enums:Theme.Ligth}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Ligth}"/>
+
+                <RadioButton Content="Dark" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
+                    ConverterParameter={x:Static enums:Theme.Dark}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Dark}"/>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Language" Grid.Row="1" Style="{DynamicResource GroupBoxStyle}">
+            <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
+                <RadioButton Content="English" Style="{DynamicResource RadioButtonStyle}"/>
+                <RadioButton Content="Russian" Style="{DynamicResource RadioButtonStyle}"/>
             </StackPanel>
         </GroupBox>
     </Grid>

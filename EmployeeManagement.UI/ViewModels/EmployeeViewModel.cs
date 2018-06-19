@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using EmployeeManagement.DataEF.Enums;
 using EmployeeManagement.UI.Annotations;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class EmployeeViewModel : INotifyPropertyChanged
+    public class EmployeeViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         private string _firstName;
         
@@ -77,5 +78,33 @@ namespace EmployeeManagement.UI.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = String.Empty;
+
+                switch (columnName)
+                {
+                    case nameof(FirstName):
+                        if (string.IsNullOrEmpty(FirstName))
+                        {
+                            error = "Enter your first name";
+                        }
+                        break;
+
+                    case nameof(LastName):
+                        if (string.IsNullOrEmpty(LastName))
+                        {
+                            error = "Enter your last name";
+                        }
+                        break;
+                }
+                return error;
+            }
+        }
+
+        public string Error { get; }
     }
 }

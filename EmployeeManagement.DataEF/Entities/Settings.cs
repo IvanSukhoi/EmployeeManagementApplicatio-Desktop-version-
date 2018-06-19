@@ -12,6 +12,8 @@ namespace EmployeeManagement.DataEF.Entities
 
         public Theme Topic { get; set; }
 
+        public Language Language { get; set; }
+
         public virtual User User { get; set; }
     }
 }

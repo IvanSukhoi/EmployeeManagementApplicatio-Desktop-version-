@@ -15,6 +15,7 @@ namespace EmployeeManagement.Domain.Mappings
                 .ForMember(s => s.ManagerId, opt => opt.MapFrom(c => c.ManagerID))
                 .ForMember(s => s.MiddleName, opt => opt.MapFrom(c => c.MidleName))
                 .ForMember(s => s.DepartmentName, opt => opt.MapFrom(c => c.Department.Name));
+                //.ReverseMap();
 
             CreateMap<EmployeeModel, Employee>()
                 .ForMember(s => s.ID, opt => opt.MapFrom(c => c.Id))

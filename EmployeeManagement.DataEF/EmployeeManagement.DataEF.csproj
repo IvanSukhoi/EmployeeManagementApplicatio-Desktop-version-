@@ -53,6 +53,7 @@
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="DAL\ManagementContext.cs" />
     <Compile Include="Entities\Settings.cs" />
+    <Compile Include="Enums\Language.cs" />
     <Compile Include="Enums\Position.cs" />
     <Compile Include="Enums\Profession.cs" />
     <Compile Include="Enums\Theme.cs" />
@@ -64,6 +65,10 @@
     <Compile Include="Migrations\201806121511204_AddSettingsEntity.cs" />
     <Compile Include="Migrations\201806121511204_AddSettingsEntity.Designer.cs">
       <DependentUpon>201806121511204_AddSettingsEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806191501187_AddLanguage.cs" />
+    <Compile Include="Migrations\201806191501187_AddLanguage.Designer.cs">
+      <DependentUpon>201806191501187_AddLanguage.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806121511204_AddSettingsEntity.resx">
       <DependentUpon>201806121511204_AddSettingsEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806191501187_AddLanguage.resx">
+      <DependentUpon>201806191501187_AddLanguage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

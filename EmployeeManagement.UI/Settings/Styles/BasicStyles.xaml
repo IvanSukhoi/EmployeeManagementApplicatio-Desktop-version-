@@ -13,6 +13,14 @@
         <Setter Property="FontFamily" Value="Verdana"/>
     </Style>
     
+    <Style TargetType="Button" x:Key="ButtomSaveStyle" BasedOn="{StaticResource ButtonStyleControls}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=FirstName, Path=(Validation.HasError)}" Value="True">
+                <Setter Property="IsEnabled" Value="False"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style TargetType="UserControl" x:Key="DetailsControlStyles">
         <Setter Property="Background" Value="White"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -21,5 +29,14 @@
 
     <Style TargetType="UserControl" x:Key="ListControlStyles">
         <Setter Property="Margin" Value="209 0 0 0"/>
+    </Style>
+
+    <Style TargetType="Window" x:Key="MainWindowStyle">
+        <Setter Property="MinHeight" Value="583"/>
+        <Setter Property="MinWidth" Value="700"/>
+        <Setter Property="Height" Value="583"/>
+        <Setter Property="Width" Value="800"/>
+        <Setter Property="MaxHeight" Value="1000"/>
+        <Setter Property="MaxWidth" Value="900"/>
     </Style>
 </ResourceDictionary>

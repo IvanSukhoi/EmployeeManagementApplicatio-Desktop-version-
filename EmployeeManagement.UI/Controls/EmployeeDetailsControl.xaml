@@ -13,6 +13,15 @@
 
         <converters:BoolToBoolConverter x:Key="BoolConverter"/>
 
+        <ControlTemplate x:Key="validationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Violet" BorderThickness="2">
+                    <AdornedElementPlaceholder />
+                </Border>
+                <TextBlock Foreground="Red" FontSize="15" FontWeight="Bold">!</TextBlock>
+            </StackPanel>
+        </ControlTemplate>
+
         <DataTemplate x:Key="DetailTemplate">
             <Border Style="{DynamicResource BorderEdit}">
                 <StackPanel Style="{DynamicResource StackPanelView}">
@@ -58,8 +67,16 @@
                     <TextBlock Style="{DynamicResource TextBlockEdit}" Text="Edit:"/>
 
                     <StackPanel Style="{DynamicResource StackPanelEdit}">
-                        <TextBlock Style="{DynamicResource TextBlockEdit}" Text="FirstName: "/>
-                        <TextBox Style="{DynamicResource TextBoxEdit}" Text="{Binding Path=FirstName}"/>
+                        <TextBlock  Style="{DynamicResource TextBlockEdit}" Text="FirstName: "/>
+                        <TextBox Name="FirstName"  Style="{DynamicResource TextBoxEdit}" Validation.ErrorTemplate="{StaticResource validationFailed}">
+                            <TextBox.Text>
+                                <Binding Path="FirstName" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                                  <Binding.ValidationRules>
+                                      <DataErrorValidationRule/>
+                                  </Binding.ValidationRules>  
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
 
                     <StackPanel Style="{DynamicResource StackPanelEdit}">
@@ -69,7 +86,15 @@
 
                     <StackPanel Style="{DynamicResource StackPanelEdit}">
                         <TextBlock Style="{DynamicResource TextBlockEdit}" Text="LastName: "/>
-                        <TextBox Style="{DynamicResource TextBoxEdit}" Text="{Binding Path=LastName}"/>
+                        <TextBox Style="{DynamicResource TextBoxEdit}" Validation.ErrorTemplate="{StaticResource validationFailed}">
+                            <TextBox.Text>
+                                <Binding Path="LastName" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
 
                     <StackPanel Style="{DynamicResource StackPanelEdit}">
@@ -93,7 +118,7 @@
                                   DisplayMemberPath="Name"/>
                     </StackPanel>
 
-                    <StackPanel HorizontalAlignment="Center" Style="{DynamicResource StackPanelEdit}"> 
+                    <StackPanel  Style="{DynamicResource StackPanelCancelSave}"> 
                         <Button Name="CancelButton" Content="Cancel"
                                 Command="{Binding DataContext.CancelCommand, ElementName=MyWindow}" Style="{StaticResource ButtonStyleControls}">
                             <Button.CommandParameter>
@@ -104,7 +129,8 @@
                         </Button>
 
                         <Button Name="Save" Content="Save"
-                                Command="{Binding DataContext.SaveCommand, ElementName=MyWindow}" Style="{StaticResource ButtonStyleControls}"/>
+                                Command="{Binding DataContext.SaveCommand, ElementName=MyWindow}" Style="{StaticResource ButtomSaveStyle}">
+                        </Button>
                     </StackPanel>
                 </StackPanel>
             </Border>
