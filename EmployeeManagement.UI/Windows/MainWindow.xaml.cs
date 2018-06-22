@@ -14,6 +14,7 @@ namespace EmployeeManagement.UI.Windows
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
             navigationManager.SetNavigationService(Frame.NavigationService);
+
         }
 
         public void Init()

@@ -17,7 +17,7 @@ namespace EmployeeManagement.UI.ViewModels
         public IDelegateCommand TransitionToMainCommand { protected set; get; }
         public IDelegateCommand TransitionToExitCommand { protected set; get; }
         public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
-   
+
         public TrayViewModel(AuthorizationService authorizationService, WindowFactory windowFactory)
         {
             _authorizationService = authorizationService;

@@ -6,6 +6,7 @@
       xmlns:settings="clr-namespace:EmployeeManagement.UI.Enums"
       xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
       xmlns:enums="clr-namespace:EmployeeManagement.UI.Enums"
+      xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsPage"
@@ -22,22 +23,43 @@
             <RowDefinition Height="2.0*"/>
         </Grid.RowDefinitions>
         
-        <GroupBox Header="Topic" Grid.Row="0" Style="{DynamicResource GroupBoxStyle}">
+        <GroupBox Header="{x:Static res:Resource.Theme}" Grid.Row="0" Style="{DynamicResource GroupBoxStyle}">
             <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
-                <RadioButton Content="Lite" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
+                <RadioButton Content="{x:Static res:Resource.Ligth}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
                     ConverterParameter={x:Static enums:Theme.Ligth}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Ligth}"/>
 
-                <RadioButton Content="Dark" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
+                <RadioButton Content="{x:Static res:Resource.Dark}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
                     ConverterParameter={x:Static enums:Theme.Dark}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Dark}"/>
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Header="Language" Grid.Row="1" Style="{DynamicResource GroupBoxStyle}">
+        <GroupBox Header="{x:Static res:Resource.Language}" Grid.Row="1" Style="{DynamicResource GroupBoxStyle}">
             <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
-                <RadioButton Content="English" Style="{DynamicResource RadioButtonStyle}"/>
-                <RadioButton Content="Russian" Style="{DynamicResource RadioButtonStyle}"/>
+                <RadioButton Content="{x:Static res:Resource.English}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Language, Converter={StaticResource RadioBoolToIntConverter}, 
+                    ConverterParameter={x:Static enums:Language.English}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             Command="{Binding SelectLanguageCommand}" CommandParameter="{x:Static settings:Language.English}"/>
+                <RadioButton Content="{x:Static res:Resource.Russian}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Language, Converter={StaticResource RadioBoolToIntConverter}, 
+                    ConverterParameter={x:Static enums:Language.Russian}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             Command="{Binding SelectLanguageCommand}" CommandParameter="{x:Static settings:Language.Russian}"/>
+
+                <Popup IsOpen="{Binding IsEditingLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Style="{DynamicResource PopupStyle}">
+                    <Border Style="{DynamicResource PopupBorder}">
+                        <StackPanel>
+                            <TextBlock Text="Restart Window?" 
+                                       Style="{DynamicResource PopupTextBlock}"/>
+                            <StackPanel Orientation="Horizontal">                            
+                                <Button Content="Ok" Command="{Binding RestartMainWindowCommand}"
+                                        Style="{DynamicResource PopupButtonStyle}"/>
+                                <Button Content="Cancel" Command="{Binding BackToCurrentLanguageCommand}"
+                                        Style="{DynamicResource PopupButtonStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+                
             </StackPanel>
         </GroupBox>
     </Grid>

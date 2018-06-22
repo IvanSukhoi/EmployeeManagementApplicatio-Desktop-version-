@@ -1,6 +1,4 @@
-﻿using AutoMapper.Configuration.Conventions;
-
-namespace EmployeeManagement.Domain.Mappings
+﻿namespace EmployeeManagement.Domain.Mappings
 {
     public interface IMapperWrapper
     {

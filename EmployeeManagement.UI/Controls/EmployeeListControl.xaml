@@ -4,9 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
+             xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters">
 
-        
+    
+    <UserControl.Resources>
+        <converters:LocalizationConverter x:Key="LocalizationConverter"/>
+    </UserControl.Resources>
+    
     <Grid Style="{DynamicResource MainGridControls}" x:Name="LayoutRoot">
 
         <Grid.RowDefinitions>
@@ -15,8 +21,7 @@
             <RowDefinition Height="0.17*"/>
         </Grid.RowDefinitions>
 
-        
-        <TextBlock Grid.Row="0" Style="{DynamicResource TextBlockControls}" Text="Employees:"/>
+        <TextBlock Grid.Row="0" Style="{DynamicResource TextBlockControls}" Text="{x:Static res:Resource.Employees}"/>
 
         <ListBox Grid.Row="1" HorizontalAlignment="Center" Name="list" Style="{DynamicResource ListBoxConrols}" ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  SelectedItem="{Binding CurrentEmployeeViewItem}" >
@@ -34,7 +39,7 @@
                                     <Run Text="{Binding Path=LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource RunStyleControl}"/>
                                 </TextBlock>
                                 <TextBlock Grid.Row="1" Margin="5 0 0 0">
-                                    <Run Text="{Binding Profession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource RunStyleControl}"/>
+                                    <Run Text="{Binding Profession, Converter={StaticResource LocalizationConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource RunStyleControl}"/>
                                 </TextBlock>
                             </Grid>
                         </Border>
@@ -43,7 +48,7 @@
         
         </ListBox>
 
-        <Button Grid.Row="2" Content="Create" Command="{Binding CreateEmployeeCommand}" Style="{DynamicResource ButtonStyleDetails}"/>
+        <Button Grid.Row="2" Content="{x:Static res:Resource.Create}" Command="{Binding CreateEmployeeCommand}" Style="{DynamicResource ButtonStyleDetails}"/>
 
     </Grid>
 

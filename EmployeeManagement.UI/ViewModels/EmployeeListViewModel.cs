@@ -9,6 +9,7 @@ using EmployeeManagement.Domain.Mappings;
 using EmployeeManagement.Domain.Models;
 using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.Extensions;
+using EmployeeManagement.UI.Settings.Localization;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -56,6 +57,8 @@ namespace EmployeeManagement.UI.ViewModels
 
             var listEmployees = _employeeService.GetByDepartment(department)
                 .Select(x => _mapperWrapper.Map<EmployeeModel, EmployeeViewModel>(x)).ToList();
+
+            listEmployees.ForEach(x => x.DepartmentName = Resource.ResourceManager.GetString(x.DepartmentName));
 
             Employees.AddRange(listEmployees);
 

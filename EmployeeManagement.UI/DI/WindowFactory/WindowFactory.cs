@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using EmployeeManagement.UI.Windows;
 using Unity;
 
 namespace EmployeeManagement.UI.DI.WindowFactory
@@ -42,7 +43,16 @@ namespace EmployeeManagement.UI.DI.WindowFactory
         public void Close<T>() where T : Window
         {
             var serviceType = typeof(T);
+
             if (!_list.ContainsKey(serviceType)) return;
+
+            if (serviceType == typeof(TrayWindow))
+            {
+                _list[serviceType].Hide();
+                _list[serviceType].Close();
+                return;
+            }
+
             if (_list[serviceType].Visibility != Visibility.Visible) return;
             _list[serviceType].Close();
         }

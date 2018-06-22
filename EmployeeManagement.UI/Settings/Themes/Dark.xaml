@@ -2,29 +2,32 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Styles/HomePageStyles.xaml"/>
-        <ResourceDictionary Source="../Styles/EmployeeListStyles.xaml"/>
-        <ResourceDictionary Source="../Styles/EmployeeDetailsStyles.xaml"/>
-        <ResourceDictionary Source="../Styles/BasicStyles.xaml"/>
-        <ResourceDictionary Source="../Styles/MainWindowStyles.xaml"/>
-        <ResourceDictionary Source="../Styles/SettingsPageStyles.xaml"/>
+        <ResourceDictionary Source="../Styles/homePage.xaml"/>
+        <ResourceDictionary Source="../Styles/employeeList.xaml"/>
+        <ResourceDictionary Source="../Styles/employeeDetails.xaml"/>
+        <ResourceDictionary Source="../Styles/basic.xaml"/>
+        <ResourceDictionary Source="../Styles/mainWindow.xaml"/>
+        <ResourceDictionary Source="../Styles/settingsPage.xaml"/>
     </ResourceDictionary.MergedDictionaries>
         
     <Style TargetType="{x:Type Button}" x:Key="ButtonStyle" BasedOn="{StaticResource BasicButtonStyle}">
         <Setter Property="Background" Value="DarkSlateGray"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Template">
+            
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border CornerRadius="10 0 10 0" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1" >
-                        <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" 
-                                          Content="{TemplateBinding Content}" 
+                        <ContentControl x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" 
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                           Margin="{TemplateBinding Padding}" 
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <TextBlock Text="{TemplateBinding Content}" FontSize="17" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </ContentControl>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
+
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -106,4 +109,18 @@
         <Setter Property="Background" Value="DarkSlateGray"/>
     </Style>
 
+    <Style TargetType="Button" x:Key="PopupButtonStyle" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="Width" Value="60"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="PopupTextBlock" BasedOn="{StaticResource BasicPopupTextBlock}">
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+
+    <Style TargetType="Border" x:Key="PopupBorder" BasedOn="{StaticResource BasicPopupBorder}">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Background" Value="LightGray"/>
+    </Style>
+    
 </ResourceDictionary>

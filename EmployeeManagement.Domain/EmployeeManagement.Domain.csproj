@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="DomainServices\DepartmentService.cs" />
     <Compile Include="DomainServices\EmployeeService.cs" />
+    <Compile Include="DomainServices\LocalizationHelper.cs" />
     <Compile Include="DomainServices\SettingsService.cs" />
     <Compile Include="Enums\Departments.cs" />
     <Compile Include="Mappings\DomainMappingProfile.cs" />
@@ -74,6 +75,5 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

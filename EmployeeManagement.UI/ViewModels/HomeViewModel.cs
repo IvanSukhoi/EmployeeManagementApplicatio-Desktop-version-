@@ -2,6 +2,8 @@
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.Domain.Models;
 using EmployeeManagement.UI.Extensions;
+using EmployeeManagement.UI.Settings.Localization;
+using Unity.Interception.Utilities;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -20,6 +22,7 @@ namespace EmployeeManagement.UI.ViewModels
         {
             Departments = new ObservableCollection<DepartmentModel>();
             Departments.AddRange(_departmentService.GetAllStatistics());
+            Departments.ForEach(x => x.Name = Resource.ResourceManager.GetString(x.Name));
         }
     }
 }

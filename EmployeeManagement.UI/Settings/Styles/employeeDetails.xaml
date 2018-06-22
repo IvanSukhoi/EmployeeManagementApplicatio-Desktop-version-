@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Styles/BasicStyles.xaml"/>
+        <ResourceDictionary Source="../Styles/basic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="StackPanel" x:Key="BasicStackPanelView">
@@ -44,8 +44,23 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
+    
+    <Style TargetType="StackPanel" x:Key="StackPanelValidation">
+        <Setter Property="Orientation" Value="Horizontal"></Setter>
+    </Style>
+    
     <Style TargetType="Button" x:Key="BasicButtonStyleDetails" BasedOn="{StaticResource ButtonStyleControls}">
+    </Style>
+    
+    <Style TargetType="Border" x:Key="BorderStyleValidation">
+        <Setter Property="BorderBrush" Value="Violet"/>
+        <Setter Property="BorderThickness" Value="2"/>
+    </Style>
+    
+    <Style TargetType="TextBlock" x:Key="TextBlockValidation">
+        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Bold"/>
     </Style>
     
     <Style TargetType="Border" x:Key="BasicBorderEdit">

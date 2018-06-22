@@ -32,9 +32,9 @@
     </Style>
 
     <Style TargetType="Window" x:Key="MainWindowStyle">
-        <Setter Property="MinHeight" Value="583"/>
+        <Setter Property="MinHeight" Value="600"/>
         <Setter Property="MinWidth" Value="700"/>
-        <Setter Property="Height" Value="583"/>
+        <Setter Property="Height" Value="600"/>
         <Setter Property="Width" Value="800"/>
         <Setter Property="MaxHeight" Value="1000"/>
         <Setter Property="MaxWidth" Value="900"/>

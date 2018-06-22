@@ -29,7 +29,6 @@ namespace EmployeeManagement.Domain.DomainServices
             if (dbEntry == null)
             {
                 _managementContext.Settings.Add(settings);
-                _managementContext.SaveChanges();
             }
             else
             {

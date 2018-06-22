@@ -3,6 +3,7 @@ using EmployeeManagement.Domain.Enums;
 using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.Helpers;
 using EmployeeManagement.UI.Managers;
+using System.Deployment.Application;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -15,6 +16,8 @@ namespace EmployeeManagement.UI.ViewModels
         private readonly SettingsService _settingsService;
         private readonly NavigationManager _navigationManager;
 
+        public string Version { get; set; }
+
         public MainViewModel(NavigationManager navigationManager, AuthorizationService authorizationService, SettingsService settingsService)
         {
             _navigationManager = navigationManager;
@@ -22,14 +25,18 @@ namespace EmployeeManagement.UI.ViewModels
             _settingsService = settingsService;
             SelectByDepartmentCommand = new DelegateCommand.DelegateCommand(ExecuteSelectByDepartment);
             ChangeSettingsCommand = new DelegateCommand.DelegateCommand(ExecuteChangeSettings);
+            SettingsHelper.SetLanguage(_settingsService.GetById(_authorizationService.GetCurrentUser().ID));
         }
 
         public void Init()
         {
             _navigationManager.Navigate(Enums.Pages.HomePage, Departments.NotSelected);
-
             var settings = _settingsService.GetById(_authorizationService.GetCurrentUser().ID);
             SettingsHelper.SetTheme(settings);
+
+            Version = ApplicationDeployment.IsNetworkDeployed
+                ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
+                : "Development";
         }
 
         void ExecuteSelectByDepartment(object parameter)

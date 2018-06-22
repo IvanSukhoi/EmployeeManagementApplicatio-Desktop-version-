@@ -9,6 +9,7 @@ using EmployeeManagement.Domain.Mappings;
 using EmployeeManagement.Domain.Models;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
+using EmployeeManagement.UI.Settings.Localization;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -69,6 +70,7 @@ namespace EmployeeManagement.UI.ViewModels
         public void SetDepartments()
         {
             Departments = _departmentService.GetAll();
+            Departments.ForEach(x => x.Name = Resource.ResourceManager.GetString(x.Name));
         }
 
         public void ExecuteEditCommand(object parameter)

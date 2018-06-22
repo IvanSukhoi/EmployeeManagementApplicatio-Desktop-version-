@@ -6,8 +6,9 @@
         xmlns:enums="clr-namespace:EmployeeManagement.Domain.Enums;assembly=EmployeeManagement.Domain"
         xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
         xmlns:pages="clr-namespace:EmployeeManagement.UI.Enums"
+        xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
         mc:Ignorable="d"
-        Title="MainWindow" Style="{DynamicResource MainWindowStyle}">
+        Title="{x:Static res:Resource.Main}" Style="{DynamicResource MainWindowStyle}">
     
     <Window.Resources>
             <converters:MultiValueConverter x:Key="MultiValueConverter"/>
@@ -24,6 +25,7 @@
             <RowDefinition Height="58"/>
             <RowDefinition Height="58"/>
             <RowDefinition Height="58*"/>
+            <RowDefinition Height="18"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -31,12 +33,13 @@
             <ColumnDefinition Width="689"/>
         </Grid.ColumnDefinitions>
 
-
-        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
-                   Style="{DynamicResource TextBlockMain}" Text="EmployeeManagementApplication">
-        </TextBlock>
-
-        <Button Name="Home" Grid.Column="0" Grid.Row="1" Content="Home" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+        <Border  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="10" BorderThickness="2" BorderBrush="DarkSlateGray">
+            <TextBlock Text="{x:Static res:Resource.Title}" 
+                       Style="{DynamicResource TextBlockMain}">
+            </TextBlock>
+        </Border>
+            
+        <Button Name="Home" Grid.Column="0" Grid.Row="1" Content="{x:Static res:Resource.Home}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
               <Button.CommandParameter>
                   <MultiBinding Converter="{StaticResource MultiValueConverter}">
                       <Binding Source="{x:Static pages:Pages.HomePage}"/>
@@ -45,7 +48,7 @@
             </Button.CommandParameter>  
         </Button>
         
-        <Button Name="Bookkeeping" Grid.Column="0" Grid.Row="2" Content="Bookkeeping"
+        <Button Name="Bookkeeping" Grid.Column="0" Grid.Row="2" Content="{x:Static res:Resource.Bookkeeping}"
                 Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
@@ -55,7 +58,7 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="Design" Grid.Column="0" Grid.Row="3" Content="Design" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+        <Button Name="Design" Grid.Column="0" Grid.Row="3" Content="{x:Static res:Resource.Design}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -64,7 +67,7 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="HumanResources"  Grid.Column="0" Grid.Row="4" Content="Human Resources"
+        <Button Name="HumanResources"  Grid.Column="0" Grid.Row="4" Content="{x:Static res:Resource.HumanResources}"
                 Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
@@ -74,7 +77,7 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="IT" Grid.Column="0" Grid.Row="5" Content="IT" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+        <Button Name="IT" Grid.Column="0" Grid.Row="5" Content="{x:Static res:Resource.IT}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -83,7 +86,7 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="Sales"  Grid.Column="0" Grid.Row="6" Content="Sales" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+        <Button Name="Sales"  Grid.Column="0" Grid.Row="6" Content="{x:Static res:Resource.Sales}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
                     <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
@@ -92,7 +95,7 @@
             </Button.CommandParameter>
         </Button>
 
-        <Button Name="ServiceStuff" Grid.Column="0" Grid.Row="7" Content="Service Stuff"
+        <Button Name="ServiceStuff" Grid.Column="0" Grid.Row="7" Content="{x:Static res:Resource.ServiceStuff}"
                 Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource MultiValueConverter}">
@@ -101,12 +104,18 @@
                 </MultiBinding>
             </Button.CommandParameter>
         </Button>
-        
-        <Button VerticalAlignment="Bottom" Name="Settings" Grid.Column="0" Grid.Row="8" Content="Settings"
+
+        <Button VerticalAlignment="Bottom" Name="Settings" Grid.Column="0" Grid.Row="8" Content="{x:Static res:Resource.Settings}"
                 Style="{DynamicResource SettingsButtonStyle}" 
                 Command="{Binding ChangeSettingsCommand}" CommandParameter="{x:Static pages:Pages.SettingsPage}"/>
 
-        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="8" Style="{StaticResource FrameStyle}"/>
-    </Grid>
+        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Style="{StaticResource FrameStyle}"/>
+        
+        <TextBlock  Margin="10 0 0 0" Grid.Column="0" Grid.Row="9">
+            <Run Text="Version: "/>
+            <Run Text="{Binding Version}"/>
+        </TextBlock>
+    
+  </Grid>
 
 </Window>
