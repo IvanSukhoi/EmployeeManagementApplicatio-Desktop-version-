@@ -14,6 +14,17 @@
         <Setter Property="Orientation" Value="Horizontal"/>
     </Style>
 
+    <Style TargetType="{x:Type StackPanel}" x:Key="StackPanelPositionStyle">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Orientation" Value="Horizontal"/>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Position}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="StackPanel" x:Key="StackPanelCancelSave" BasedOn="{StaticResource StackPanelEdit}">
         <Setter Property="Margin" Value="40 15 0 0"></Setter>
     </Style>
@@ -27,6 +38,18 @@
         <Setter Property="Margin" Value="15 15 0 0"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="BasicTextBlockPosition">
+        <Setter Property="Margin" Value="15 15 0 0"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Position}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="TextBox" x:Key="TextBoxEdit">

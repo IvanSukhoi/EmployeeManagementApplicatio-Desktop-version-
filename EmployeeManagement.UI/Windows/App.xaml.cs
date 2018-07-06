@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using EmployeeManagement.UI.DI;
 using EmployeeManagement.UI.DI.WindowFactory;
 using Unity;
@@ -7,11 +8,15 @@ namespace EmployeeManagement.UI.Windows
 {
     public partial class App
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            RegistrationUnity.Setup().Resolve<WindowFactory>().Create<TrayWindow>().Init();
+            var trayWindow = RegistrationUnity.Setup().Resolve<WindowFactory>().Create<TrayWindow>();
+            await trayWindow.Init();
+
+            //Task.Run(async () => await trayWindow.Init());
+            //var t = this.Dispatcher.InvokeAsync(async () => await ((TrayViewModel)DataContext).InitAsync());
         }
     }
 }

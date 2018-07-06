@@ -1,4 +1,4 @@
-﻿namespace EmployeeManagement.Domain.Enums
+﻿namespace EmployeeManagement.Contacts.Enums
 {
     public enum Departments
     {

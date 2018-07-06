@@ -1,7 +1,7 @@
-﻿using EmployeeManagement.Domain.DomainServices;
+﻿using System.Net;
 using EmployeeManagement.UI.ViewModels;
 using EmployeeManagement.UI.Windows;
-using EmployeeManagement.DataEF.DAL;
+using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Pages;
 using Unity.Lifetime;
 using EmployeeManagement.Domain.Mappings;
@@ -16,8 +16,6 @@ namespace EmployeeManagement.UI.DI
         public static IUnityContainer Setup()
         {
             var container = new UnityContainer();
-
-            container.RegisterType<ManagementContext>();
 
             container.RegisterType<AuthorizationService>(new ContainerControlledLifetimeManager());
             container.RegisterType<UserService>();
@@ -47,6 +45,8 @@ namespace EmployeeManagement.UI.DI
             container.RegisterType<NavigationManager>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<IMapperWrapper, MapperWrapper>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<WebClient>();
 
             return container;
         }

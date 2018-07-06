@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.DI.WindowFactory;
+using EmployeeManagement.UI.Helpers;
 using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -12,28 +14,30 @@ namespace EmployeeManagement.UI.ViewModels
     public class TrayViewModel : INotifyPropertyChanged
     {
         private readonly AuthorizationService _authorizationService;
+        private readonly SettingsService _settingsService;
         private readonly WindowFactory _windowFactory;
 
         public IDelegateCommand TransitionToMainCommand { protected set; get; }
         public IDelegateCommand TransitionToExitCommand { protected set; get; }
         public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
 
-        public TrayViewModel(AuthorizationService authorizationService, WindowFactory windowFactory)
+        public TrayViewModel(AuthorizationService authorizationService, WindowFactory windowFactory, SettingsService settingsService)
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            TransitionToMainCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToMain);
+            _settingsService = settingsService;
+            TransitionToMainCommand = new DelegateCommandAsync(ExecuteTransitionToMainAsync);
             TransitionToAuthorizationCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToAuthorizationCommand);
             TransitionToExitCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToExit);
         }
 
         public bool IsLogged => _authorizationService.IsLogged;
 
-        public void Init()
+        public async Task InitAsync()
         {
-            if (_authorizationService.IsAuthorized())
+            if (await _authorizationService.IsAuthorized())
             {
-                CreateMainWindow();
+                await CreateMainWindowAsync();
             }
             else
             {
@@ -42,9 +46,9 @@ namespace EmployeeManagement.UI.ViewModels
             OnPropertyChanged(nameof(IsLogged));
         }
 
-        void ExecuteTransitionToMain<T>(T parametr)
+        async Task ExecuteTransitionToMainAsync<T>(T parametr)
         {
-              CreateMainWindow();
+             await CreateMainWindowAsync();
         }
 
         void ExecuteTransitionToExit(object parametr)
@@ -67,10 +71,14 @@ namespace EmployeeManagement.UI.ViewModels
             }
         }
 
-        public void CreateMainWindow()
+        public async Task CreateMainWindowAsync()
         {
+            SettingsHelper.SetLanguage(await _settingsService.GetByIdAsync(_authorizationService.GetCurrentUser().Id));
+            var settings = await _settingsService.GetByIdAsync(_authorizationService.GetCurrentUser().Id);
+            SettingsHelper.SetTheme(settings);
+
             var mainWindow = _windowFactory.Create<MainWindow>();
-            mainWindow.Init();
+            await mainWindow.InitAsync();
             mainWindow.Show();
         }
 

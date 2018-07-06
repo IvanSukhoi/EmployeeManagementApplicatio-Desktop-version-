@@ -1,21 +1,21 @@
-﻿using System.Linq;
-using EmployeeManagement.DataEF;
-using EmployeeManagement.DataEF.DAL;
+﻿using System.Threading.Tasks;
+using EmployeeManagement.API.Repositories;
+using EmployeeManagement.Contacts.Models;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
     public class UserService
     {
-        private readonly ManagementContext  _managementContext;
+        private readonly UserRepository _userRepository;
 
-        public UserService(ManagementContext managementContext)
+        public UserService(UserRepository userRepository)
         {
-            _managementContext = managementContext;
+            _userRepository = userRepository;
         }
 
-        public User GetUser(string login, string password)
+        public async Task<UserModel> GetUserModelAsync(string login, string password)
         {
-            return _managementContext.Users.FirstOrDefault(x => x.Login == login && x.Password == password);
+            return await _userRepository.GetUserModelAsync(login, password);
         }
     }
 }

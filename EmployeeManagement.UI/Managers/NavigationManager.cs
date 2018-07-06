@@ -1,5 +1,6 @@
-﻿using System.Windows.Navigation;
-using EmployeeManagement.Domain.Enums;
+﻿using System.Threading.Tasks;
+using System.Windows.Navigation;
+using EmployeeManagement.Contacts.Enums;
 using EmployeeManagement.UI.DI;
 using EmployeeManagement.UI.Pages;
 
@@ -20,31 +21,31 @@ namespace EmployeeManagement.UI.Managers
             _navigationService = navigationService;
         }
 
-        public void Navigate(Enums.Pages page, Departments department)
+        public async Task Navigate(Contacts.Enums.Pages page, Departments department)
         {
             switch (page)
             {
-                case Enums.Pages.HomePage:
+                case Contacts.Enums.Pages.HomePage:
                     var homePage = _unityServiceLocator.GetInstance<HomePage>();
-                    homePage.Init();
+                    await homePage.Init();
                     _navigationService.Navigate(homePage);
                     break;
 
-                case Enums.Pages.EmployeeListPage:
+                case Contacts.Enums.Pages.EmployeeListPage:
                     var employeeListPage = _unityServiceLocator.GetInstance<DepartmentsPage>();
-                    employeeListPage.Init(department);
+                    await employeeListPage.InitAsync(department);
                     _navigationService.Navigate(employeeListPage);
                     break;
 
-                case Enums.Pages.SettingsPage:
+                case Contacts.Enums.Pages.SettingsPage:
                     var settingsPage = _unityServiceLocator.GetInstance<SettingsPage>();
-                    settingsPage.Init();
+                    await settingsPage.InitAsync();
                     _navigationService.Navigate(settingsPage);
                     break;
 
                 default:
                     var defaultPage = _unityServiceLocator.GetInstance<HomePage>();
-                    defaultPage.Init();
+                    await defaultPage.Init();
                     _navigationService.Navigate(defaultPage);
                     break;
             }

@@ -1,42 +1,27 @@
 ﻿using System.Linq;
-using EmployeeManagement.DataEF.DAL;
-using EmployeeManagement.DataEF.Entities;
-using EmployeeManagement.Domain.Mappings;
+using System.Threading.Tasks;
+using EmployeeManagement.API.Repositories;
+using EmployeeManagement.Contacts.Models;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
     public class SettingsService
     {
-        private readonly ManagementContext _managementContext;
+        private readonly SettingsRepository _settingsRepository;
 
-        private readonly IMapperWrapper _mapperWrapper;
-
-        public SettingsService(ManagementContext managementContext, IMapperWrapper mapperWrapper)
+        public SettingsService(SettingsRepository settingsRepository)
         {
-            _managementContext = managementContext;
-            _mapperWrapper = mapperWrapper;
+            _settingsRepository = settingsRepository;
         }
 
-        public Settings GetById(int id)
+        public async Task<SettingsModel> GetByIdAsync(int id)
         {
-            return _managementContext.Settings.FirstOrDefault(x => x.UserID == id);
+            return await _settingsRepository.GetByIdAsync(id);
         }
 
-        public void Save(Settings settings)
+        public async Task SaveAsync(SettingsModel settingsModel)
         {
-            var dbEntry = _managementContext.Settings.FirstOrDefault(x => x.UserID == settings.UserID);
-
-            if (dbEntry == null)
-            {
-                _managementContext.Settings.Add(settings);
-            }
-            else
-            {
-                _mapperWrapper.Map(settings, dbEntry);
-                _managementContext.Entry(dbEntry).Reference(x => x.User).Load();
-            }
-
-            _managementContext.SaveChanges();
+            await _settingsRepository.SaveAsync(settingsModel);
         }
     }
 }

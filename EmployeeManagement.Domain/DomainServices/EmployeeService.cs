@@ -1,54 +1,37 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using EmployeeManagement.DataEF.DAL;
-using EmployeeManagement.DataEF.Entities;
-using EmployeeManagement.Domain.Enums;
-using EmployeeManagement.Domain.Mappings;
-using EmployeeManagement.Domain.Models;
+using System.Threading.Tasks;
+using EmployeeManagement.API.Repositories;
+using EmployeeManagement.Contacts.Models;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
-    public class EmployeeService 
+    public class EmployeeService
     {
-        private readonly ManagementContext _managementContext;
-        private readonly IMapperWrapper _mapperWrapper;
+        private readonly EmployeeRepository _employeeRepository;
 
-        public EmployeeService(ManagementContext managementContext, IMapperWrapper mapperWrapper)
+        public EmployeeService(EmployeeRepository employeeRepository)
         {
-            _managementContext = managementContext;
-            _mapperWrapper = mapperWrapper;
+            _employeeRepository = employeeRepository;
         }
 
-        public List<EmployeeModel> GetByDepartment(Departments department)
+        public async Task<List<EmployeeModel>> GetByDepartmentIdAsync(int id)
         {
-            var data = _managementContext.Employees.Include("Department").Where(x => x.DepartmentID == (int) department).ToList();
-            var employeeModels = _mapperWrapper.Map<List<Employee>, List<EmployeeModel>>(data);
-
-            return employeeModels;
+            return await _employeeRepository.GetByDepartmentIdAsync(id);
         }
 
-        public EmployeeModel Create(EmployeeModel employeeModel)
+        public async Task<EmployeeModel> CreateAsync(EmployeeModel employeeModel)
         {
-            var employee = _mapperWrapper.Map<EmployeeModel, Employee>(employeeModel);
-            employee.Department = _managementContext.Departments.FirstOrDefault(x => x.ID == employee.DepartmentID);
-
-            _managementContext.Employees.Add(employee);
-            _managementContext.SaveChanges();
-
-            return _mapperWrapper.Map<Employee, EmployeeModel>(_managementContext.Employees.AsEnumerable().Last());
+            return await _employeeRepository.CreateAsync(employeeModel);
         }
 
-        public void Save(EmployeeModel employeeModel)
+        public async Task SaveAsync(EmployeeModel employeeModel)
         {
-            var dbEntry = _managementContext.Employees.FirstOrDefault(x => x.ID == employeeModel.Id);
+            await _employeeRepository.SaveAsync(employeeModel);
+        }
 
-            if (dbEntry == null) return;
-
-            _mapperWrapper.Map(employeeModel, dbEntry);
-
-            dbEntry.DepartmentID = dbEntry.DepartmentID;
-            _managementContext.Entry(dbEntry).Reference(x => x.Department).Load();
-            _managementContext.SaveChanges();
+        public async Task DeleteAsync(int id)
+        {
+            await _employeeRepository.DeleteAsync(id);
         }
     }
 }

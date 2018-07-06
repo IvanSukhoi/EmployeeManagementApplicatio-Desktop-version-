@@ -3,15 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:enums="clr-namespace:EmployeeManagement.Domain.Enums;assembly=EmployeeManagement.Domain"
         xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
-        xmlns:pages="clr-namespace:EmployeeManagement.UI.Enums"
         xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
+        xmlns:enums="clr-namespace:EmployeeManagement.Contacts.Enums;assembly=EmployeeManagement.Contacts"
         mc:Ignorable="d"
         Title="{x:Static res:Resource.Main}" Style="{DynamicResource MainWindowStyle}">
     
     <Window.Resources>
             <converters:MultiValueConverter x:Key="MultiValueConverter"/>
+            <converters:DepartmentBoolToBoolConverter x:Key="DepartmentBoolToBoolConverter"/>
     </Window.Resources>
 
     <Grid Style="{DynamicResource HeaderGrid}">
@@ -38,76 +38,164 @@
                        Style="{DynamicResource TextBlockMain}">
             </TextBlock>
         </Border>
-            
-        <Button Name="Home" Grid.Column="0" Grid.Row="1" Content="{x:Static res:Resource.Home}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
-              <Button.CommandParameter>
-                  <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                      <Binding Source="{x:Static pages:Pages.HomePage}"/>
-                      <Binding Source="{x:Static enums:Departments.NotSelected}"/>
-                  </MultiBinding>
-            </Button.CommandParameter>  
-        </Button>
-        
-        <Button Name="Bookkeeping" Grid.Column="0" Grid.Row="2" Content="{x:Static res:Resource.Bookkeeping}"
-                Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                    <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
-                    <Binding Source="{x:Static enums:Departments.Bookkeeping}"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
 
-        <Button Name="Design" Grid.Column="0" Grid.Row="3" Content="{x:Static res:Resource.Design}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                    <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
-                    <Binding Source="{x:Static enums:Departments.Design}"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
+        <Control Focusable="False" Grid.Column="0" Grid.Row="1">
+            <Control.Template>
+                <ControlTemplate>
+                    <Button Name="Home" Content="{x:Static res:Resource.Home}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                <Binding Source="{x:Static enums:Pages.HomePage}"/>
+                                <Binding Source="{x:Static enums:Departments.NotSelected}"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:Pages.HomePage}">
+                            <Setter TargetName="Home" Property="Style" Value="{DynamicResource AdvancedButtonStyle}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
 
-        <Button Name="HumanResources"  Grid.Column="0" Grid.Row="4" Content="{x:Static res:Resource.HumanResources}"
-                Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                    <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
-                    <Binding Source="{x:Static enums:Departments.HumanResources}"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
+        <Control Focusable="False" Grid.Column="0" Grid.Row="2">
+                <Control.Template>
+                    <ControlTemplate>
+                        <Button Name="Bookkeeping" Style="{DynamicResource ButtonStyle}" Content="{x:Static res:Resource.Bookkeeping}"
+                                Command="{Binding SelectByDepartmentCommand}">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                    <Binding Source="{x:Static enums:Pages.EmployeeListPage}"/>
+                                    <Binding Source="{x:Static enums:Departments.Bookkeeping}"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding CurrentDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:Departments.Bookkeeping}">
+                                <Setter TargetName="Bookkeeping" Property="Style" Value="{DynamicResource AdvancedButtonStyle}"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Control.Template>
+            </Control>
 
-        <Button Name="IT" Grid.Column="0" Grid.Row="5" Content="{x:Static res:Resource.IT}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                    <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
-                    <Binding Source="{x:Static enums:Departments.IT}"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
+        <Control Focusable="False" Grid.Column="0" Grid.Row="3">
+            <Control.Template>
+                <ControlTemplate>
+                    <Button Name="Design" Content="{x:Static res:Resource.Design}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                <Binding Source="{x:Static enums:Pages.EmployeeListPage}"/>
+                                <Binding Source="{x:Static enums:Departments.Design}"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:Departments.Design}">
+                            <Setter TargetName="Design" Property="Style" Value="{DynamicResource AdvancedButtonStyle}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
 
-        <Button Name="Sales"  Grid.Column="0" Grid.Row="6" Content="{x:Static res:Resource.Sales}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                    <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
-                    <Binding Source="{x:Static enums:Departments.Sales}"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
+        <Control Focusable="False" Grid.Column="0" Grid.Row="4">
+            <Control.Template>
+                <ControlTemplate>
+                    <Button Name="HumanResources" Content="{x:Static res:Resource.HumanResources}"
+                            Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                <Binding Source="{x:Static enums:Pages.EmployeeListPage}"/>
+                                <Binding Source="{x:Static enums:Departments.HumanResources}"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:Departments.HumanResources}">
+                            <Setter TargetName="HumanResources" Property="Style" Value="{DynamicResource AdvancedButtonStyle}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
 
-        <Button Name="ServiceStuff" Grid.Column="0" Grid.Row="7" Content="{x:Static res:Resource.ServiceStuff}"
-                Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                    <Binding Source="{x:Static pages:Pages.EmployeeListPage}"/>
-                    <Binding Source="{x:Static enums:Departments.ServiceStuff}"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
+        <Control Focusable="False" Grid.Column="0" Grid.Row="5">
+            <Control.Template>
+                <ControlTemplate>
+                    <Button Name="IT" Content="{x:Static res:Resource.IT}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                <Binding Source="{x:Static enums:Pages.EmployeeListPage}"/>
+                                <Binding Source="{x:Static enums:Departments.IT}"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:Departments.IT}">
+                            <Setter TargetName="IT" Property="Style" Value="{DynamicResource AdvancedButtonStyle}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
 
-        <Button VerticalAlignment="Bottom" Name="Settings" Grid.Column="0" Grid.Row="8" Content="{x:Static res:Resource.Settings}"
-                Style="{DynamicResource SettingsButtonStyle}" 
-                Command="{Binding ChangeSettingsCommand}" CommandParameter="{x:Static pages:Pages.SettingsPage}"/>
+        <Control Focusable="False" Grid.Column="0" Grid.Row="6">
+            <Control.Template>
+                <ControlTemplate>
+                    <Button Name="Sales" Content="{x:Static res:Resource.Sales}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                <Binding Source="{x:Static enums:Pages.EmployeeListPage}"/>
+                                <Binding Source="{x:Static enums:Departments.Sales}"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:Departments.Sales}">
+                            <Setter TargetName="Sales" Property="Style" Value="{DynamicResource AdvancedButtonStyle}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
+
+        <Control Focusable="False" Grid.Column="0" Grid.Row="7">
+            <Control.Template>
+                <ControlTemplate>
+                    <Button Name="ServiceStuff" Content="{x:Static res:Resource.ServiceStuff}"
+                            Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                <Binding Source="{x:Static enums:Pages.EmployeeListPage}"/>
+                                <Binding Source="{x:Static enums:Departments.ServiceStuff}"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentDepartment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:Departments.ServiceStuff}">
+                            <Setter TargetName="ServiceStuff" Property="Style" Value="{DynamicResource AdvancedButtonStyle}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
+
+        <Control Style="{DynamicResource BasicControlStyle}" Focusable="False" Grid.Column="0" Grid.Row="8">
+            <Control.Template>
+                <ControlTemplate>
+                    <Button  Name="Settings" Margin="0" Content="{x:Static res:Resource.Settings}"
+                            Style="{DynamicResource SettingsButtonStyle}" 
+                            Command="{Binding ChangeSettingsCommand}" CommandParameter="{x:Static enums:Pages.SettingsPage}"/>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:Pages.SettingsPage}">
+                            <Setter TargetName="Settings" Property="Style" Value="{DynamicResource AdvancedButtonStyle}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
 
         <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Style="{StaticResource FrameStyle}"/>
         

@@ -1,33 +1,27 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using EmployeeManagement.DataEF.DAL;
-using EmployeeManagement.DataEF.Entities;
-using EmployeeManagement.Domain.Mappings;
-using EmployeeManagement.Domain.Models;
+using System.Threading.Tasks;
+using EmployeeManagement.API.Repositories;
+using EmployeeManagement.Contacts.Models;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
     public class DepartmentService
     {
-        private readonly ManagementContext _managementContext;
+        private readonly DepartmentRepository _departmentRepository;
 
-        private readonly IMapperWrapper _mapperWrapper;
-
-        public DepartmentService(ManagementContext managementContext, IMapperWrapper mapperWrapper)
+        public DepartmentService(DepartmentRepository departmentRepository)
         {
-            _managementContext = managementContext;
-            _mapperWrapper = mapperWrapper;
+            _departmentRepository = departmentRepository;
         }
 
-        public List<DepartmentModel> GetAll()
+        public async Task<DepartmentModel> GetByDepartmentIdAsync(int id)
         {
-            return _managementContext.Departments.ToList().Select(x => _mapperWrapper.Map<Department, DepartmentModel>(x)).ToList();
+            return await _departmentRepository.GetById(id);
         }
 
-        public List<DepartmentModel> GetAllStatistics()
+        public async Task<List<DepartmentModel>> GetAllAsync()
         {
-            return _managementContext.Departments.Select(x =>
-                new DepartmentModel {Name = x.Name, QuantityEmployees = x.Employees.Count}).ToList();
+            return await _departmentRepository.GetAll();
         }
     }
 }

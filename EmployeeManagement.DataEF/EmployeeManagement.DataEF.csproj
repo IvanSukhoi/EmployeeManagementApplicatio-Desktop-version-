@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201806191501187_AddLanguage.Designer.cs">
       <DependentUpon>201806191501187_AddLanguage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806251327546_UpdateEmployeEntity.cs" />
+    <Compile Include="Migrations\201806251327546_UpdateEmployeEntity.Designer.cs">
+      <DependentUpon>201806251327546_UpdateEmployeEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\User.cs" />
@@ -87,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806191501187_AddLanguage.resx">
       <DependentUpon>201806191501187_AddLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806251327546_UpdateEmployeEntity.resx">
+      <DependentUpon>201806251327546_UpdateEmployeEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

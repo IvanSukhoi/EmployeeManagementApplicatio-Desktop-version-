@@ -18,6 +18,7 @@
     <Style TargetType="TextBlock" x:Key="BasicPopupTextBlock">
         <Setter Property="FontSize" Value="17"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
     </Style>
     
    <Style TargetType="Border" x:Key="BasicPopupBorder">

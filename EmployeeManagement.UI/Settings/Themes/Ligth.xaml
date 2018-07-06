@@ -28,12 +28,17 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="Foreground" Value="DarkSlateGray"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
+    </Style>
+
+    <Style TargetType="Button" x:Key="AdvancedButtonStyle" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="DarkSlateGray"/>
     </Style>
 
     <Style TargetType="Button" x:Key="SettingsButtonStyle" BasedOn="{StaticResource ButtonStyle}">
@@ -67,6 +72,10 @@
     </Style>
 
     <Style TargetType="TextBlock" x:Key="TextBlockEdit" BasedOn="{StaticResource BasicTextBlockEdit}">
+        <Setter Property="Foreground" Value="DarkGreen"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="TextBlockPosition" BasedOn="{StaticResource BasicTextBlockPosition}">
         <Setter Property="Foreground" Value="DarkGreen"/>
     </Style>
 

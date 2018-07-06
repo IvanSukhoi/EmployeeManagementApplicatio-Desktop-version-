@@ -1,5 +1,5 @@
-﻿using EmployeeManagement.DataEF.Entities;
-using EmployeeManagement.Domain.Enums;
+﻿using System.Threading.Tasks;
+using EmployeeManagement.Contacts.Enums;
 using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Pages
@@ -12,9 +12,9 @@ namespace EmployeeManagement.UI.Pages
             DataContext = departmentsViewModel;
         }
 
-        public void Init(Departments department)
+        public async Task InitAsync(Departments department)
         {
-            ((DepartmentsViewModel)DataContext).Init(department);
+            await ((DepartmentsViewModel)DataContext).InitAsync(department);
         }
     }
 }

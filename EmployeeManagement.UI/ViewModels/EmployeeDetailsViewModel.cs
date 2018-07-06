@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using EmployeeManagement.DataEF.Enums;
+using System.Threading.Tasks;
+using EmployeeManagement.Contacts.Enums;
+using EmployeeManagement.Contacts.Models;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.Domain.Mappings;
-using EmployeeManagement.Domain.Models;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.Settings.Localization;
@@ -20,27 +21,34 @@ namespace EmployeeManagement.UI.ViewModels
         private readonly EmployeeService _employeeService;
         private readonly DepartmentService _departmentService;
 
+        private readonly IMapperWrapper _mapperWrapper;
+
         public delegate void UpdateItemEventHandler();
         public event UpdateItemEventHandler UpdateEmployeeHandler;
 
         public IDelegateCommand EditCommand { protected set; get; }
         public IDelegateCommand CancelCommand { protected set; get; }
         public IDelegateCommand SaveCommand { protected set; get; }
-
-        private readonly IMapperWrapper _mapperWrapper;
+        public IDelegateCommand OpenDeletePopupCommand { protected set; get; }
+        public IDelegateCommand DeleteEmployeeCommand { protected set; get; }
+        public IDelegateCommand CancelToListEmployeeCommand { protected set; get; }
 
         public List<DepartmentModel> Departments { get; set; }
         public List<Sex> SexTypes => Enum.GetValues(typeof(Sex)).Cast<Sex>().ToList();
         public List<Profession> ProfessionTypes => Enum.GetValues(typeof(Profession)).Cast<Profession>().ToList();
+        public List<Position> PositionTypes => Enum.GetValues(typeof(Position)).Cast<Position>().ToList();
 
         public EmployeeDetailsViewModel(EmployeeService employeeService, DepartmentService departmentService, IMapperWrapper mapperWrapper)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
             _mapperWrapper = mapperWrapper;
-            EditCommand = new DelegateCommand.DelegateCommand(ExecuteEditCommand);
-            CancelCommand = new DelegateCommand.DelegateCommand(ExecuteCancelCommand);
-            SaveCommand = new DelegateCommand.DelegateCommand(ExecuteSaveCommand);
+            EditCommand = new DelegateCommand.DelegateCommand(ExecuteEditEmployee);
+            CancelCommand = new DelegateCommand.DelegateCommand(ExecuteCancel);
+            SaveCommand = new DelegateCommandAsync(ExecuteSaveEmployee);
+            OpenDeletePopupCommand = new DelegateCommand.DelegateCommand(ExecuteOpenDeletePopup);
+            DeleteEmployeeCommand = new DelegateCommandAsync(ExecuteDeleteEmployee);
+            CancelToListEmployeeCommand = new DelegateCommand.DelegateCommand(ExecuteCancelTolistEmployee);
         }
 
         private bool _isEditingEmployee;
@@ -67,33 +75,45 @@ namespace EmployeeManagement.UI.ViewModels
             }
         }
 
-        public void SetDepartments()
+        private bool _isDeletePopupOpen;
+
+        public bool IsDeletePopupOpen
         {
-            Departments = _departmentService.GetAll();
+            get => _isDeletePopupOpen;
+            set
+            {
+                _isDeletePopupOpen = value;
+                OnPropertyChanged(nameof(IsDeletePopupOpen));
+            }
+        }
+
+        public async Task SetDepartments()
+        {
+            Departments = await _departmentService.GetAllAsync();
             Departments.ForEach(x => x.Name = Resource.ResourceManager.GetString(x.Name));
         }
 
-        public void ExecuteEditCommand(object parameter)
+        public void ExecuteEditEmployee(object parameter)
         {
             IsEditingEmployee = true;
         }
 
-        public void ExecuteCancelCommand(object parameter)
+        public void ExecuteCancel(object parameter)
         {
             AssignEmployeeModel();
             IsEditingEmployee = false;
         }
 
-        public void ExecuteSaveCommand(object parameter)
+        public async Task ExecuteSaveEmployee(object parameter)
         {
             if (_employeeViewModel.IsNew)
             {
-                var employee = _employeeService.Create(_mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(EmployeeViewModel));
+                var employee = await _employeeService.CreateAsync(_mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(EmployeeViewModel));
                 _mapperWrapper.Map(employee, EmployeeViewModel);
             }
             else
             {
-                _employeeService.Save(_mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(EmployeeViewModel));
+                await _employeeService.SaveAsync(_mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(EmployeeViewModel));
 
                 if (_employeeViewModel.DepartmentId != _currentEmployeeView.DepartmentId)
                 {
@@ -104,6 +124,26 @@ namespace EmployeeManagement.UI.ViewModels
             IsEditingEmployee = false;
             _mapperWrapper.Map(EmployeeViewModel, _currentEmployeeView);
             OnUpdateEmployee();
+        }
+
+        public void ExecuteOpenDeletePopup(object parameter)
+        {
+            IsDeletePopupOpen = true;
+        }
+
+        public async Task ExecuteDeleteEmployee(object parameter)
+        {
+            _currentEmployeeView.IsDeleted = true;
+            await _employeeService.DeleteAsync((int)parameter);
+
+            IsDeletePopupOpen = false;
+
+            OnUpdateEmployee();
+        }
+
+        public void ExecuteCancelTolistEmployee(object parameter)
+        {
+            IsDeletePopupOpen = false;
         }
 
         public void SetEmployeeHandler(EmployeeViewModel employee)

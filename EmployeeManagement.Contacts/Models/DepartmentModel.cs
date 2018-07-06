@@ -1,4 +1,4 @@
-﻿namespace EmployeeManagement.Domain.Models
+﻿namespace EmployeeManagement.Contacts.Models
 {
     public class DepartmentModel
     {

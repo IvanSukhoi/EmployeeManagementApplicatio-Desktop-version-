@@ -22,7 +22,7 @@ namespace EmployeeManagement.DataEF.Entities
 
         public Profession Profession { get; set; }
 
-        public Position Position { get; set; }
+        public Position? Position { get; set; }
 
         public Sex Sex { get; set; }
 

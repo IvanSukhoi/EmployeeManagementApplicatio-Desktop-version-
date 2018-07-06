@@ -28,7 +28,7 @@
     <UpdateUrl>\\WKS-124\App\</UpdateUrl>
     <ProductName>EmployeeManagementApplication</ProductName>
     <PublisherName>IvanSukhoi</PublisherName>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -81,8 +81,8 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.7.0.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.6\lib\net46\CommonServiceLocator.dll</HintPath>
@@ -99,6 +99,9 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.Annotations.4.4.1\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
@@ -109,7 +112,13 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -160,14 +169,15 @@
     </Compile>
     <Compile Include="Converters\BoolToBoolConverter.cs" />
     <Compile Include="Converters\BoolToTextConverter.cs" />
+    <Compile Include="Converters\DepartmentBoolToBoolConverter.cs" />
     <Compile Include="Converters\LocalizationConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="Converters\RadioBoolToBoolConverter.cs" />
     <Compile Include="DelegateCommand\DelegateCommand.cs" />
+    <Compile Include="DelegateCommand\DelegateCommandAsync.cs" />
     <Compile Include="DI\UnityServiceLocator.cs" />
     <Compile Include="DelegateCommand\IDelegateCommand.cs" />
     <Compile Include="DI\RegistrationUnity.cs" />
-    <Compile Include="Enums\Language.cs" />
     <Compile Include="Extensions\ObservableCollectionExtentions.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Managers\NavigationManager.cs" />
@@ -176,11 +186,9 @@
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Enums\Pages.cs" />
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Enums\Theme.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -319,16 +327,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EmployeeManagement.DataEF\EmployeeManagement.DataEF.csproj">
-      <Project>{e98c163e-ccc2-43ab-b062-72ed27d39425}</Project>
-      <Name>EmployeeManagement.DataEF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EmployeeManagement.Domain\EmployeeManagement.Domain.csproj">
-      <Project>{8926e2c9-caf7-4164-bde2-7e8797258cf6}</Project>
-      <Name>EmployeeManagement.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\30.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -342,6 +340,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EmployeeManagement.Contacts\EmployeeManagement.Contacts.csproj">
+      <Project>{b1eef651-c4fb-407d-bca6-a2b70f78c47c}</Project>
+      <Name>EmployeeManagement.Contacts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmployeeManagement.Domain\EmployeeManagement.Domain.csproj">
+      <Project>{8926e2c9-caf7-4164-bde2-7e8797258cf6}</Project>
+      <Name>EmployeeManagement.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

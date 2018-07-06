@@ -9,8 +9,7 @@ namespace EmployeeManagement.UI.Mappings
         {
             Mapper.Initialize(c =>
             {
-                c.AddProfile<DomainMappingProfile>();
-                c.AddProfile<UIMappingProfile>();
+                c.AddProfile<UiMappingProfile>();
             });
         }
 

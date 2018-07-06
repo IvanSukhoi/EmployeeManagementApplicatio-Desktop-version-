@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Navigation;
 using EmployeeManagement.UI.Managers;
 using EmployeeManagement.UI.ViewModels;
@@ -14,12 +15,11 @@ namespace EmployeeManagement.UI.Windows
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
             navigationManager.SetNavigationService(Frame.NavigationService);
-
         }
 
-        public void Init()
+        public async Task InitAsync()
         {
-            ((MainViewModel)DataContext).Init();
+           await ((MainViewModel)DataContext).InitAsync();
         }
     }
 }

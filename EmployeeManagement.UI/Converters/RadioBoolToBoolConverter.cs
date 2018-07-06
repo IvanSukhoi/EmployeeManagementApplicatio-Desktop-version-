@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using EmployeeManagement.DataEF.Enums;
+using EmployeeManagement.Contacts.Enums;
 
 namespace EmployeeManagement.UI.Converters
 {

@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EmployeeManagement.DataEF.Enums;
+using System.Threading.Tasks;
+using EmployeeManagement.Contacts.Enums;
+using EmployeeManagement.Contacts.Models;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
@@ -16,14 +18,21 @@ namespace EmployeeManagement.UI.ViewModels
         private readonly AuthorizationService _authorizationService;
 
         private readonly WindowFactory _windowFactory;
-
-        public DataEF.Entities.Settings Settings { get; set; }
+        
+        private SettingsModel _settingsModel;
+        public SettingsModel SettingsModel
+        {
+            get => _settingsModel;
+            set
+            {
+                _settingsModel = value;
+                OnPropertyChanged(nameof(SettingsModel));
+            }
+        }
 
         public IDelegateCommand SelectTopicCommand { protected set; get; }
         public IDelegateCommand SelectLanguageCommand { protected set; get; }
-
         public IDelegateCommand RestartMainWindowCommand { protected set; get; }
-
         public IDelegateCommand BackToCurrentLanguageCommand { protected set; get; }
 
         public SettingsViewModel(SettingsService settingsService, AuthorizationService authorizationService, WindowFactory windowFactory)
@@ -31,16 +40,16 @@ namespace EmployeeManagement.UI.ViewModels
             _settingsService = settingsService;
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            SelectTopicCommand = new DelegateCommand.DelegateCommand(ExecuteSelectTopic);
-            SelectLanguageCommand = new DelegateCommand.DelegateCommand(ExecuteSelectLanguage);
-            RestartMainWindowCommand = new DelegateCommand.DelegateCommand(ExecuteRestartMainWindow);
+            SelectTopicCommand = new DelegateCommandAsync(ExecuteSelectTopicAsync);
+            SelectLanguageCommand = new DelegateCommandAsync(ExecuteSelectLanguageAsync);
+            RestartMainWindowCommand = new DelegateCommandAsync(ExecuteRestartMainWindowAsync);
             BackToCurrentLanguageCommand = new DelegateCommand.DelegateCommand(BackToCurrentLanguage);
         }
 
-        public void SetSettings()
+        public async Task SetSettings()
         {
-            Settings = _settingsService.GetById(_authorizationService.GetCurrentUser().ID);
-            CurrentLanguage = Settings.Language;
+            SettingsModel = await _settingsService.GetByIdAsync(_authorizationService.GetCurrentUser().Id);
+            CurrentLanguage = SettingsModel.Language;
         }
 
         private bool _isEditingLanguage;
@@ -56,41 +65,42 @@ namespace EmployeeManagement.UI.ViewModels
 
         public Language CurrentLanguage { get; set; }
 
-        public void ExecuteSelectTopic(object parameter)
+        public async Task ExecuteSelectTopicAsync(object parameter)
         {
-            Settings.Topic = (Theme)parameter;
-            OnPropertyChanged(nameof(Settings));
+            SettingsModel.Topic = (Theme)parameter;
+            OnPropertyChanged(nameof(SettingsModel));
 
-            SettingsHelper.SetTheme(Settings);
+            SettingsHelper.SetTheme(SettingsModel);
 
-            _settingsService.Save(Settings);
+            await _settingsService.SaveAsync(SettingsModel);
         }
 
-        public void ExecuteSelectLanguage(object parameter)
+        public async Task ExecuteSelectLanguageAsync(object parameter)
         {
-            Settings.Language = (Language) parameter;
-            OnPropertyChanged(nameof(Settings));
+            SettingsModel.Language = (Language)parameter;
+            OnPropertyChanged(nameof(SettingsModel));
 
             IsEditingLanguage = true;
 
-            _settingsService.Save(Settings);
+            await _settingsService.SaveAsync(SettingsModel);
         }
 
-        public void ExecuteRestartMainWindow(object parameter)
+        public async Task ExecuteRestartMainWindowAsync(object parameter)
         {
             _windowFactory.Close<MainWindow>();
+            SettingsHelper.SetLanguage(await _settingsService.GetByIdAsync(_authorizationService.GetCurrentUser().Id));
             var mainWindow = _windowFactory.Create<MainWindow>();
-            mainWindow.Init();
+            await mainWindow.InitAsync();
             mainWindow.Show();
         }
 
         public void BackToCurrentLanguage(object parameter)
         {
-            Settings.Language = CurrentLanguage;
+            SettingsModel.Language = CurrentLanguage;
 
             IsEditingLanguage = false;
 
-            OnPropertyChanged(nameof(Settings));
+            OnPropertyChanged(nameof(SettingsModel));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

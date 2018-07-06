@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using EmployeeManagement.Domain.Models;
+using EmployeeManagement.Contacts.Models;
 using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Mappings
 {
-    public class UIMappingProfile : Profile
+    public class UiMappingProfile : Profile
     {
-        public UIMappingProfile()
+        public UiMappingProfile()
         {
             CreateMap<EmployeeModel, EmployeeViewModel>();
             CreateMap<EmployeeViewModel, EmployeeModel>();

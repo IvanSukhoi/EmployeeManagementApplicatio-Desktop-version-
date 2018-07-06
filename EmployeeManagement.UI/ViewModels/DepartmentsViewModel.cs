@@ -1,7 +1,8 @@
 ﻿using EmployeeManagement.UI.Annotations;
-using EmployeeManagement.Domain.Enums;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
+using System.Threading.Tasks;
+using EmployeeManagement.Contacts.Enums;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -35,12 +36,12 @@ namespace EmployeeManagement.UI.ViewModels
             _employeeListViewModel = employeeListViewModel;
         }
 
-        public void Init(Departments department)
+        public async Task InitAsync(Departments department)
         {
             _employeeListViewModel.AssignEmployeeHandler += _employeeDetailsViewModel.SetEmployeeHandler;
             _employeeDetailsViewModel.UpdateEmployeeHandler += _employeeListViewModel.UpdateCurrentEmployeeHandler;
-            _employeeDetailsViewModel.SetDepartments();
-            _employeeListViewModel.UpdateEmployees(department);
+            await _employeeDetailsViewModel.SetDepartments();
+            await _employeeListViewModel.UpdateEmployees(department);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

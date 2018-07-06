@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EmployeeManagement.DataEF.Enums;
+using EmployeeManagement.Contacts.Enums;
 using EmployeeManagement.UI.Annotations;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -54,7 +54,16 @@ namespace EmployeeManagement.UI.ViewModels
             }
         }
 
-        public Position Position { get; set; }
+        private Position? _position;
+        public Position? Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
+                OnPropertyChanged(nameof(Position));
+            }
+        }
 
         public Sex Sex { get; set; }
 
@@ -64,11 +73,23 @@ namespace EmployeeManagement.UI.ViewModels
 
         public int DepartmentId { get; set; }
 
-        public string DepartmentName { get; set; }
+        private string _departmentName;
+
+        public string DepartmentName
+        {
+            get => _departmentName;
+            set
+            {
+                _departmentName = value;
+                OnPropertyChanged(nameof(DepartmentName));
+            }
+        }
 
         public bool IsNew { get; set; }
 
         public bool IsEditedDepartment { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

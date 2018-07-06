@@ -1,4 +1,5 @@
-﻿using EmployeeManagement.UI.ViewModels;
+﻿using System.Threading.Tasks;
+using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
 {
@@ -10,9 +11,13 @@ namespace EmployeeManagement.UI.Windows
             InitializeComponent();
         }
 
-        public void Init()
+        public async Task Init()
         {
-            ((TrayViewModel)DataContext).Init();
+            //var t = this.Dispatcher.InvokeAsync(async () => await ((TrayViewModel)DataContext).InitAsync());
+            //Task.WaitAll(t.Task);
+            //Task.Factory.StartNew(() => ((TrayViewModel) DataContext).InitAsync());
+
+            await ((TrayViewModel) DataContext).InitAsync();
         }
     }
 }

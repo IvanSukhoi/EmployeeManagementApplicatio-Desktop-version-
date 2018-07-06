@@ -243,4 +243,19 @@
   <data name="SystemAdministrator" xml:space="preserve">
     <value>Системный администратор</value>
   </data>
+  <data name="Position" xml:space="preserve">
+    <value>Позиция:</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteEmloyee" xml:space="preserve">
+    <value>Вы действительно хотите удалить этого сотрудника?</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="RestartWindow" xml:space="preserve">
+    <value>Перезапустить окно?</value>
+  </data>
 </root>

@@ -115,6 +115,24 @@ namespace EmployeeManagement.UI.Settings.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this employee?.
+        /// </summary>
+        public static string DeleteEmloyee {
+            get {
+                return ResourceManager.GetString("DeleteEmloyee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Department:.
         /// </summary>
         public static string Department {
@@ -331,6 +349,24 @@ namespace EmployeeManagement.UI.Settings.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position:.
+        /// </summary>
+        public static string Position {
+            get {
+                return ResourceManager.GetString("Position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profession:.
         /// </summary>
         public static string Profession {
@@ -354,6 +390,15 @@ namespace EmployeeManagement.UI.Settings.Localization {
         public static string Recruiter {
             get {
                 return ResourceManager.GetString("Recruiter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart Window?.
+        /// </summary>
+        public static string RestartWindow {
+            get {
+                return ResourceManager.GetString("RestartWindow", resourceCulture);
             }
         }
         

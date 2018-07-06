@@ -1,4 +1,5 @@
-﻿using EmployeeManagement.UI.ViewModels;
+﻿using System.Threading.Tasks;
+using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Pages
 {
@@ -10,9 +11,9 @@ namespace EmployeeManagement.UI.Pages
             DataContext = homeViewModel;
         }
 
-        public void Init()
+        public async Task Init()
         {
-            ((HomeViewModel)DataContext).Init();
+            await ((HomeViewModel)DataContext).InitAsync();
         }
     }
 }

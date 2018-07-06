@@ -6,7 +6,7 @@ namespace EmployeeManagement.Domain.Helpers
     {
         public static void SetData(string name, string value)
         {
-            using (RegistryKey userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
+            using (var userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
             {
                 userKey?.SetValue(name, value);
             }
@@ -14,7 +14,7 @@ namespace EmployeeManagement.Domain.Helpers
 
         public static string GetData(string name)
         {
-            using (RegistryKey userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
+            using (var userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
             {
                 var value = userKey?.GetValue(name);
 
@@ -24,7 +24,7 @@ namespace EmployeeManagement.Domain.Helpers
 
         public static void RemoveData(string name, string value)
         {
-            using (RegistryKey userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
+            using (var userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
             {
                 if (userKey != null)
                 {

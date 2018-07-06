@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using EmployeeManagement.Contacts.Models;
 using EmployeeManagement.Domain.DomainServices;
-using EmployeeManagement.Domain.Models;
 using EmployeeManagement.UI.Extensions;
 using EmployeeManagement.UI.Settings.Localization;
 using Unity.Interception.Utilities;
@@ -18,10 +19,10 @@ namespace EmployeeManagement.UI.ViewModels
             _departmentService = departmentService;
         }
 
-        public void Init()
+        public async Task InitAsync()
         {
             Departments = new ObservableCollection<DepartmentModel>();
-            Departments.AddRange(_departmentService.GetAllStatistics());
+            Departments.AddRange(await _departmentService.GetAllAsync());
             Departments.ForEach(x => x.Name = Resource.ResourceManager.GetString(x.Name));
         }
     }

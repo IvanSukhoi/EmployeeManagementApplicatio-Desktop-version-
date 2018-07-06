@@ -3,10 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:settings="clr-namespace:EmployeeManagement.UI.Enums"
       xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
-      xmlns:enums="clr-namespace:EmployeeManagement.UI.Enums"
       xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
+      xmlns:settings="clr-namespace:EmployeeManagement.Contacts.Enums;assembly=EmployeeManagement.Contacts"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsPage"
@@ -25,35 +24,35 @@
         
         <GroupBox Header="{x:Static res:Resource.Theme}" Grid.Row="0" Style="{DynamicResource GroupBoxStyle}">
             <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
-                <RadioButton Content="{x:Static res:Resource.Ligth}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
-                    ConverterParameter={x:Static enums:Theme.Ligth}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                <RadioButton Content="{x:Static res:Resource.Ligth}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
+                    ConverterParameter={x:Static settings:Theme.Ligth}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Ligth}"/>
 
-                <RadioButton Content="{x:Static res:Resource.Dark}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
-                    ConverterParameter={x:Static enums:Theme.Dark}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                <RadioButton Content="{x:Static res:Resource.Dark}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
+                    ConverterParameter={x:Static settings:Theme.Dark}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Dark}"/>
             </StackPanel>
         </GroupBox>
 
         <GroupBox Header="{x:Static res:Resource.Language}" Grid.Row="1" Style="{DynamicResource GroupBoxStyle}">
             <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
-                <RadioButton Content="{x:Static res:Resource.English}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Language, Converter={StaticResource RadioBoolToIntConverter}, 
-                    ConverterParameter={x:Static enums:Language.English}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                <RadioButton Content="{x:Static res:Resource.English}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Language, Converter={StaticResource RadioBoolToIntConverter}, 
+                    ConverterParameter={x:Static settings:Language.English}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectLanguageCommand}" CommandParameter="{x:Static settings:Language.English}"/>
-                <RadioButton Content="{x:Static res:Resource.Russian}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Settings.Language, Converter={StaticResource RadioBoolToIntConverter}, 
-                    ConverterParameter={x:Static enums:Language.Russian}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                <RadioButton Content="{x:Static res:Resource.Russian}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Language, Converter={StaticResource RadioBoolToIntConverter}, 
+                    ConverterParameter={x:Static settings:Language.Russian}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectLanguageCommand}" CommandParameter="{x:Static settings:Language.Russian}"/>
 
                 <Popup IsOpen="{Binding IsEditingLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        Style="{DynamicResource PopupStyle}">
                     <Border Style="{DynamicResource PopupBorder}">
                         <StackPanel>
-                            <TextBlock Text="Restart Window?" 
+                            <TextBlock Text="{x:Static res:Resource.RestartWindow}" 
                                        Style="{DynamicResource PopupTextBlock}"/>
                             <StackPanel Orientation="Horizontal">                            
-                                <Button Content="Ok" Command="{Binding RestartMainWindowCommand}"
+                                <Button Content="{x:Static res:Resource.Ok}" Command="{Binding RestartMainWindowCommand}"
                                         Style="{DynamicResource PopupButtonStyle}"/>
-                                <Button Content="Cancel" Command="{Binding BackToCurrentLanguageCommand}"
+                                <Button Content="{x:Static res:Resource.Cancel}" Command="{Binding BackToCurrentLanguageCommand}"
                                         Style="{DynamicResource PopupButtonStyle}"/>
                             </StackPanel>
                         </StackPanel>

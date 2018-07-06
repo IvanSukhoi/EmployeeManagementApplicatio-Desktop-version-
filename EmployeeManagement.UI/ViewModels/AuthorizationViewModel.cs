@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
@@ -24,12 +25,12 @@ namespace EmployeeManagement.UI.ViewModels
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            LogInCommand = new DelegateCommand.DelegateCommand(ExecutePrintResultAuthorization);
+            LogInCommand = new DelegateCommandAsync(ExecutePrintResultAuthorization);
         }
 
-        void ExecutePrintResultAuthorization<T>(T parametr)
+        async Task ExecutePrintResultAuthorization<T>(T parametr)
         {
-            _authorizationService.LogIn(Login, Password, RememberMe);
+            await _authorizationService.LogInAsync(Login, Password, RememberMe);
             if (_authorizationService.IsLogged)
             {
                 MessageBox.Show("Successful Authorization!", "Authorization", MessageBoxButton.OK);
