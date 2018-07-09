@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using EmployeeManagement.API.Repositories;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.Domain.DomainServices
 {

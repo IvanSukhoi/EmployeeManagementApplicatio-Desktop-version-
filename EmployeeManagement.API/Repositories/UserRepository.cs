@@ -1,7 +1,6 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using EmployeeManagement.API.Helpers;
-using EmployeeManagement.Contacts.Models;
+﻿using System.Threading.Tasks;
+using EmployeeManagement.API.Settings;
+using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.API.Repositories
 {
@@ -16,9 +15,7 @@ namespace EmployeeManagement.API.Repositories
 
         public async Task<UserModel> GetUserModelAsync(string login, string password)
         {
-            var response = await _webClient.PostAsync("User/GetUserModel", new[] { login, password });
-
-            return await (response?.Content).ReadAsAsync<UserModel>();
+            return await _webClient.PostAsync<UserModel, string[]>("User/GetUserModel", new[] { login, password });
         }
     }
 }

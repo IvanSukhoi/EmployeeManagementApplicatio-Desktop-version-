@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using EmployeeManagement.Contacts.Enums;
+using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Pages

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
         xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
-        xmlns:enums="clr-namespace:EmployeeManagement.Contacts.Enums;assembly=EmployeeManagement.Contacts"
+        xmlns:enums="clr-namespace:EmployeeManagement.Contracts.Enums;assembly=EmployeeManagement.Contracts"
         mc:Ignorable="d"
         Title="{x:Static res:Resource.Main}" Style="{DynamicResource MainWindowStyle}">
     

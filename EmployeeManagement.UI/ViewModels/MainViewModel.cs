@@ -4,7 +4,7 @@ using EmployeeManagement.UI.Managers;
 using System.Deployment.Application;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using EmployeeManagement.Contacts.Enums;
+using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.UI.Annotations;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -27,8 +27,8 @@ namespace EmployeeManagement.UI.ViewModels
             }
         }
 
-        private Contacts.Enums.Pages _currentPage;
-        public Contacts.Enums.Pages CurrentPage
+        private Contracts.Enums.Pages _currentPage;
+        public Contracts.Enums.Pages CurrentPage
         {
             get => _currentPage;
             set
@@ -49,7 +49,7 @@ namespace EmployeeManagement.UI.ViewModels
 
         public async Task InitAsync()
         {
-            await _navigationManager.Navigate(Contacts.Enums.Pages.HomePage, Departments.NotSelected);
+            await _navigationManager.Navigate(Contracts.Enums.Pages.HomePage, Departments.NotSelected);
 
             Version = ApplicationDeployment.IsNetworkDeployed
                 ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
@@ -60,7 +60,7 @@ namespace EmployeeManagement.UI.ViewModels
         {
             var values = (object[])parameter;
 
-            CurrentPage = (Contacts.Enums.Pages)values[0];
+            CurrentPage = (Contracts.Enums.Pages)values[0];
             CurrentDepartment = (Departments)values[1];
 
             await _navigationManager.Navigate(CurrentPage, CurrentDepartment);
@@ -69,7 +69,7 @@ namespace EmployeeManagement.UI.ViewModels
         public async Task ExecuteChangeSettingsAsync(object parameter)
         {
             CurrentDepartment = Departments.NotSelected;
-            CurrentPage = (Contacts.Enums.Pages)parameter;
+            CurrentPage = (Contracts.Enums.Pages)parameter;
 
             await _navigationManager.Navigate(CurrentPage, Departments.NotSelected);
         }

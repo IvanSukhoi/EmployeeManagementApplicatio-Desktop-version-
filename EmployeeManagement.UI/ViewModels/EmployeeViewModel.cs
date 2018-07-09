@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EmployeeManagement.Contacts.Enums;
+using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.UI.Annotations;
 
 namespace EmployeeManagement.UI.ViewModels

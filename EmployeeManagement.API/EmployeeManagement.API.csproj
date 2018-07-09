@@ -37,6 +37,8 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -53,7 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\WebClient.cs" />
+    <Compile Include="ApiInterfaces\IWebClient.cs" />
+    <Compile Include="Settings\SettingsConfiguration.cs" />
+    <Compile Include="Settings\WebClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
@@ -61,17 +65,13 @@
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EmployeeManagement.Contacts\EmployeeManagement.Contacts.csproj">
-      <Project>{b1eef651-c4fb-407d-bca6-a2b70f78c47c}</Project>
-      <Name>EmployeeManagement.Contacts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EmployeeManagement.DataEF\EmployeeManagement.DataEF.csproj">
-      <Project>{E98C163E-CCC2-43AB-B062-72ED27D39425}</Project>
-      <Name>EmployeeManagement.DataEF</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\EmployeeManagement.Contracts\EmployeeManagement.Contracts.csproj">
+      <Project>{3520e911-814d-427b-81dc-841ac1c2d4be}</Project>
+      <Name>EmployeeManagement.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

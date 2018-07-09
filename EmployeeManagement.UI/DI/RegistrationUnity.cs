@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using EmployeeManagement.API.ApiInterfaces;
+using EmployeeManagement.API.Settings;
 using EmployeeManagement.UI.ViewModels;
 using EmployeeManagement.UI.Windows;
 using EmployeeManagement.Domain.DomainServices;
@@ -46,7 +47,7 @@ namespace EmployeeManagement.UI.DI
 
             container.RegisterType<IMapperWrapper, MapperWrapper>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<WebClient>();
+            container.RegisterType<IWebClient, WebClient>();
 
             return container;
         }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using EmployeeManagement.Contacts.Enums;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.Contracts.Enums;
+using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;

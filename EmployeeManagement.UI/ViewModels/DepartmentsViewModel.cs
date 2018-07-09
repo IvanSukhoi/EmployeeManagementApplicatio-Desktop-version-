@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using EmployeeManagement.Contacts.Enums;
+using EmployeeManagement.Contracts.Enums;
 
 namespace EmployeeManagement.UI.ViewModels
 {

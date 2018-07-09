@@ -342,9 +342,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EmployeeManagement.Contacts\EmployeeManagement.Contacts.csproj">
-      <Project>{b1eef651-c4fb-407d-bca6-a2b70f78c47c}</Project>
-      <Name>EmployeeManagement.Contacts</Name>
+    <ProjectReference Include="..\EmployeeManagement.API\EmployeeManagement.API.csproj">
+      <Project>{C3967BE7-CD8C-4778-9FFA-0D8B39E64CC6}</Project>
+      <Name>EmployeeManagement.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmployeeManagement.Contracts\EmployeeManagement.Contracts.csproj">
+      <Project>{3520e911-814d-427b-81dc-841ac1c2d4be}</Project>
+      <Name>EmployeeManagement.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\EmployeeManagement.Domain\EmployeeManagement.Domain.csproj">
       <Project>{8926e2c9-caf7-4164-bde2-7e8797258cf6}</Project>

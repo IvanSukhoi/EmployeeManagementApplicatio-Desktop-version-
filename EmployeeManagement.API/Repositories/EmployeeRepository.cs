@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using EmployeeManagement.API.Helpers;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.API.Settings;
+using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.API.Repositories
 {
@@ -17,23 +16,17 @@ namespace EmployeeManagement.API.Repositories
 
         public async Task<List<EmployeeModel>> GetByDepartmentIdAsync(int departmentId)
         {
-            var response = await _webClient.GetAsync("Employee/GetByDepartmentId/" + departmentId);
-
-            return await (response?.Content).ReadAsAsync<List<EmployeeModel>>();
+            return await _webClient.GetAsync<List<EmployeeModel>>("Employee/GetByDepartmentId/" + departmentId);
         }
 
         public async Task<EmployeeModel> GetByIdAsync(int id)
         {
-            var response = await _webClient.GetAsync("Employee/GetById/" + id);
-
-            return await (response?.Content).ReadAsAsync<EmployeeModel>();
+            return await _webClient.GetAsync<EmployeeModel>("Employee/GetById/" + id);
         }
 
         public async Task<EmployeeModel> CreateAsync(EmployeeModel employeeModel)
         {
-            var response = await _webClient.PostAsync("Employee/Create", employeeModel);
-
-            return await (response?.Content).ReadAsAsync<EmployeeModel>();
+            return await _webClient.PostAsync<EmployeeModel, EmployeeModel>("Employee/Create", employeeModel);
         }
 
         public async Task SaveAsync(EmployeeModel employeeModel)
@@ -41,7 +34,7 @@ namespace EmployeeManagement.API.Repositories
             if (employeeModel != null)
                 await _webClient.PutAsync("Employee/Update", employeeModel);
         }
-
+       
         public async Task DeleteAsync(int id)
         {
             await _webClient.DeleteAsync("Employee/Delete/" + id);

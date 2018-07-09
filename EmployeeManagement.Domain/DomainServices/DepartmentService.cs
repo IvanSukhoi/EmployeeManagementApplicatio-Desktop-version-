@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmployeeManagement.API.Repositories;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
@@ -16,12 +16,12 @@ namespace EmployeeManagement.Domain.DomainServices
 
         public async Task<DepartmentModel> GetByDepartmentIdAsync(int id)
         {
-            return await _departmentRepository.GetById(id);
+            return await _departmentRepository.GetByIdAsync(id);
         }
 
         public async Task<List<DepartmentModel>> GetAllAsync()
         {
-            return await _departmentRepository.GetAll();
+            return await _departmentRepository.GetAllAsync();
         }
     }
 }

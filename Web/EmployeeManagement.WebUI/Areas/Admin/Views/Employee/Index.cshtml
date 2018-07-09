@@ -1,0 +1,73 @@
+﻿@using EmployeeManagement.WebUI.Enums
+@using EmployeeManagement.WebUI.Models;
+@model IEnumerable<EmployeeViewModel>
+
+@{
+    ViewBag.Title = "Admin: All Employees";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h1>All Employees</h1>
+
+<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Department</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th id="@item.Id" scope="row">@item.Id</th>
+                @if (item.ModelType == ModelType.Developer)
+                {
+                    <td id="developer" class="link" data-id="@item.Id">@item.FirstName @item.LastName</td>
+                }
+                @if (item.ModelType == ModelType.Manager)
+                {
+                    <td id="manager" class="link" data-id="@item.Id">@item.FirstName @item.LastName</td>
+                }
+                @if (item.ModelType == ModelType.ServiceWorker)
+                {
+                    <td id="serviceWorker" class="link" data-id="@item.Id">@item.FirstName @item.LastName</td>
+                }
+                <td id="@item.Id">@item.DepartmentName</td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Employee"))
+                    {
+                        <input type="image" src="~/Content/Images/DeleteRed.png" width="20" height="20" alt="Delete">
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>
+
+<br>
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        Add new...
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li id="manager">manager</li>
+        <li id="developer">developer</li>
+        <li id="serviceworker">service worker</li>
+    </ul>
+</div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/employee")
+
+@{Html.RenderPartial("Edit");}
+

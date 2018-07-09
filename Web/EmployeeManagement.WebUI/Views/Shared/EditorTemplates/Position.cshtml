@@ -1,0 +1,6 @@
+﻿@using EmployeeManagement.Domain
+@model EmployeeManagement.Domain.Enums.Position
+
+@Html.DropDownListFor(m => m,
+    new SelectList(Enum.GetNames(Model.GetType()),
+    Model.ToString()))

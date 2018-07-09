@@ -1,32 +1,27 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using EmployeeManagement.API.Helpers;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.API.ApiInterfaces;
+using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.API.Repositories
 {
     public class DepartmentRepository
     {
-        private readonly WebClient _webClient;
+        private readonly IWebClient _webClient;
 
-        public DepartmentRepository(WebClient webClient)
+        public DepartmentRepository(IWebClient webClient)
         {
             _webClient = webClient;
         }
 
-        public async Task<List<DepartmentModel>> GetAll()
+        public async Task<List<DepartmentModel>> GetAllAsync()
         {
-            var response = await _webClient.GetAsync("Department/GetAll");
-
-            return await (response?.Content).ReadAsAsync<List<DepartmentModel>>();
+            return await _webClient.GetAsync<List<DepartmentModel>>("Department/GetAll");
         }
 
-        public async Task<DepartmentModel> GetById(int id)
+        public async Task<DepartmentModel> GetByIdAsync(int id)
         {
-            var response = await _webClient.GetAsync("Department/GetById/" + id);
-
-            return await (response?.Content).ReadAsAsync<DepartmentModel>();
+            return await _webClient.GetAsync<DepartmentModel>("Department/GetById/" + id);
         }
     }
 }

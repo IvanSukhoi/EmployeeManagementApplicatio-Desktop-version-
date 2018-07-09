@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using EmployeeManagement.Contacts.Enums;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.Contracts.Enums;
+using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.UI.Helpers
 {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Mappings

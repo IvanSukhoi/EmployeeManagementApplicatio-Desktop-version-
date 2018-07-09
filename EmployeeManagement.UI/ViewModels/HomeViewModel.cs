@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Extensions;
 using EmployeeManagement.UI.Settings.Localization;

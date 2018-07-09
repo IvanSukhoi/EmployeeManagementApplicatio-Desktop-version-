@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
       xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
-      xmlns:settings="clr-namespace:EmployeeManagement.Contacts.Enums;assembly=EmployeeManagement.Contacts"
+      xmlns:settings="clr-namespace:EmployeeManagement.Contracts.Enums;assembly=EmployeeManagement.Contracts"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsPage"

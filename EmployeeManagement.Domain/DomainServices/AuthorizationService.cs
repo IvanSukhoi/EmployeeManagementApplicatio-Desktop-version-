@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using EmployeeManagement.Contacts.Models;
+using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.Helpers;
 
 namespace EmployeeManagement.Domain.DomainServices

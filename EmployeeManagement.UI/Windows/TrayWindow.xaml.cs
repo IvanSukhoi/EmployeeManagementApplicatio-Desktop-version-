@@ -12,11 +12,7 @@ namespace EmployeeManagement.UI.Windows
         }
 
         public async Task Init()
-        {
-            //var t = this.Dispatcher.InvokeAsync(async () => await ((TrayViewModel)DataContext).InitAsync());
-            //Task.WaitAll(t.Task);
-            //Task.Factory.StartNew(() => ((TrayViewModel) DataContext).InitAsync());
-
+        { 
             await ((TrayViewModel) DataContext).InitAsync();
         }
     }

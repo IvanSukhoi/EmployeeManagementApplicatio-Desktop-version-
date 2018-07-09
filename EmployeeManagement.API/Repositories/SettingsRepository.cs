@@ -1,7 +1,6 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using EmployeeManagement.API.Helpers;
-using EmployeeManagement.Contacts.Models;
+﻿using System.Threading.Tasks;
+using EmployeeManagement.API.Settings;
+using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.API.Repositories
 {
@@ -16,16 +15,14 @@ namespace EmployeeManagement.API.Repositories
 
         public async Task<SettingsModel> GetByIdAsync(int id)
         {
-            var response = await _webClient.GetAsync("Settings/GetById/" + id);
-
-            return await (response?.Content).ReadAsAsync<SettingsModel>();
+            return await _webClient.GetAsync<SettingsModel>("Settings/GetById/" + id);
         }
 
         public async Task SaveAsync(SettingsModel settingsModel)
         {
             if (settingsModel != null)
             {
-                await _webClient.PostAsync("Settings/Save", settingsModel);
+                await _webClient.PostAsync<SettingsModel, SettingsModel>("Settings/Save", settingsModel);
             }
         }
     }
