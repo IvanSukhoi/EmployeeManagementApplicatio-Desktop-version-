@@ -43,7 +43,11 @@ namespace EmployeeManagement.API.Settings
                 SetHttpClient(httpClient);
                 var response = await httpClient.DeleteAsync(SettingsConfiguration.GetBaseUrl() + url);
 
-                if (!response.IsSuccessStatusCode) return null;
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
                 return response;
             }
         }
