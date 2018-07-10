@@ -201,7 +201,7 @@
         
         <TextBlock  Margin="10 0 0 0" Grid.Column="0" Grid.Row="9">
             <Run Text="Version: "/>
-            <Run Text="{Binding Version}"/>
+            <Run Text="{Binding Version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </TextBlock>
     
   </Grid>

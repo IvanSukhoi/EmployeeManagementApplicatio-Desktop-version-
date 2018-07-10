@@ -38,7 +38,17 @@ namespace EmployeeManagement.UI.ViewModels
             }
         }
 
-        public string Version { get; set; }
+        private string _version;
+
+        public string Version
+        {
+            get => _version;
+            set
+            {
+                _version = value;
+                OnPropertyChanged(nameof(Version));
+            }
+        }
 
         public  MainViewModel(NavigationManager navigationManager)
         {
