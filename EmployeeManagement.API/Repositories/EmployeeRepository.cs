@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.API.Settings;
 using EmployeeManagement.Contracts.Models;
 
@@ -7,9 +8,9 @@ namespace EmployeeManagement.API.Repositories
 {
     public class EmployeeRepository
     {
-        private readonly WebClient _webClient;
+        private readonly IWebClient _webClient;
 
-        public EmployeeRepository(WebClient webClient)
+        public EmployeeRepository(IWebClient webClient)
         {
             _webClient = webClient;
         }
