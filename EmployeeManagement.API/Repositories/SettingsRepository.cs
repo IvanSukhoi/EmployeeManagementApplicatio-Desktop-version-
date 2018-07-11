@@ -6,9 +6,9 @@ namespace EmployeeManagement.API.Repositories
 {
     public class SettingsRepository
     {
-        private readonly WebClient _webClient;
+        private readonly WebClient.WebClient _webClient;
 
-        public SettingsRepository(WebClient webClient)
+        public SettingsRepository(WebClient.WebClient webClient)
         {
             _webClient = webClient;
         }

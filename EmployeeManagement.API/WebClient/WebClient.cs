@@ -1,9 +1,11 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
+using EmployeeManagement.API.Settings;
 
-namespace EmployeeManagement.API.Settings
+namespace EmployeeManagement.API.WebClient
 {
     public class WebClient : IWebClient
     {
@@ -12,12 +14,14 @@ namespace EmployeeManagement.API.Settings
             using (var httpClient = new HttpClient())
             {
                 SetHttpClient(httpClient);
-                var response = await httpClient.GetAsync(SettingsConfiguration.GetBaseUrl() + url);
+                var response = await httpClient.GetAsync(SettingsConfiguration.BaseUrl + url);
 
-                if (!response.IsSuccessStatusCode) return null;
+                if (response.IsSuccessStatusCode)
                 {
                     return await (response?.Content).ReadAsAsync<T>();
                 }
+
+                throw new InvalidOperationException("Object with such id does not exist");
             }
         }
 
@@ -27,12 +31,14 @@ namespace EmployeeManagement.API.Settings
             using (var httpClient = new HttpClient())
             {
                 SetHttpClient(httpClient);
-                var response = await httpClient.PostAsJsonAsync(SettingsConfiguration.GetBaseUrl() + url, o);
+                var response = await httpClient.PostAsJsonAsync(SettingsConfiguration.BaseUrl + url, o);
 
-                if (!response.IsSuccessStatusCode) return null;
+                if (response.IsSuccessStatusCode) 
                 {
                     return await (response?.Content).ReadAsAsync<TK>();
                 }
+
+                throw  new InvalidOperationException("Object with such id can not be created");
             }
         }
 
@@ -41,14 +47,14 @@ namespace EmployeeManagement.API.Settings
             using (var httpClient = new HttpClient())
             {
                 SetHttpClient(httpClient);
-                var response = await httpClient.DeleteAsync(SettingsConfiguration.GetBaseUrl() + url);
+                var response = await httpClient.DeleteAsync(SettingsConfiguration.BaseUrl + url);
 
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    return null;
+                    return response;
                 }
-
-                return response;
+                
+                throw new InvalidOperationException("Object with such id does not exist");
             }
         }
 
@@ -57,10 +63,14 @@ namespace EmployeeManagement.API.Settings
             using (var httpClient = new HttpClient())
             {
                 SetHttpClient(httpClient);
-                var response = await httpClient.PostAsJsonAsync(SettingsConfiguration.GetBaseUrl() + url, o);
+                var response = await httpClient.PostAsJsonAsync(SettingsConfiguration.BaseUrl + url, o);
 
-                if (!response.IsSuccessStatusCode) return null;
-                return response;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response;
+                }
+
+                throw new InvalidOperationException("Object with such id does not exist");
             }
         }
 

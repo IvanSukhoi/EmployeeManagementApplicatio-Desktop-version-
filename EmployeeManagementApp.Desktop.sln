@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.UI", "Em
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Domain", "EmployeeManagement.Domain\EmployeeManagement.Domain.csproj", "{8926E2C9-CAF7-4164-BDE2-7E8797258CF6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{5208FC99-0A88-41A0-974D-3B829FA59C00}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.API", "EmployeeManagement.API\EmployeeManagement.API.csproj", "{C3967BE7-CD8C-4778-9FFA-0D8B39E64CC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Contracts", "EmployeeManagement.Contracts\EmployeeManagement.Contracts.csproj", "{3520E911-814D-427B-81DC-841AC1C2D4BE}"
@@ -48,10 +46,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{14F827EF-761A-4AE6-87FA-E23A1782B381} = {5208FC99-0A88-41A0-974D-3B829FA59C00}
-		{8926E2C9-CAF7-4164-BDE2-7E8797258CF6} = {5208FC99-0A88-41A0-974D-3B829FA59C00}
-		{C3967BE7-CD8C-4778-9FFA-0D8B39E64CC6} = {5208FC99-0A88-41A0-974D-3B829FA59C00}
-		{3520E911-814D-427B-81DC-841AC1C2D4BE} = {5208FC99-0A88-41A0-974D-3B829FA59C00}
 		{07698B60-A667-4A83-B20A-FE864D057865} = {E6AF083D-091A-4B2F-87A7-D2D94C1A4B69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

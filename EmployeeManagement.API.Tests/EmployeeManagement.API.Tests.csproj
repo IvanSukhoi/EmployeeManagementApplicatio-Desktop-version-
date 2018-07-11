@@ -49,8 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DepartmentRepositoryTest.cs" />
-    <Compile Include="EmployeeRepositoryTest.cs" />
+    <Compile Include="Repositories\DepartmentRepositoryTest.cs" />
+    <Compile Include="Repositories\EmployeeRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

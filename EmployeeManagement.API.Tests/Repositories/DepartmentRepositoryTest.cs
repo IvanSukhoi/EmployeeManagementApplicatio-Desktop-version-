@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.API.Repositories;
+using EmployeeManagement.API.Settings;
 using EmployeeManagement.Contracts.Models;
 using FakeItEasy;
 using NUnit.Framework;
 
-namespace EmployeeManagement.API.Tests
+namespace EmployeeManagement.API.Tests.Repositories
 {
     public class DepartmentRepositoryTest
     {
@@ -21,7 +23,7 @@ namespace EmployeeManagement.API.Tests
         }
 
         [Test]
-        public void GetAllAsync_ReturnsAll()
+        public void GetAllAsync_ReturnsAll_Correct()
         {
             //arrange
             List<DepartmentModel> departmentModels = new List<DepartmentModel>
@@ -30,7 +32,7 @@ namespace EmployeeManagement.API.Tests
                 new DepartmentModel {Name = "Bokkeeping", Id = 2, QuantityEmployees = 20},
             };
 
-            A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(A<string>.Ignored))
+            A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(SettingsConfiguration.ApiUrls.Department.GetAll))
                 .ReturnsLazily(() => departmentModels);
 
             //act
@@ -45,23 +47,36 @@ namespace EmployeeManagement.API.Tests
         }
 
         [Test]
-        public void GetByIdAsync_Id_GetDepartment()
+        public void GetByIdAsync_GetDepartment_Correct()
         {
             //arrange
-            var department = new DepartmentModel
+            var departmentModel = new DepartmentModel
             {
                 Name = "IT",
                 Id = 1,
                 QuantityEmployees = 25
             };
             
+            A.CallTo(() => _webClient.GetAsync<DepartmentModel>(SettingsConfiguration.ApiUrls.Department.GetById + "1")).ReturnsLazily(() => departmentModel);
+
             //act
-            A.CallTo(() => _webClient.GetAsync<DepartmentModel>(A<string>.Ignored)).ReturnsLazily(() => department);
+            var department = _departmentRepository.GetByIdAsync(1).Result;
 
             //assert
             Assert.That("IT", Is.EqualTo(department.Name));
             Assert.That(1, Is.EqualTo(department.Id));
             Assert.That(25, Is.EqualTo(department.QuantityEmployees));
+        }
+
+        [Test]
+        public void GetByIdAsync_InvalidOperatingException_InCorrect()
+        {
+            //arrange
+            A.CallTo(() => _webClient.GetAsync<DepartmentModel>(SettingsConfiguration.ApiUrls.Department.GetById + "-1"))
+                .Throws<InvalidOperationException>();
+
+            //act/assert
+            Assert.ThrowsAsync<InvalidOperationException>(() => _departmentRepository.GetByIdAsync(-1));
         }
     }
 }

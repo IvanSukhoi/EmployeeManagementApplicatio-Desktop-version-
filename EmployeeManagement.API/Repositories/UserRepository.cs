@@ -6,9 +6,9 @@ namespace EmployeeManagement.API.Repositories
 {
     public class UserRepository
     {
-        private readonly WebClient _webClient;
+        private readonly WebClient.WebClient _webClient;
 
-        public UserRepository(WebClient webClient)
+        public UserRepository(WebClient.WebClient webClient)
         {
             _webClient = webClient;
         }

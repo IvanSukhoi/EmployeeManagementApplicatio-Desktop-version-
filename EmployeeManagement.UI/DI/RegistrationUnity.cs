@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.API.Settings;
+using EmployeeManagement.API.WebClient;
 using EmployeeManagement.UI.ViewModels;
 using EmployeeManagement.UI.Windows;
 using EmployeeManagement.Domain.DomainServices;
