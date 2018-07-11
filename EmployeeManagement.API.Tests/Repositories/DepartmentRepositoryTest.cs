@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.API.Repositories;
 using EmployeeManagement.API.Settings;
@@ -25,8 +26,7 @@ namespace EmployeeManagement.API.Tests.Repositories
         [Test]
         public void GetAllAsync_ReturnsAll_Correct()
         {
-            //arrange
-            List<DepartmentModel> departmentModels = new List<DepartmentModel>
+            var departmentModels = new List<DepartmentModel>
             {
                 new DepartmentModel {Name = "IT", Id = 1, QuantityEmployees = 12},
                 new DepartmentModel {Name = "Bokkeeping", Id = 2, QuantityEmployees = 20},
@@ -35,10 +35,8 @@ namespace EmployeeManagement.API.Tests.Repositories
             A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(SettingsConfiguration.ApiUrls.Department.GetAll))
                 .ReturnsLazily(() => departmentModels);
 
-            //act
             var departments = _departmentRepository.GetAllAsync().Result;
 
-            //assert
             Assert.That(2, Is.EqualTo(departments.Count));
 
             Assert.That("IT", Is.EqualTo(departments.First().Name));
@@ -47,9 +45,8 @@ namespace EmployeeManagement.API.Tests.Repositories
         }
 
         [Test]
-        public void GetByIdAsync_GetDepartment_Correct()
+        public async Task GetByIdAsync_GetDepartment_Correct()
         {
-            //arrange
             var departmentModel = new DepartmentModel
             {
                 Name = "IT",
@@ -59,10 +56,8 @@ namespace EmployeeManagement.API.Tests.Repositories
             
             A.CallTo(() => _webClient.GetAsync<DepartmentModel>(SettingsConfiguration.ApiUrls.Department.GetById + "1")).ReturnsLazily(() => departmentModel);
 
-            //act
-            var department = _departmentRepository.GetByIdAsync(1).Result;
+            var department = await _departmentRepository.GetByIdAsync(1);
 
-            //assert
             Assert.That("IT", Is.EqualTo(department.Name));
             Assert.That(1, Is.EqualTo(department.Id));
             Assert.That(25, Is.EqualTo(department.QuantityEmployees));
@@ -71,11 +66,9 @@ namespace EmployeeManagement.API.Tests.Repositories
         [Test]
         public void GetByIdAsync_InvalidOperatingException_InCorrect()
         {
-            //arrange
             A.CallTo(() => _webClient.GetAsync<DepartmentModel>(SettingsConfiguration.ApiUrls.Department.GetById + "-1"))
                 .Throws<InvalidOperationException>();
 
-            //act/assert
             Assert.ThrowsAsync<InvalidOperationException>(() => _departmentRepository.GetByIdAsync(-1));
         }
     }

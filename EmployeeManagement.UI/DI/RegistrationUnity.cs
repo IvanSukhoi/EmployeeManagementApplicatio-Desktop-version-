@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.API.ApiInterfaces;
+using EmployeeManagement.API.Repositories;
 using EmployeeManagement.API.Settings;
 using EmployeeManagement.API.WebClient;
 using EmployeeManagement.UI.ViewModels;
@@ -18,6 +19,9 @@ namespace EmployeeManagement.UI.DI
         public static IUnityContainer Setup()
         {
             var container = new UnityContainer();
+
+            container.RegisterType<IDepartmentRepository, DepartmentRepository>();
+            container.RegisterType<IEmployeeRepository, EmployeeRepository>();
 
             container.RegisterType<AuthorizationService>(new ContainerControlledLifetimeManager());
             container.RegisterType<UserService>();

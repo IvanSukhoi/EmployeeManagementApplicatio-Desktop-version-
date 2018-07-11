@@ -6,7 +6,7 @@ using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.API.Repositories
 {
-    public class EmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly IWebClient _webClient;
 

@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmployeeManagement.API.Repositories;
+using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
     public class DepartmentService
     {
-        private readonly DepartmentRepository _departmentRepository;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public DepartmentService(DepartmentRepository departmentRepository)
+        public DepartmentService(IDepartmentRepository departmentRepository)
         {
             _departmentRepository = departmentRepository;
         }
