@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="ApiInterfaces\IDepartmentRepository.cs" />
     <Compile Include="ApiInterfaces\IEmployeeRepository.cs" />
+    <Compile Include="ApiInterfaces\ISettingsRepository.cs" />
+    <Compile Include="ApiInterfaces\IUserRepository.cs" />
     <Compile Include="ApiInterfaces\IWebClient.cs" />
     <Compile Include="Settings\SettingsConfiguration.cs" />
     <Compile Include="WebClient\WebClient.cs" />

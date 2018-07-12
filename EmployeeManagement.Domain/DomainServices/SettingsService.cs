@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.API.Repositories;
 using EmployeeManagement.Contracts.Models;
 
@@ -7,16 +7,16 @@ namespace EmployeeManagement.Domain.DomainServices
 {
     public class SettingsService
     {
-        private readonly SettingsRepository _settingsRepository;
+        private readonly ISettingsRepository _settingsRepository;
 
-        public SettingsService(SettingsRepository settingsRepository)
+        public SettingsService(ISettingsRepository settingsRepository)
         {
             _settingsRepository = settingsRepository;
         }
 
-        public async Task<SettingsModel> GetByIdAsync(int id)
+        public async Task<SettingsModel> GetByUserIdAsync(int id)
         {
-            return await _settingsRepository.GetByIdAsync(id);
+            return await _settingsRepository.GetByUserIdAsync(id);
         }
 
         public async Task SaveAsync(SettingsModel settingsModel)

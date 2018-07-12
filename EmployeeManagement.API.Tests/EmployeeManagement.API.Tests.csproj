@@ -52,6 +52,8 @@
     <Compile Include="Repositories\DepartmentRepositoryTest.cs" />
     <Compile Include="Repositories\EmployeeRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\SettingsRepositoryTest.cs" />
+    <Compile Include="Repositories\UserRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

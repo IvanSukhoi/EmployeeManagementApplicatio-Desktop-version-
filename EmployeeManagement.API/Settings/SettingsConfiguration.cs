@@ -22,6 +22,17 @@ namespace EmployeeManagement.API.Settings
                 public static string GetAll => "Department/GetAll";
                 public static string GetById => "Department/GetById/";
             }
+
+            public static class Settings
+            {
+                public static string GetById => "Settings/GetById/";
+                public static string Save => "Settings/Save";
+            }
+
+            public static class User
+            {
+                public static string GetUserModel => "User/GetUserModel";
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
@@ -70,7 +69,7 @@ namespace EmployeeManagement.API.Tests.Repositories
                 Profession = Profession.Manager,
             };
 
-            A.CallTo(() => _webClient.GetAsync<EmployeeModel>(SettingsConfiguration.ApiUrls.Employee.GetbyId + "1")).ReturnsLazily(() => employeeModel);
+            A.CallTo(() => _webClient.GetAsync<EmployeeModel>(SettingsConfiguration.ApiUrls.Employee.GetbyId + "1")).Returns(employeeModel);
 
             var expectedValue = await _employeeRepository.GetByIdAsync(1);
 
@@ -134,10 +133,9 @@ namespace EmployeeManagement.API.Tests.Repositories
         }
 
         [Test]
-        public void DeleteAsync_RemoveEmployeeModel_Correct()
+        public void  DeleteAsync_RemoveEmployeeModel_Correct()
         {
-            A.CallTo(() => _webClient.DeleteAsync(SettingsConfiguration.ApiUrls.Employee.Delete + "1"))
-                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK });
+            A.CallTo(() => _webClient.DeleteAsync(SettingsConfiguration.ApiUrls.Employee.Delete + "1")).Returns(new HttpResponseMessage());
 
             Assert.DoesNotThrowAsync(() => _employeeRepository.DeleteAsync(1));
         }
@@ -157,7 +155,7 @@ namespace EmployeeManagement.API.Tests.Repositories
             var employeeModel = new EmployeeModel();
 
             A.CallTo(() => _webClient.PutAsync(SettingsConfiguration.ApiUrls.Employee.Save, employeeModel))
-                .ReturnsLazily(() => new HttpResponseMessage {StatusCode = HttpStatusCode.OK});
+                .Returns(new HttpResponseMessage());
 
             Assert.DoesNotThrowAsync(() => _employeeRepository.SaveAsync(employeeModel));
         }

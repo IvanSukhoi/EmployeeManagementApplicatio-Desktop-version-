@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="DomainServices\DepartmentServiceTest.cs" />
     <Compile Include="DomainServices\EmployeeServiceTest.cs" />
+    <Compile Include="DomainServices\SettingsServiceTest.cs" />
+    <Compile Include="DomainServices\UserServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

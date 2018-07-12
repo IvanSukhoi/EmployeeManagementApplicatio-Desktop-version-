@@ -35,7 +35,7 @@ namespace EmployeeManagement.Domain.Tests.DomainServices
         {
             var expexpectedValue = await _employeeRepository.GetByIdAsync(1);
 
-            AssertPropertyValue(expexpectedValue, _employeeModels.First());
+            AssertPropertyValue(expexpectedValue, _employeeModels.FirstOrDefault(x => x.Id == 1));
         }
 
         [Test]

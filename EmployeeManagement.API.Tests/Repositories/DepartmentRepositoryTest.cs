@@ -33,7 +33,7 @@ namespace EmployeeManagement.API.Tests.Repositories
             };
 
             A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(SettingsConfiguration.ApiUrls.Department.GetAll))
-                .ReturnsLazily(() => departmentModels);
+                .Returns(departmentModels);
 
             var departments = _departmentRepository.GetAllAsync().Result;
 
@@ -42,6 +42,15 @@ namespace EmployeeManagement.API.Tests.Repositories
             Assert.That("IT", Is.EqualTo(departments.First().Name));
             Assert.That(1, Is.EqualTo(departments.First().Id));
             Assert.That(12, Is.EqualTo(departments.First().QuantityEmployees));
+        }
+
+        [Test]
+        public void GetAllAsync_InvalidOperationException_InCorrect()
+        {
+            A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(SettingsConfiguration.ApiUrls.Department.GetAll))
+                .Throws<InvalidOperationException>();
+
+            Assert.ThrowsAsync<InvalidOperationException>(() => _departmentRepository.GetAllAsync());
         }
 
         [Test]

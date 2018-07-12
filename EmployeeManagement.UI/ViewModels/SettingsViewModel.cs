@@ -40,7 +40,7 @@ namespace EmployeeManagement.UI.ViewModels
             _settingsService = settingsService;
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            SelectTopicCommand = new DelegateCommandAsync(ExecuteSelectTopicAsync);
+            SelectTopicCommand = new DelegateCommandAsync(ExecuteSelectThemeAsync);
             SelectLanguageCommand = new DelegateCommandAsync(ExecuteSelectLanguageAsync);
             RestartMainWindowCommand = new DelegateCommandAsync(ExecuteRestartMainWindowAsync);
             BackToCurrentLanguageCommand = new DelegateCommand.DelegateCommand(BackToCurrentLanguage);
@@ -48,7 +48,7 @@ namespace EmployeeManagement.UI.ViewModels
 
         public async Task SetSettings()
         {
-            SettingsModel = await _settingsService.GetByIdAsync(_authorizationService.GetCurrentUser().Id);
+            SettingsModel = await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id);
             CurrentLanguage = SettingsModel.Language;
         }
 
@@ -65,9 +65,9 @@ namespace EmployeeManagement.UI.ViewModels
 
         public Language CurrentLanguage { get; set; }
 
-        public async Task ExecuteSelectTopicAsync(object parameter)
+        public async Task ExecuteSelectThemeAsync(object parameter)
         {
-            SettingsModel.Topic = (Theme)parameter;
+            SettingsModel.Theme = (Theme)parameter;
             OnPropertyChanged(nameof(SettingsModel));
 
             SettingsHelper.SetTheme(SettingsModel);
@@ -88,7 +88,7 @@ namespace EmployeeManagement.UI.ViewModels
         public async Task ExecuteRestartMainWindowAsync(object parameter)
         {
             _windowFactory.Close<MainWindow>();
-            SettingsHelper.SetLanguage(await _settingsService.GetByIdAsync(_authorizationService.GetCurrentUser().Id));
+            SettingsHelper.SetLanguage(await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id));
             var mainWindow = _windowFactory.Create<MainWindow>();
             await mainWindow.InitAsync();
             mainWindow.Show();

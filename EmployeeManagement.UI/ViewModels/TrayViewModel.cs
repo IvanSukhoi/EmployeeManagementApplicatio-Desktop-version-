@@ -73,8 +73,8 @@ namespace EmployeeManagement.UI.ViewModels
 
         public async Task CreateMainWindowAsync()
         {
-            SettingsHelper.SetLanguage(await _settingsService.GetByIdAsync(_authorizationService.GetCurrentUser().Id));
-            var settings = await _settingsService.GetByIdAsync(_authorizationService.GetCurrentUser().Id);
+            SettingsHelper.SetLanguage(await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id));
+            var settings = await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id);
             SettingsHelper.SetTheme(settings);
 
             var mainWindow = _windowFactory.Create<MainWindow>();

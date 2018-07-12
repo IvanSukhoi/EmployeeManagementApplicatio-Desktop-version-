@@ -12,7 +12,7 @@ namespace EmployeeManagement.UI.Helpers
         {
             var dictionary = new ResourceDictionary
             {
-                Source = new Uri($"../Settings/Themes/{settingsModel.Topic}.xaml", UriKind.Relative)
+                Source = new Uri($"../Settings/Themes/{settingsModel.Theme}.xaml", UriKind.Relative)
             };
 
             var oldDictionary = Application.Current.Resources.MergedDictionaries.First(x =>

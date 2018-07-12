@@ -24,11 +24,11 @@
         
         <GroupBox Header="{x:Static res:Resource.Theme}" Grid.Row="0" Style="{DynamicResource GroupBoxStyle}">
             <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
-                <RadioButton Content="{x:Static res:Resource.Ligth}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
+                <RadioButton Content="{x:Static res:Resource.Ligth}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Theme, Converter={StaticResource RadioBoolToIntConverter}, 
                     ConverterParameter={x:Static settings:Theme.Ligth}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Ligth}"/>
 
-                <RadioButton Content="{x:Static res:Resource.Dark}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Topic, Converter={StaticResource RadioBoolToIntConverter}, 
+                <RadioButton Content="{x:Static res:Resource.Dark}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Theme, Converter={StaticResource RadioBoolToIntConverter}, 
                     ConverterParameter={x:Static settings:Theme.Dark}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Dark}"/>
             </StackPanel>
