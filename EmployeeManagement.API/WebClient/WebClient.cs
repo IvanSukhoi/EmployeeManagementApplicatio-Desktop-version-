@@ -63,7 +63,7 @@ namespace EmployeeManagement.API.WebClient
             using (var httpClient = new HttpClient())
             {
                 SetHttpClient(httpClient);
-                var response = await httpClient.PostAsJsonAsync(SettingsConfiguration.BaseUrl + url, o);
+                var response = await httpClient.PutAsJsonAsync(SettingsConfiguration.BaseUrl + url, o);
 
                 if (response.IsSuccessStatusCode)
                 {

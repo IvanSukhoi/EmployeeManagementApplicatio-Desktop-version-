@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
-using EmployeeManagement.Domain.DomainServices;
+using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.Domain.Mappings;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
@@ -16,10 +16,8 @@ namespace EmployeeManagement.UI.ViewModels
 {
     public class EmployeeDetailsViewModel : INotifyPropertyChanged
     {
-        private EmployeeViewModel _currentEmployeeView;
-
-        private readonly EmployeeService _employeeService;
-        private readonly DepartmentService _departmentService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IDepartmentService _departmentService;
 
         private readonly IMapperWrapper _mapperWrapper;
 
@@ -38,7 +36,7 @@ namespace EmployeeManagement.UI.ViewModels
         public List<Profession> ProfessionTypes => Enum.GetValues(typeof(Profession)).Cast<Profession>().ToList();
         public List<Position> PositionTypes => Enum.GetValues(typeof(Position)).Cast<Position>().ToList();
 
-        public EmployeeDetailsViewModel(EmployeeService employeeService, DepartmentService departmentService, IMapperWrapper mapperWrapper)
+        public EmployeeDetailsViewModel(IEmployeeService employeeService, IDepartmentService departmentService, IMapperWrapper mapperWrapper)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
@@ -50,6 +48,8 @@ namespace EmployeeManagement.UI.ViewModels
             DeleteEmployeeCommand = new DelegateCommandAsync(ExecuteDeleteEmployee);
             CancelToListEmployeeCommand = new DelegateCommand.DelegateCommand(ExecuteCancelTolistEmployee);
         }
+
+        public EmployeeViewModel CurrentEmployeeViewModel { get; set; }
 
         private bool _isEditingEmployee;
 
@@ -106,7 +106,7 @@ namespace EmployeeManagement.UI.ViewModels
 
         public async Task ExecuteSaveEmployee(object parameter)
         {
-            if (_employeeViewModel.IsNew)
+            if (EmployeeViewModel.IsNew)
             {
                 var employee = await _employeeService.CreateAsync(_mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(EmployeeViewModel));
                 _mapperWrapper.Map(employee, EmployeeViewModel);
@@ -115,14 +115,14 @@ namespace EmployeeManagement.UI.ViewModels
             {
                 await _employeeService.SaveAsync(_mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(EmployeeViewModel));
 
-                if (_employeeViewModel.DepartmentId != _currentEmployeeView.DepartmentId)
+                if (EmployeeViewModel.DepartmentId != CurrentEmployeeViewModel.DepartmentId)
                 {
-                    _employeeViewModel.IsEditedDepartment = true;
+                    EmployeeViewModel.IsEditedDepartment = true;
                 }
             }
 
             IsEditingEmployee = false;
-            _mapperWrapper.Map(EmployeeViewModel, _currentEmployeeView);
+            _mapperWrapper.Map(EmployeeViewModel, CurrentEmployeeViewModel);
             OnUpdateEmployee();
         }
 
@@ -133,7 +133,7 @@ namespace EmployeeManagement.UI.ViewModels
 
         public async Task ExecuteDeleteEmployee(object parameter)
         {
-            _currentEmployeeView.IsDeleted = true;
+            CurrentEmployeeViewModel.IsDeleted = true;
             await _employeeService.DeleteAsync((int)parameter);
 
             IsDeletePopupOpen = false;
@@ -148,7 +148,7 @@ namespace EmployeeManagement.UI.ViewModels
 
         public void SetEmployeeHandler(EmployeeViewModel employee)
         {
-            _currentEmployeeView = employee;
+            CurrentEmployeeViewModel = employee;
             AssignEmployeeModel();
 
             if (employee != null)
@@ -170,11 +170,11 @@ namespace EmployeeManagement.UI.ViewModels
             UpdateEmployeeHandler?.Invoke();
         }
 
-        public void AssignEmployeeModel()
+        public virtual void AssignEmployeeModel()
         {
-            if (_currentEmployeeView == null) return;
+            if (CurrentEmployeeViewModel == null) return;
 
-            EmployeeViewModel = _mapperWrapper.Map<EmployeeViewModel, EmployeeViewModel>(_currentEmployeeView);
+            EmployeeViewModel = _mapperWrapper.Map<EmployeeViewModel, EmployeeViewModel>(CurrentEmployeeViewModel);
         }
     }
 }

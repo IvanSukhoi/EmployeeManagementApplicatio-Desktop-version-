@@ -1,15 +1,17 @@
 ﻿using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.API.Repositories;
-using EmployeeManagement.API.Settings;
 using EmployeeManagement.API.WebClient;
+using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.UI.ViewModels;
 using EmployeeManagement.UI.Windows;
 using EmployeeManagement.Domain.DomainServices;
+using EmployeeManagement.Domain.Helpers;
 using EmployeeManagement.UI.Pages;
 using Unity.Lifetime;
 using EmployeeManagement.Domain.Mappings;
 using EmployeeManagement.UI.Managers;
 using EmployeeManagement.UI.Mappings;
+using EmployeeManagement.UI.UiInterfaces;
 using Unity;
 
 namespace EmployeeManagement.UI.DI
@@ -22,11 +24,15 @@ namespace EmployeeManagement.UI.DI
 
             container.RegisterType<IDepartmentRepository, DepartmentRepository>();
             container.RegisterType<IEmployeeRepository, EmployeeRepository>();
+            container.RegisterType<ISettingsRepository, SettingsRepository>();
+            container.RegisterType<IUserRepository, UserRepository>();
 
-            container.RegisterType<AuthorizationService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<UserService>();
-            container.RegisterType<DepartmentService>();
-            container.RegisterType<EmployeeService>();
+            container.RegisterType<IRegistryHelper, RegistryHelper>();
+
+            container.RegisterType<IAuthorizationService, AuthorizationService>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IDepartmentService, DepartmentService>();
+            container.RegisterType<IEmployeeService, EmployeeService>();
             container.RegisterType<SettingsService>();
 
             container.RegisterType<MainWindow>();
@@ -46,7 +52,7 @@ namespace EmployeeManagement.UI.DI
 
             container.RegisterType<UnityServiceLocator>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<WindowFactory.WindowFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IWindowFactory, WindowFactory.WindowFactory>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<NavigationManager>(new ContainerControlledLifetimeManager());
 

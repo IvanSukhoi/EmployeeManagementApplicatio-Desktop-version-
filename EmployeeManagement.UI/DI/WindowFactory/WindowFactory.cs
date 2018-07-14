@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.Windows;
 using Unity;
 
 namespace EmployeeManagement.UI.DI.WindowFactory
 {
-    public class WindowFactory
+    public class WindowFactory : IWindowFactory
     {
         private readonly IUnityContainer _container;
         private readonly Dictionary<Type, Window> _list = new Dictionary<Type, Window>();

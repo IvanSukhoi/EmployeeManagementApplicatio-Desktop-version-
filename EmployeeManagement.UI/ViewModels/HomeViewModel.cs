@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Models;
-using EmployeeManagement.Domain.DomainServices;
+using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.UI.Extensions;
 using EmployeeManagement.UI.Settings.Localization;
 using Unity.Interception.Utilities;
@@ -12,9 +12,9 @@ namespace EmployeeManagement.UI.ViewModels
     {
         public ObservableCollection<DepartmentModel> Departments { get; set; }
 
-        private readonly DepartmentService _departmentService;
+        private readonly IDepartmentService _departmentService;
         
-        public HomeViewModel(DepartmentService departmentService)
+        public HomeViewModel(IDepartmentService departmentService)
         {
             _departmentService = departmentService;
         }

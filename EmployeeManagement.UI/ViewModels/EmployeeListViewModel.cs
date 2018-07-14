@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
-using EmployeeManagement.Domain.DomainServices;
+using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.Domain.Mappings;
 using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.Extensions;
@@ -17,8 +17,8 @@ namespace EmployeeManagement.UI.ViewModels
 {
     public class EmployeeListViewModel : INotifyPropertyChanged
     {
-        private readonly EmployeeService _employeeService;
-        private readonly DepartmentService _departmentService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IDepartmentService _departmentService;
 
         private readonly IMapperWrapper _mapperWrapper;
 
@@ -29,7 +29,7 @@ namespace EmployeeManagement.UI.ViewModels
 
         public Departments CurrentDepartment { get; set; }
 
-        public EmployeeListViewModel(EmployeeService employeeService, IMapperWrapper mapperWrapper, DepartmentService departmentService)
+        public EmployeeListViewModel(IEmployeeService employeeService, IMapperWrapper mapperWrapper, IDepartmentService departmentService)
         {
             _employeeService = employeeService;
             _mapperWrapper = mapperWrapper;

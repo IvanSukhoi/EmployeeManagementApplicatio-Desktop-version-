@@ -1,20 +1,24 @@
 ﻿using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Models;
-using EmployeeManagement.Domain.Helpers;
+using EmployeeManagement.Domain.DomainInterfaces;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
-    public class AuthorizationService
+    public class AuthorizationService : IAuthorizationService
     {
         private UserModel _currentUser;
+
+        private readonly IRegistryHelper _registryHelper;
+
+        private readonly IUserService _userService;
+
         public bool IsLogged => _currentUser != null;
         public bool IsRemembered { get; set; }
 
-        private readonly UserService _userService;
-
-        public AuthorizationService(UserService userService)
+        public AuthorizationService(IUserService userService, IRegistryHelper registryHelper)
         {
             _userService = userService;
+            _registryHelper = registryHelper;
         }
 
         public async Task LogInAsync(string login, string password, bool rememberMe)
@@ -24,8 +28,8 @@ namespace EmployeeManagement.Domain.DomainServices
             if (_currentUser == null) return;
             if (!rememberMe) return;
             IsRemembered = true;
-            RegistryHelper.SetData("Login", login);
-            RegistryHelper.SetData("Password", password);
+            _registryHelper.SetData("Login", login);
+            _registryHelper.SetData("Password", password);
         }
 
         public void LogOut()
@@ -33,13 +37,13 @@ namespace EmployeeManagement.Domain.DomainServices
             _currentUser = null;
             if (IsRemembered)
             {
-                RegistryHelper.RemoveData("Login", "Password");
+                _registryHelper.RemoveData("Login", "Password");
             }
         }
 
         public async Task<bool> IsAuthorized()
         {
-            _currentUser = await _userService.GetUserModelAsync(RegistryHelper.GetData("Login"), RegistryHelper.GetData("Password"));
+            _currentUser = await _userService.GetUserModelAsync(_registryHelper.GetData("Login"), _registryHelper.GetData("Password"));
             if (_currentUser != null)
             {
                 IsRemembered = true;

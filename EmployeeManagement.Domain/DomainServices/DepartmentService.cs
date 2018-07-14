@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.Contracts.Models;
+using EmployeeManagement.Domain.DomainInterfaces;
 
 namespace EmployeeManagement.Domain.DomainServices
 {
-    public class DepartmentService
+    public class DepartmentService : IDepartmentService
     {
         private readonly IDepartmentRepository _departmentRepository;
 

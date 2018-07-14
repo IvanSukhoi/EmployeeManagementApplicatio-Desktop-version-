@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
-using EmployeeManagement.API.Repositories;
 using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.Domain.DomainServices

@@ -2,18 +2,19 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using EmployeeManagement.Domain.DomainServices;
+using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
-using EmployeeManagement.UI.DI.WindowFactory;
+using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
 {
     public class AuthorizationViewModel : INotifyPropertyChanged
     {
-        private readonly AuthorizationService _authorizationService;
-        private readonly WindowFactory _windowFactory;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IWindowFactory _windowFactory;
+        private readonly IDialogService _dialogService;
 
         public IDelegateCommand LogInCommand { protected set; get; }
 
@@ -21,24 +22,25 @@ namespace EmployeeManagement.UI.ViewModels
         public string Password { get; set; }
         public bool RememberMe { get; set; }
 
-        public AuthorizationViewModel(AuthorizationService authorizationService, WindowFactory windowFactory)
+        public AuthorizationViewModel(IAuthorizationService authorizationService, IWindowFactory windowFactory, IDialogService dialogService)
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
+            _dialogService = dialogService;
             LogInCommand = new DelegateCommandAsync(ExecutePrintResultAuthorization);
         }
 
-        async Task ExecutePrintResultAuthorization<T>(T parametr)
+        public async Task ExecutePrintResultAuthorization(object parametr)
         {
             await _authorizationService.LogInAsync(Login, Password, RememberMe);
             if (_authorizationService.IsLogged)
             {
-                MessageBox.Show("Successful Authorization!", "Authorization", MessageBoxButton.OK);
+                _dialogService.ShowMessageBox("Successful Authorization!", "Authorization", MessageBoxButton.OK);
                 _windowFactory.Close<AuthorizationWindow>();
             }
             else
             {
-                MessageBox.Show("Failed Authorization!", "Authorization");
+                _dialogService.ShowMessageBox("Failed Authorization!", "Authorization");
             }
         }
 

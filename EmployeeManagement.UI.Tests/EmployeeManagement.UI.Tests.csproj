@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC26F4E0-49D8-4D21-A5AB-679E069EA951}</ProjectGuid>
+    <ProjectGuid>{A5D8C449-877F-469C-BAFC-4941397A70DA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EmployeeManagement.Domain.Tests</RootNamespace>
-    <AssemblyName>EmployeeManagement.Domain.Tests</AssemblyName>
+    <RootNamespace>EmployeeManagement.UI.Tests</RootNamespace>
+    <AssemblyName>EmployeeManagement.UI.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -39,6 +39,7 @@
     <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,29 +50,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainServices\AuthorizationServiceTest.cs" />
-    <Compile Include="DomainServices\DepartmentServiceTest.cs" />
-    <Compile Include="DomainServices\EmployeeServiceTest.cs" />
-    <Compile Include="DomainServices\SettingsServiceTest.cs" />
-    <Compile Include="DomainServices\UserServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AuthorizationViewModelTest.cs" />
+    <Compile Include="ViewModels\EmployeeDetailsViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EmployeeManagement.API\EmployeeManagement.API.csproj">
-      <Project>{c3967be7-cd8c-4778-9ffa-0d8b39e64cc6}</Project>
-      <Name>EmployeeManagement.API</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\EmployeeManagement.Contracts\EmployeeManagement.Contracts.csproj">
       <Project>{3520e911-814d-427b-81dc-841ac1c2d4be}</Project>
       <Name>EmployeeManagement.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\EmployeeManagement.Domain\EmployeeManagement.Domain.csproj">
-      <Project>{8926e2c9-caf7-4164-bde2-7e8797258cf6}</Project>
+      <Project>{8926E2C9-CAF7-4164-BDE2-7E8797258CF6}</Project>
       <Name>EmployeeManagement.Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\EmployeeManagement.UI\EmployeeManagement.UI.csproj">
+      <Project>{14f827ef-761a-4ae6-87fa-e23a1782b381}</Project>
+      <Name>EmployeeManagement.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

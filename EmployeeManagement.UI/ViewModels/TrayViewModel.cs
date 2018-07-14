@@ -2,26 +2,27 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
-using EmployeeManagement.UI.DI.WindowFactory;
 using EmployeeManagement.UI.Helpers;
+using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
 {
     public class TrayViewModel : INotifyPropertyChanged
     {
-        private readonly AuthorizationService _authorizationService;
+        private readonly IAuthorizationService _authorizationService;
         private readonly SettingsService _settingsService;
-        private readonly WindowFactory _windowFactory;
+        private readonly IWindowFactory _windowFactory;
 
         public IDelegateCommand TransitionToMainCommand { protected set; get; }
         public IDelegateCommand TransitionToExitCommand { protected set; get; }
         public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
 
-        public TrayViewModel(AuthorizationService authorizationService, WindowFactory windowFactory, SettingsService settingsService)
+        public TrayViewModel(IAuthorizationService authorizationService, IWindowFactory windowFactory, SettingsService settingsService)
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;

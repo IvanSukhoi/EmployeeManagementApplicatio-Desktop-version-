@@ -1,10 +1,11 @@
-﻿using Microsoft.Win32;
+﻿using EmployeeManagement.Domain.DomainInterfaces;
+using Microsoft.Win32;
 
 namespace EmployeeManagement.Domain.Helpers
 {
-    public static class RegistryHelper
+    public class RegistryHelper : IRegistryHelper
     {
-        public static void SetData(string name, string value)
+        public void SetData(string name, string value)
         {
             using (var userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
             {
@@ -12,7 +13,7 @@ namespace EmployeeManagement.Domain.Helpers
             }
         }
 
-        public static string GetData(string name)
+        public string GetData(string name)
         {
             using (var userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
             {
@@ -22,7 +23,7 @@ namespace EmployeeManagement.Domain.Helpers
             }
         }
 
-        public static void RemoveData(string name, string value)
+        public void RemoveData(string name, string value)
         {
             using (var userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
             {

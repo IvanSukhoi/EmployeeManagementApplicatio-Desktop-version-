@@ -3,11 +3,12 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
+using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
-using EmployeeManagement.UI.DI.WindowFactory;
 using EmployeeManagement.UI.Helpers;
+using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -15,9 +16,9 @@ namespace EmployeeManagement.UI.ViewModels
     public class SettingsViewModel : INotifyPropertyChanged
     {
         private readonly SettingsService _settingsService;
-        private readonly AuthorizationService _authorizationService;
+        private readonly IAuthorizationService _authorizationService;
 
-        private readonly WindowFactory _windowFactory;
+        private readonly IWindowFactory _windowFactory;
         
         private SettingsModel _settingsModel;
         public SettingsModel SettingsModel
@@ -35,7 +36,7 @@ namespace EmployeeManagement.UI.ViewModels
         public IDelegateCommand RestartMainWindowCommand { protected set; get; }
         public IDelegateCommand BackToCurrentLanguageCommand { protected set; get; }
 
-        public SettingsViewModel(SettingsService settingsService, AuthorizationService authorizationService, WindowFactory windowFactory)
+        public SettingsViewModel(SettingsService settingsService, IAuthorizationService authorizationService, IWindowFactory windowFactory)
         {
             _settingsService = settingsService;
             _authorizationService = authorizationService;
