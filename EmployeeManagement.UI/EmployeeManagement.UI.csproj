@@ -203,13 +203,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\ResourceManagerService.cs" />
     <Compile Include="Settings\Localization\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="UiInterfaces\DialogService.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="UiInterfaces\IDialogService.cs" />
+    <Compile Include="UiInterfaces\IResourceManagerService.cs" />
     <Compile Include="UiInterfaces\IWindowFactory.cs" />
     <Compile Include="Validation\NameValidationRule.cs" />
     <Compile Include="ViewModels\EmployeeDetailsViewModel.cs" />

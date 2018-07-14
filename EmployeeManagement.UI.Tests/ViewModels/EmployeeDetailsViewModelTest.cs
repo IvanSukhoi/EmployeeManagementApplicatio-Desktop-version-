@@ -15,9 +15,6 @@ namespace EmployeeManagement.UI.Tests.ViewModels
 
         private IMapperWrapper _mapperWrapper;
 
-        private EmployeeViewModel _viewModel;
-        private EmployeeViewModel _currentViewModel;
-
         private EmployeeDetailsViewModel _employeeDetailsViewModel;
 
         private bool _eventTrigger;
@@ -53,6 +50,8 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         [Test]
         public async Task ExecuteSaveEmployee_CreateEmployee_Correct()
         {
+            _employeeDetailsViewModel.EmployeeViewModel.IsNew = true;
+
             await _employeeDetailsViewModel.ExecuteSaveEmployee(new object());
 
             AssertPropertyValue();
@@ -61,11 +60,11 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         [Test]
         public async Task ExecuteSaveEmployee_SaveEmployee_ChangeIsEditedDepartment_Correct()
         {
-            _viewModel.DepartmentId = 2;
+            _employeeDetailsViewModel.EmployeeViewModel.DepartmentId = 2;
 
             await TestExecuteSaveEmployee();
 
-            Assert.IsTrue(_viewModel.IsEditedDepartment);
+            Assert.IsTrue(_employeeDetailsViewModel.EmployeeViewModel.IsEditedDepartment);
         }
 
         [Test]
@@ -73,7 +72,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         {
             await TestExecuteSaveEmployee();
 
-            Assert.IsFalse(_viewModel.IsEditedDepartment);
+            Assert.IsFalse(_employeeDetailsViewModel.EmployeeViewModel.IsEditedDepartment);
         }
 
         [Test]
@@ -90,7 +89,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
             await _employeeDetailsViewModel.ExecuteDeleteEmployee(1);
 
             A.CallTo(() => _employeeService.DeleteAsync(A<int>.That.Matches(x => x > 0))).MustHaveHappened();
-            Assert.IsTrue(_currentViewModel.IsDeleted);
+            Assert.IsTrue(_employeeDetailsViewModel.CurrentEmployeeViewModel.IsDeleted);
             Assert.IsFalse(_employeeDetailsViewModel.IsDeletePopupOpen);
             Assert.IsTrue(_eventTrigger);
         }
@@ -156,7 +155,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
 
         public async Task TestExecuteSaveEmployee()
         {
-            _viewModel.IsNew = false;
+            _employeeDetailsViewModel.EmployeeViewModel.IsNew = false;
 
             await _employeeDetailsViewModel.ExecuteSaveEmployee(new object());
 
@@ -166,30 +165,27 @@ namespace EmployeeManagement.UI.Tests.ViewModels
 
         public void AssertPropertyValue()
         {
-            Assert.That(_currentViewModel.Id, Is.EqualTo(_viewModel.Id));
-            Assert.That(_currentViewModel.DepartmentId, Is.EqualTo(_viewModel.DepartmentId));
+            Assert.That(_employeeDetailsViewModel.CurrentEmployeeViewModel.Id,
+                Is.EqualTo(_employeeDetailsViewModel.CurrentEmployeeViewModel.Id));
+            Assert.That(_employeeDetailsViewModel.CurrentEmployeeViewModel.DepartmentId,
+                Is.EqualTo(_employeeDetailsViewModel.EmployeeViewModel.DepartmentId));
             Assert.IsFalse(_employeeDetailsViewModel.IsEditingEmployee);
             Assert.IsTrue(_eventTrigger);
         }
 
         public void Init()
         {
-            _currentViewModel = new EmployeeViewModel
+            _employeeDetailsViewModel.EmployeeViewModel = new EmployeeViewModel
             {
                 Id = 1,
                 DepartmentId = 1,
-                IsNew = true
-            }; 
-            
-            _viewModel = new EmployeeViewModel
-            {
-                Id = 1,
-                DepartmentId = 1,
-                IsNew = true
             };
 
-            _employeeDetailsViewModel.CurrentEmployeeViewModel = _currentViewModel;
-            _employeeDetailsViewModel.EmployeeViewModel = _viewModel;
+            _employeeDetailsViewModel.CurrentEmployeeViewModel = new EmployeeViewModel
+            {
+                Id = 1,
+                DepartmentId = 1,
+            };
 
             A.CallTo(() => _mapperWrapper.Map<EmployeeViewModel, EmployeeModel>(A<EmployeeViewModel>.Ignored))
                 .ReturnsLazily(

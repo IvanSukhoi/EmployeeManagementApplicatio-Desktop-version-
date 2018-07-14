@@ -11,7 +11,7 @@ using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.Domain.Mappings;
 using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.Extensions;
-using EmployeeManagement.UI.Settings.Localization;
+using EmployeeManagement.UI.UiInterfaces;
 
 namespace EmployeeManagement.UI.ViewModels
 {
@@ -19,6 +19,7 @@ namespace EmployeeManagement.UI.ViewModels
     {
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
+        private readonly IResourceManagerService _resourceManagerService;
 
         private readonly IMapperWrapper _mapperWrapper;
 
@@ -29,12 +30,13 @@ namespace EmployeeManagement.UI.ViewModels
 
         public Departments CurrentDepartment { get; set; }
 
-        public EmployeeListViewModel(IEmployeeService employeeService, IMapperWrapper mapperWrapper, IDepartmentService departmentService)
+        public EmployeeListViewModel(IEmployeeService employeeService, IMapperWrapper mapperWrapper, IDepartmentService departmentService, IResourceManagerService resourceManagerService)
         {
             _employeeService = employeeService;
             _mapperWrapper = mapperWrapper;
             _departmentService = departmentService;
-            CreateEmployeeCommand = new DelegateCommand.DelegateCommandAsync(ExecuteCreateEmployee);
+            _resourceManagerService = resourceManagerService;
+            CreateEmployeeCommand = new DelegateCommandAsync(ExecuteCreateEmployee);
         }
 
         private ObservableCollection<EmployeeViewModel> _employees;
@@ -49,21 +51,21 @@ namespace EmployeeManagement.UI.ViewModels
             }
         }
 
-        private EmployeeViewModel _currentEmployeeItem;
-        public EmployeeViewModel CurrentEmployeeViewItem
+        private EmployeeViewModel _currentEmployeeModel;
+        public EmployeeViewModel CurrentEmployeeViewModel
         {
-            get => _currentEmployeeItem;
+            get => _currentEmployeeModel;
             set
             {
-                _currentEmployeeItem = value;
-                OnAssignEmployee(CurrentEmployeeViewItem);
+                _currentEmployeeModel = value;
+                OnAssignEmployee(CurrentEmployeeViewModel);
             }
         }
 
         public async Task ExecuteCreateEmployee(object parameter)
         {
             var department = await _departmentService.GetByDepartmentIdAsync((int)CurrentDepartment);
-            CurrentEmployeeViewItem = new EmployeeViewModel
+            CurrentEmployeeViewModel = new EmployeeViewModel
             {
                 IsNew = true,
                 DepartmentId = (int)CurrentDepartment,
@@ -78,25 +80,25 @@ namespace EmployeeManagement.UI.ViewModels
 
             var listEmployees = _mapperWrapper.Map<List<EmployeeModel>, List<EmployeeViewModel>>(await _employeeService.GetByDepartmentIdAsync((int)department));
                 
-            listEmployees.ForEach(x => x.DepartmentName = Resource.ResourceManager.GetString(x.DepartmentName));
+            listEmployees.ForEach(x => x.DepartmentName = _resourceManagerService.GetString(x.DepartmentName));
 
             Employees.AddRange(listEmployees);
 
-            CurrentEmployeeViewItem = Employees.FirstOrDefault();
+            CurrentEmployeeViewModel = Employees.FirstOrDefault();
         }
 
         public void UpdateCurrentEmployeeHandler()
         {
-            if ((!CurrentEmployeeViewItem.IsNew && CurrentEmployeeViewItem.IsEditedDepartment) || CurrentEmployeeViewItem.IsDeleted)
+            if ((!CurrentEmployeeViewModel.IsNew && CurrentEmployeeViewModel.IsEditedDepartment) || CurrentEmployeeViewModel.IsDeleted)
             {
-                Employees.Remove(CurrentEmployeeViewItem);
-                CurrentEmployeeViewItem = Employees.FirstOrDefault();
+                Employees.Remove(CurrentEmployeeViewModel);
+                CurrentEmployeeViewModel = Employees.FirstOrDefault();
             }
 
-            if (CurrentEmployeeViewItem != null && CurrentEmployeeViewItem.IsNew)
+            if (CurrentEmployeeViewModel != null && CurrentEmployeeViewModel.IsNew)
             {
-                Employees.Add(CurrentEmployeeViewItem);
-                CurrentEmployeeViewItem.IsNew = false;
+                Employees.Add(CurrentEmployeeViewModel);
+                CurrentEmployeeViewModel.IsNew = false;
             }
 
             OnPropertyChanged(nameof(Employees));

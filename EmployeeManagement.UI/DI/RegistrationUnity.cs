@@ -11,6 +11,7 @@ using Unity.Lifetime;
 using EmployeeManagement.Domain.Mappings;
 using EmployeeManagement.UI.Managers;
 using EmployeeManagement.UI.Mappings;
+using EmployeeManagement.UI.Services;
 using EmployeeManagement.UI.UiInterfaces;
 using Unity;
 
@@ -59,6 +60,8 @@ namespace EmployeeManagement.UI.DI
             container.RegisterType<IMapperWrapper, MapperWrapper>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<IWebClient, WebClient>();
+
+            container.RegisterType<IDialogService, DialogService>();
 
             return container;
         }
