@@ -9,10 +9,13 @@ using EmployeeManagement.Domain.Helpers;
 using EmployeeManagement.UI.Pages;
 using Unity.Lifetime;
 using EmployeeManagement.Domain.Mappings;
+using EmployeeManagement.UI.Helpers;
 using EmployeeManagement.UI.Managers;
 using EmployeeManagement.UI.Mappings;
 using EmployeeManagement.UI.Services;
 using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.Services;
+using EmployeeManagement.UI.UiInterfaces.ViewModels;
 using Unity;
 
 namespace EmployeeManagement.UI.DI
@@ -29,12 +32,17 @@ namespace EmployeeManagement.UI.DI
             container.RegisterType<IUserRepository, UserRepository>();
 
             container.RegisterType<IRegistryHelper, RegistryHelper>();
+            container.RegisterType<ISettingsHelper, SettingsHelper>();
 
             container.RegisterType<IAuthorizationService, AuthorizationService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IDepartmentService, DepartmentService>();
             container.RegisterType<IEmployeeService, EmployeeService>();
-            container.RegisterType<SettingsService>();
+            container.RegisterType<ISettingsService, SettingsService>();
+
+            container.RegisterType<IApplicationService, ApplicationService>();
+            container.RegisterType<IWindowService, WindowService>();
+            container.RegisterType<IResourceManagerService, ResourceManagerService>();
 
             container.RegisterType<MainWindow>();
             container.RegisterType<TrayWindow>();
@@ -45,17 +53,18 @@ namespace EmployeeManagement.UI.DI
             container.RegisterType<SettingsPage>();
 
             container.RegisterType<TrayViewModel>();
-            container.RegisterType<AuthorizationViewModel>();
+            container.RegisterType<IAuthorizationViewModel, AuthorizationViewModel>();
             container.RegisterType<EmployeeDetailsViewModel>();
             container.RegisterType<EmployeeListViewModel>();
             container.RegisterType<HomeViewModel>();
             container.RegisterType<SettingsViewModel>();
+            container.RegisterType<IMainViewModel, MainViewModel>();
 
             container.RegisterType<UnityServiceLocator>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<IWindowFactory, WindowFactory.WindowFactory>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<NavigationManager>(new ContainerControlledLifetimeManager());
+            container.RegisterType<INavigationManager, NavigationManager>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<IMapperWrapper, MapperWrapper>(new ContainerControlledLifetimeManager());
 

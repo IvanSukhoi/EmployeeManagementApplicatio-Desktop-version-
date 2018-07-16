@@ -198,7 +198,7 @@
             </Control.Template>
         </Control>
 
-        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Style="{StaticResource FrameStyle}"/>
+        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Style="{DynamicResource FrameStyle}"/>
         
         <TextBlock  Margin="10 0 0 0" Grid.Column="0" Grid.Row="9">
             <Run Text="Version: "/>

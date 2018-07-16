@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows;
 using EmployeeManagement.Domain.DomainInterfaces;
-using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
-using EmployeeManagement.UI.Helpers;
 using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.Services;
 using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
@@ -15,20 +13,23 @@ namespace EmployeeManagement.UI.ViewModels
     public class TrayViewModel : INotifyPropertyChanged
     {
         private readonly IAuthorizationService _authorizationService;
-        private readonly SettingsService _settingsService;
+        private readonly IApplicationService _applicationService;
+        private readonly IWindowService _windowService;
+
         private readonly IWindowFactory _windowFactory;
 
         public IDelegateCommand TransitionToMainCommand { protected set; get; }
         public IDelegateCommand TransitionToExitCommand { protected set; get; }
         public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
 
-        public TrayViewModel(IAuthorizationService authorizationService, IWindowFactory windowFactory, SettingsService settingsService)
+        public TrayViewModel(IAuthorizationService authorizationService, IWindowFactory windowFactory, IApplicationService applicationService, IWindowService windowService)
         {
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
-            _settingsService = settingsService;
+            _applicationService = applicationService;
+            _windowService = windowService;
             TransitionToMainCommand = new DelegateCommandAsync(ExecuteTransitionToMainAsync);
-            TransitionToAuthorizationCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToAuthorizationCommand);
+            TransitionToAuthorizationCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToAuthorization);
             TransitionToExitCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToExit);
         }
 
@@ -38,30 +39,30 @@ namespace EmployeeManagement.UI.ViewModels
         {
             if (await _authorizationService.IsAuthorized())
             {
-                await CreateMainWindowAsync();
+                await _windowService.CreateMainWindowAsync();
             }
             else
             {
-                CreateAuthorizationWindow();
+                _windowService.CreateAuthorizationWindow();
             }
             OnPropertyChanged(nameof(IsLogged));
         }
 
-        async Task ExecuteTransitionToMainAsync<T>(T parametr)
+        public async Task ExecuteTransitionToMainAsync(object parametr)
         {
-             await CreateMainWindowAsync();
+             await _windowService.CreateMainWindowAsync();
         }
 
-        void ExecuteTransitionToExit(object parametr)
+        public void ExecuteTransitionToExit(object parametr)
         {
-             Application.Current.Shutdown();
+             _applicationService.Shutdown();
         }
 
-        void ExecuteTransitionToAuthorizationCommand(object parametr)
+        public void ExecuteTransitionToAuthorization(object parametr)
         {
             if (!_authorizationService.IsLogged)
             {
-                CreateAuthorizationWindow();
+                _windowService.CreateAuthorizationWindow();
                 OnPropertyChanged(nameof(IsLogged));
             }
             else
@@ -69,26 +70,6 @@ namespace EmployeeManagement.UI.ViewModels
                 _authorizationService.LogOut();
                 _windowFactory.Close<MainWindow>();
                 OnPropertyChanged(nameof(IsLogged));
-            }
-        }
-
-        public async Task CreateMainWindowAsync()
-        {
-            SettingsHelper.SetLanguage(await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id));
-            var settings = await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id);
-            SettingsHelper.SetTheme(settings);
-
-            var mainWindow = _windowFactory.Create<MainWindow>();
-            await mainWindow.InitAsync();
-            mainWindow.Show();
-        }
-
-        public void CreateAuthorizationWindow()
-        {
-            var authorizationWindow = _windowFactory.Create<AuthorizationWindow>();
-            if (authorizationWindow.Visibility == Visibility.Collapsed)
-            {
-                authorizationWindow.ShowDialog();
             }
         }
 

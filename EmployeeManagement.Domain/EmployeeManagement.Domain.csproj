@@ -58,6 +58,7 @@
     <Compile Include="DomainInterfaces\IDepartmentService.cs" />
     <Compile Include="DomainInterfaces\IEmployeeService.cs" />
     <Compile Include="DomainInterfaces\IRegistryHelper.cs" />
+    <Compile Include="DomainInterfaces\ISettingsService.cs" />
     <Compile Include="DomainServices\DepartmentService.cs" />
     <Compile Include="DomainServices\EmployeeService.cs" />
     <Compile Include="DomainServices\SettingsService.cs" />

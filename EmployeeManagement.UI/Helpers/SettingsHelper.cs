@@ -3,12 +3,13 @@ using System.Linq;
 using System.Windows;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
+using EmployeeManagement.UI.UiInterfaces;
 
 namespace EmployeeManagement.UI.Helpers
 {
-    public static class SettingsHelper
+    public class SettingsHelper : ISettingsHelper
     {
-        public static void SetTheme(SettingsModel settingsModel)
+        public void SetTheme(SettingsModel settingsModel)
         {
             var dictionary = new ResourceDictionary
             {
@@ -22,7 +23,7 @@ namespace EmployeeManagement.UI.Helpers
             Application.Current.Resources.MergedDictionaries.Add(dictionary);
         }
 
-        public static void SetLanguage(SettingsModel settings)
+        public void SetLanguage(SettingsModel settings)
         {
             System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(settings.Language == Language.Russian ? "ru-RU" : "en-US");
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Enums;
@@ -49,6 +50,52 @@ namespace EmployeeManagement.UI.Tests.ViewModels
 
             Assert.That(_employeeListViewModel.CurrentEmployeeViewModel.DepartmentId, Is.EqualTo(2));
             Assert.That(_employeeListViewModel.CurrentEmployeeViewModel.DepartmentName, Is.EqualTo("DepartmentName1"));
+        }
+
+        [Test]
+        public void UpdateCurrentEmployeeHandler_ChangeDepartment_Correct()
+        {
+            var employeeViewModel = new EmployeeViewModel
+            {
+                IsNew = false,
+                IsEditedDepartment = true
+            };
+
+            _employeeListViewModel.CurrentEmployeeViewModel = employeeViewModel;
+            _employeeListViewModel.Employees = new ObservableCollection<EmployeeViewModel> {employeeViewModel, new EmployeeViewModel{Id = 10}};
+
+            _employeeListViewModel.UpdateCurrentEmployeeHandler();
+
+            Assert.That(_employeeListViewModel.CurrentEmployeeViewModel.Id, Is.EqualTo(10));
+        }
+
+        [Test]
+        public void UpdateCurrentEmployeeHandler_RemoveEmployee_Correct()
+        {
+            var employeeViewModel = new EmployeeViewModel
+            {
+                IsDeleted = true
+            };
+
+            _employeeListViewModel.CurrentEmployeeViewModel = employeeViewModel;
+            _employeeListViewModel.Employees = new ObservableCollection<EmployeeViewModel> { employeeViewModel, new EmployeeViewModel { Id = 10 } };
+
+            _employeeListViewModel.UpdateCurrentEmployeeHandler();
+
+            Assert.That(_employeeListViewModel.CurrentEmployeeViewModel.Id, Is.EqualTo(10));
+        }
+
+        [Test]
+        public void UpdateCurrentEmployeeHandler_AddEmployee_Correct()
+        {
+            _employeeListViewModel.CurrentEmployeeViewModel = new EmployeeViewModel{Id = 18, IsNew = true};
+
+            _employeeListViewModel.Employees = new ObservableCollection<EmployeeViewModel>();
+
+            _employeeListViewModel.UpdateCurrentEmployeeHandler();
+
+            Assert.That(_employeeListViewModel.Employees.Count, Is.EqualTo(1));
+            Assert.IsFalse(_employeeListViewModel.CurrentEmployeeViewModel.IsNew);
         }
 
         public void Init()

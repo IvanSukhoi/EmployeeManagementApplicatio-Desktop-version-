@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
-using EmployeeManagement.UI.Managers;
+using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.ViewModels;
 using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
 {
     public partial class MainWindow
     {
-        public MainWindow(MainViewModel mainViewModel, NavigationManager navigationManager)
+        public MainWindow(IMainViewModel mainViewModel, INavigationManager navigationManager)
         {
             InitializeComponent();
             DataContext = mainViewModel;
@@ -19,7 +20,7 @@ namespace EmployeeManagement.UI.Windows
 
         public async Task InitAsync()
         {
-           await ((MainViewModel)DataContext).InitAsync();
+           await ((IMainViewModel)DataContext).InitAsync();
         }
     }
 }

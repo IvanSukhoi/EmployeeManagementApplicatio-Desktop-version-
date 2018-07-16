@@ -1,20 +1,21 @@
 ﻿using System.ComponentModel;
 using EmployeeManagement.UI.DelegateCommand;
-using EmployeeManagement.UI.Managers;
 using System.Deployment.Application;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.UI.Annotations;
+using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.ViewModels;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : IMainViewModel, INotifyPropertyChanged
     {
         public IDelegateCommand SelectByDepartmentCommand { protected set; get; }
         public IDelegateCommand ChangeSettingsCommand { protected set; get; }
 
-        private readonly NavigationManager _navigationManager;
+        private readonly INavigationManager _navigationManager;
 
         private Departments _currentDepartment;
         public Departments CurrentDepartment
@@ -50,7 +51,7 @@ namespace EmployeeManagement.UI.ViewModels
             }
         }
 
-        public  MainViewModel(NavigationManager navigationManager)
+        public MainViewModel(INavigationManager navigationManager)
         {
             _navigationManager = navigationManager;
             SelectByDepartmentCommand = new DelegateCommandAsync(ExecuteSelectByDepartmentAsync);

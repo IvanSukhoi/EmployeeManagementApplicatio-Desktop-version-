@@ -1,10 +1,10 @@
-﻿using EmployeeManagement.UI.ViewModels;
+﻿using EmployeeManagement.UI.UiInterfaces.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
 {
     public partial class AuthorizationWindow
     {
-        public AuthorizationWindow(AuthorizationViewModel viewModel)
+        public AuthorizationWindow(IAuthorizationViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;

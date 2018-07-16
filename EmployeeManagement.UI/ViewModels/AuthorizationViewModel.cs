@@ -6,11 +6,12 @@ using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.ViewModels;
 using EmployeeManagement.UI.Windows;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class AuthorizationViewModel : INotifyPropertyChanged
+    public class AuthorizationViewModel : IAuthorizationViewModel, INotifyPropertyChanged
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly IWindowFactory _windowFactory;

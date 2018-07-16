@@ -3,10 +3,11 @@ using System.Windows.Navigation;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.UI.DI;
 using EmployeeManagement.UI.Pages;
+using EmployeeManagement.UI.UiInterfaces;
 
 namespace EmployeeManagement.UI.Managers
 {
-    public class NavigationManager
+    public class NavigationManager : INavigationManager
     {
         private NavigationService _navigationService;
         private readonly UnityServiceLocator _unityServiceLocator;

@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainInterfaces;
-using EmployeeManagement.Domain.DomainServices;
 using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.DelegateCommand;
-using EmployeeManagement.UI.Helpers;
 using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.Windows;
 
@@ -15,10 +13,12 @@ namespace EmployeeManagement.UI.ViewModels
 {
     public class SettingsViewModel : INotifyPropertyChanged
     {
-        private readonly SettingsService _settingsService;
+        private readonly ISettingsService _settingsService;
         private readonly IAuthorizationService _authorizationService;
 
         private readonly IWindowFactory _windowFactory;
+
+        private readonly ISettingsHelper _settingsHelper;
         
         private SettingsModel _settingsModel;
         public SettingsModel SettingsModel
@@ -36,11 +36,12 @@ namespace EmployeeManagement.UI.ViewModels
         public IDelegateCommand RestartMainWindowCommand { protected set; get; }
         public IDelegateCommand BackToCurrentLanguageCommand { protected set; get; }
 
-        public SettingsViewModel(SettingsService settingsService, IAuthorizationService authorizationService, IWindowFactory windowFactory)
+        public SettingsViewModel(ISettingsService settingsService, IAuthorizationService authorizationService, IWindowFactory windowFactory, ISettingsHelper settingsHelper)
         {
             _settingsService = settingsService;
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
+            _settingsHelper = settingsHelper;
             SelectTopicCommand = new DelegateCommandAsync(ExecuteSelectThemeAsync);
             SelectLanguageCommand = new DelegateCommandAsync(ExecuteSelectLanguageAsync);
             RestartMainWindowCommand = new DelegateCommandAsync(ExecuteRestartMainWindowAsync);
@@ -71,7 +72,7 @@ namespace EmployeeManagement.UI.ViewModels
             SettingsModel.Theme = (Theme)parameter;
             OnPropertyChanged(nameof(SettingsModel));
 
-            SettingsHelper.SetTheme(SettingsModel);
+            _settingsHelper.SetTheme(SettingsModel);
 
             await _settingsService.SaveAsync(SettingsModel);
         }
@@ -89,7 +90,7 @@ namespace EmployeeManagement.UI.ViewModels
         public async Task ExecuteRestartMainWindowAsync(object parameter)
         {
             _windowFactory.Close<MainWindow>();
-            SettingsHelper.SetLanguage(await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id));
+            _settingsHelper.SetLanguage(await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id));
             var mainWindow = _windowFactory.Create<MainWindow>();
             await mainWindow.InitAsync();
             mainWindow.Show();
