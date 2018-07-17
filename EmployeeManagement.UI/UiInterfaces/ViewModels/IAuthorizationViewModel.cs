@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EmployeeManagement.UI.UiInterfaces.ViewModels
+﻿namespace EmployeeManagement.UI.UiInterfaces.ViewModels
 {
     public interface IAuthorizationViewModel
     {

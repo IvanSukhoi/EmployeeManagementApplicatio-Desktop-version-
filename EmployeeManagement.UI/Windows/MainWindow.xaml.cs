@@ -3,12 +3,13 @@ using System.Windows;
 using System.Windows.Navigation;
 using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.UiInterfaces.ViewModels;
-using EmployeeManagement.UI.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
 {
     public partial class MainWindow
     {
+        public MainWindow() { }
+
         public MainWindow(IMainViewModel mainViewModel, INavigationManager navigationManager)
         {
             InitializeComponent();
@@ -18,9 +19,14 @@ namespace EmployeeManagement.UI.Windows
             navigationManager.SetNavigationService(Frame.NavigationService);
         }
 
-        public async Task InitAsync()
+        public virtual async Task InitAsync()
         {
            await ((IMainViewModel)DataContext).InitAsync();
+        }
+
+        public virtual void ShowWindow()
+        {
+            Show();
         }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.UI.UiInterfaces;
-using EmployeeManagement.UI.UiInterfaces.ViewModels;
 using EmployeeManagement.UI.ViewModels;
 using EmployeeManagement.UI.Windows;
 using FakeItEasy;
@@ -21,8 +19,6 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         private IWindowFactory _windowFactory;
         private ISettingsHelper _settingsHelper;
         private SettingsViewModel _settingsViewModel;
-        private INavigationManager _navigationManager;
-        private IMainViewModel _mainViewModel;
 
         [SetUp]
         public void SetUp()
@@ -31,8 +27,6 @@ namespace EmployeeManagement.UI.Tests.ViewModels
             _authorizationService = A.Fake<IAuthorizationService>();
             _windowFactory = A.Fake<IWindowFactory>();
             _settingsHelper = A.Fake<ISettingsHelper>();
-            _navigationManager = A.Fake<INavigationManager>();
-            _mainViewModel = A.Fake<IMainViewModel>();
             _settingsViewModel = new SettingsViewModel(_settingsService, _authorizationService, _windowFactory, _settingsHelper);
         }
 
@@ -74,10 +68,15 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         [Test]
         public async Task ExecuteRestartMainWindowAsync_RestartMainWindow_Correct()
         {
+            var initTrigger = false;
+            var showTrigger = false;
+
             A.CallTo(() => _settingsService.GetByUserIdAsync(A<int>.Ignored)).Returns(new SettingsModel { Language = Language.English });
             A.CallTo(() => _authorizationService.GetCurrentUser()).Returns(new UserModel { Id = 10 });
 
-            var mainWindow = new MainWindow(_mainViewModel, _navigationManager);
+            var mainWindow = A.Fake<MainWindow>();
+            A.CallTo(() => mainWindow.InitAsync()).Invokes(() => initTrigger = true);
+            A.CallTo(() => mainWindow.ShowWindow()).Invokes(() => showTrigger = true);
 
             A.CallTo(() => _windowFactory.Create<MainWindow>()).Returns(mainWindow);
 
@@ -86,6 +85,8 @@ namespace EmployeeManagement.UI.Tests.ViewModels
             A.CallTo(() => _settingsHelper.SetLanguage(A<SettingsModel>.Ignored)).MustHaveHappened();
             A.CallTo(() => _windowFactory.Close<MainWindow>()).MustHaveHappened();
             A.CallTo(() => _windowFactory.Create<MainWindow>()).MustHaveHappened();
+            Assert.IsTrue(initTrigger);
+            Assert.IsTrue(showTrigger);
         }
     }
 }

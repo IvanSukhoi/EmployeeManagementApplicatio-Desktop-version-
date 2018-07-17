@@ -221,6 +221,7 @@
     <Compile Include="UiInterfaces\Services\IWindowService.cs" />
     <Compile Include="UiInterfaces\ViewModels\IAuthorizationViewModel.cs" />
     <Compile Include="UiInterfaces\ViewModels\IMainViewModel.cs" />
+    <Compile Include="UiInterfaces\Windows\IAuthorizationWindow.cs" />
     <Compile Include="Validation\NameValidationRule.cs" />
     <Compile Include="ViewModels\EmployeeDetailsViewModel.cs" />
     <Compile Include="ViewModels\DepartmentsViewModel.cs" />

@@ -93,7 +93,7 @@ namespace EmployeeManagement.UI.ViewModels
             _settingsHelper.SetLanguage(await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id));
             var mainWindow = _windowFactory.Create<MainWindow>();
             await mainWindow.InitAsync();
-            mainWindow.Show();
+            mainWindow.ShowWindow();
         }
 
         public void BackToCurrentLanguage(object parameter)

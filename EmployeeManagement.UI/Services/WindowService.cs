@@ -30,7 +30,7 @@ namespace EmployeeManagement.UI.Services
 
             var mainWindow = _windowFactory.Create<MainWindow>();
             await mainWindow.InitAsync();
-            mainWindow.Show();
+            mainWindow.ShowWindow();
         }
 
         public void CreateAuthorizationWindow()
@@ -38,7 +38,7 @@ namespace EmployeeManagement.UI.Services
             var authorizationWindow = _windowFactory.Create<AuthorizationWindow>();
             if (authorizationWindow.Visibility == Visibility.Collapsed)
             {
-                authorizationWindow.ShowDialog();
+                authorizationWindow.ShowDialogWindow();
             }
         }
     }
