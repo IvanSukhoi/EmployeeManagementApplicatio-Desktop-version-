@@ -8,7 +8,11 @@ namespace EmployeeManagement.UI.Mappings
     {
         public UiMappingProfile()
         {
-            CreateMap<EmployeeModel, EmployeeViewModel>();
+            CreateMap<EmployeeModel, EmployeeViewModel>()
+                .ForMember(c => c.IsNew, opt => opt.Ignore())
+                .ForMember(c => c.IsDeleted, opt => opt.Ignore())
+                .ForMember(c => c.IsEditedDepartment, opt => opt.Ignore());
+
             CreateMap<EmployeeViewModel, EmployeeModel>();
 
             CreateMap<EmployeeViewModel, EmployeeViewModel>();
