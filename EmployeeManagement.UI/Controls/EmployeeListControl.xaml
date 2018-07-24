@@ -21,11 +21,11 @@
             <RowDefinition Height="0.17*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Style="{DynamicResource TextBlockControls}" Text="{x:Static res:Resource.Employees}" />
+        <TextBlock Grid.Row="0" Style="{DynamicResource TextBlockControls}" Text="{x:Static res:Resource.Employees}" Foreground="White" Margin="9,15,15,7" />
 
         <ListBox Grid.Row="1" HorizontalAlignment="Center" Name="list" Style="{DynamicResource ListBoxConrols}"
                  ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 SelectedItem="{Binding CurrentEmployeeViewItem}">
+                 SelectedItem="{Binding CurrentEmployeeViewModel}">
 
             <ListBox.ItemTemplate>
                 <DataTemplate>

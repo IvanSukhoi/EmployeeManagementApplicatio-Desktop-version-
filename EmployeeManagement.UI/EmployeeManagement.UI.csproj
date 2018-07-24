@@ -28,7 +28,7 @@
     <UpdateUrl>\\WKS-124\App\</UpdateUrl>
     <ProductName>EmployeeManagementApplication</ProductName>
     <PublisherName>IvanSukhoi</PublisherName>
-    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -377,6 +377,21 @@
       <Project>{8926e2c9-caf7-4164-bde2-7e8797258cf6}</Project>
       <Name>EmployeeManagement.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\kfm_home.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="kfm_home.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\17.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\settingschannel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\w450h4001385925286Settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

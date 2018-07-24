@@ -4,6 +4,7 @@
     <Style TargetType="GroupBox" x:Key="BasicGroupBoxStyle">
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Margin" Value="15"/>
+        <Setter Property="FontFamily" Value="Segoe Print"/>
     </Style>
 
     <Style TargetType="StackPanel" x:Key="BasicStackPanelStyle">

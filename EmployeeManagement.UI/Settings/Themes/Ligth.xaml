@@ -11,13 +11,12 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type Button}" x:Key="ButtonStyle" BasedOn="{StaticResource BasicButtonStyle}">
-
-        <Setter Property="Background" Value="Green"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Background" Value="White"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="10 0 10 0" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1" >
+                    <Border Background="{TemplateBinding Background}">
                         <ContentControl x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" 
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                           Margin="{TemplateBinding Padding}" 
@@ -28,17 +27,17 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Style.Triggers>
+        <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="White"/>
-                <Setter Property="Foreground" Value="DarkSlateGray"/>
+                <Setter Property="Background" Value="LightGray"/>
+                <Setter Property="Foreground" Value="Black"/>
             </Trigger>
-        </Style.Triggers>-->
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="Button" x:Key="AdvancedButtonStyle" BasedOn="{StaticResource ButtonStyle}">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="DarkSlateGray"/>
+        <Setter Property="Background" Value="#FF2583A6"/>
+        <Setter Property="Foreground" Value="White"/>
     </Style>
 
     <Style TargetType="Button" x:Key="SettingsButtonStyle" BasedOn="{StaticResource ButtonStyle}">
@@ -47,12 +46,13 @@
     
     <Style TargetType="TextBlock" x:Key="TextBlockControls" BasedOn="{StaticResource BasicTextBlockControls}">
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontFamily" Value="Segoe Print"></Setter>
     </Style>
 
     <Style TargetType="ListBox" x:Key="ListBoxConrols">
-        <Setter Property="Background" Value="Green"/>
-        <Setter Property="BorderBrush" Value="Green"/>
+        <Setter Property="Background" Value="#FF2583A6"/>
+        <Setter Property="BorderBrush" Value="#FF2583A6"/>
     </Style>
 
     <Style TargetType="Border" x:Key="BorderListBoxStyle" BasedOn="{StaticResource BasicBorderListBoxStyle}">
@@ -60,7 +60,7 @@
     </Style>
 
     <Style TargetType="Grid" x:Key="MainGridControls">
-        <Setter Property="Background" Value="Green"/>
+        <Setter Property="Background" Value="#FF2583A6"/>
     </Style>
 
     <Style TargetType="Grid" x:Key="GridControls" BasedOn="{StaticResource BasicGridControls}">
@@ -72,11 +72,11 @@
     </Style>
 
     <Style TargetType="TextBlock" x:Key="TextBlockEdit" BasedOn="{StaticResource BasicTextBlockEdit}">
-        <Setter Property="Foreground" Value="DarkGreen"/>
+        <Setter Property="Foreground" Value="Black"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="TextBlockPosition" BasedOn="{StaticResource BasicTextBlockPosition}">
-        <Setter Property="Foreground" Value="DarkGreen"/>
+        <Setter Property="Foreground" Value="Black"/>
     </Style>
 
     <Style TargetType="Button" x:Key="ButtonStyleDetails" BasedOn="{StaticResource ButtonStyleControls}">
@@ -86,7 +86,7 @@
     </Style>
 
     <Style TargetType="Border" x:Key="BorderEdit" BasedOn="{StaticResource BasicBorderEdit}">
-        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderBrush" Value="White"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="TextBlockMain" BasedOn="{StaticResource BasicTextBlockMain}">
@@ -99,22 +99,22 @@
     </Style>
     
     <Style TargetType="Frame" x:Key="FrameStyle" BasedOn="{StaticResource BasicFrameStyle}">
-        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderBrush" Value="#FF2583A6"/>
         <Setter Property="Background" Value="White"/>
     </Style>
 
     <Style TargetType="GroupBox" x:Key="GroupBoxStyle" BasedOn="{StaticResource BasicGroupBoxStyle}">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Background" Value="Green"/>
-        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="Black"/>
     </Style>
 
     <Style TargetType="RadioButton" x:Key="RadioButtonStyle" BasedOn="{StaticResource BasicRadioButtonStyle}">
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
     </Style>
     
     <Style TargetType="Grid" x:Key="GridSettings">
-        <Setter Property="Background" Value="Green"/>
+        <Setter Property="Background" Value="White"/>
     </Style>
 
     <Style TargetType="Button" x:Key="PopupButtonStyle" BasedOn="{StaticResource ButtonStyle}">

@@ -37,13 +37,13 @@
     <Style TargetType="TextBlock" x:Key="BasicTextBlockEdit">
         <Setter Property="Margin" Value="15 15 0 0"/>
         <Setter Property="FontSize" Value="15"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="Georgia"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="BasicTextBlockPosition">
         <Setter Property="Margin" Value="15 15 0 0"/>
         <Setter Property="FontSize" Value="15"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="Georgia"/>
 
         <Style.Triggers>
             <DataTrigger Binding="{Binding Position}" Value="{x:Null}">

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <Style TargetType="Page" x:Key="HomePageStyle">
-        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="Background" Value="White"/>
     </Style>
     
     <Style TargetType="TextBlock" x:Key="HomePageTextBlock">
@@ -15,10 +15,10 @@
     </Style> 
     
     <Style TargetType="DataGrid" x:Key="DataGridStyle">
-        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="Background" Value="White"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="HorizontalGridLinesBrush" Value="LightGray"/>
-        <Setter Property="RowBackground" Value="LightGray"/>
+        <Setter Property="RowBackground" Value="White"/>
         <Setter Property="AlternatingRowBackground" Value="White"/>
         <Setter Property="GridLinesVisibility" Value="Horizontal"/>
     </Style>

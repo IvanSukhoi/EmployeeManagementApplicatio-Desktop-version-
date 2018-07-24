@@ -8,7 +8,8 @@
         xmlns:enums="clr-namespace:EmployeeManagement.Contracts.Enums;assembly=EmployeeManagement.Contracts"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="{x:Static res:Resource.Main}" Style="{DynamicResource MainWindowStyle}">
+        Title="{x:Static res:Resource.Main}" Style="{DynamicResource MainWindowStyle}"
+        Icon="../Images/kfm_home.ico">
     
     <Window.Resources>
             <converters:MultiValueConverter x:Key="MultiValueConverter"/>
@@ -34,10 +35,9 @@
             <ColumnDefinition Width="689"/>
         </Grid.ColumnDefinitions>
 
-        <Border  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="10" BorderThickness="2" BorderBrush="DarkSlateGray">
-            <TextBlock Text="{x:Static res:Resource.Title}" 
-                       Style="{DynamicResource TextBlockMain}">
-            </TextBlock>
+        <Border  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="10"  Margin="0 0 0 5">
+            <TextBlock Text="EmployeeManagementApplication" 
+                       Style="{DynamicResource TextBlockMain}" Background="#FF2583A6" FontFamily="Segoe Print"/>
         </Border>
 
         <Control Focusable="False" Grid.Column="0" Grid.Row="1">
@@ -60,7 +60,7 @@
             </Control.Template>
         </Control>
 
-        <Control Focusable="False" Grid.Column="0" Grid.Row="2">
+        <Control Focusable="False" Grid.Column="0" Grid.Row="2" Foreground="White">
                 <Control.Template>
                     <ControlTemplate>
                         <Button Name="Bookkeeping" Style="{DynamicResource ButtonStyle}" Content="{x:Static res:Resource.Bookkeeping}"
@@ -84,7 +84,7 @@
         <Control Focusable="False" Grid.Column="0" Grid.Row="3">
             <Control.Template>
                 <ControlTemplate>
-                    <Button Name="Design" Content="{x:Static res:Resource.Design}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}">
+                    <Button Name="Design" Content="{x:Static res:Resource.Design}" Style="{DynamicResource ButtonStyle}" Command="{Binding SelectByDepartmentCommand}"  >
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource MultiValueConverter}">
                                 <Binding Source="{x:Static enums:Pages.EmployeeListPage}"/>
@@ -183,10 +183,10 @@
             </Control.Template>
         </Control>
 
-        <Control Style="{DynamicResource BasicControlStyle}" Focusable="False" Grid.Column="0" Grid.Row="8">
+        <Control Margin="0" Style="{DynamicResource BasicControlStyle}" Focusable="False" Grid.Column="0" Grid.Row="8">
             <Control.Template>
                 <ControlTemplate>
-                    <Button  Name="Settings" Margin="0" Content="{x:Static res:Resource.Settings}"
+                    <Button  Name="Settings" Content="{x:Static res:Resource.Settings}"
                             Style="{DynamicResource SettingsButtonStyle}" 
                             Command="{Binding ChangeSettingsCommand}" CommandParameter="{x:Static enums:Pages.SettingsPage}"/>
                     <ControlTemplate.Triggers>
@@ -198,7 +198,7 @@
             </Control.Template>
         </Control>
 
-        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Style="{DynamicResource FrameStyle}"/>
+        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Style="{DynamicResource FrameStyle}" />
         
         <TextBlock  Margin="10 0 0 0" Grid.Column="0" Grid.Row="9">
             <Run Text="Version: "/>

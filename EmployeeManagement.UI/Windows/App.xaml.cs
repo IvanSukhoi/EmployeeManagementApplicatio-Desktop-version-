@@ -8,7 +8,7 @@ namespace EmployeeManagement.UI.Windows
     public partial class App
     {
         protected override async void OnStartup(StartupEventArgs e)
-      {
+        {
             base.OnStartup(e);
 
             var trayWindow = RegistrationUnity.Setup().Resolve<WindowFactory>().Create<TrayWindow>();

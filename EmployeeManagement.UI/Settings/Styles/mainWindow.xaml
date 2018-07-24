@@ -13,10 +13,10 @@
     </Style>
     
     <Style TargetType="{x:Type Button}" x:Key="BasicButtonStyle">
-        <Setter Property="MaxWidth" Value="200"/>
-        <Setter Property="MaxHeight" Value="60"/>
-        <Setter Property="Margin" Value="5"/>
+        <!--<Setter Property="MaxWidth" Value="200"/>
+        <Setter Property="MaxHeight" Value="60"/>-->
         <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontFamily" Value="Georgia"/>
     </Style>
     
     <Style TargetType="Grid" x:Key="BasicGridStyle">
@@ -25,7 +25,6 @@
     
     <Style TargetType="Control" x:Key="BasicControlStyle">
         <Setter Property="VerticalAlignment" Value="Bottom"/>
-        <Setter Property="Margin" Value="5"/>
         <Setter Property="Height" Value="50"/>
     </Style>
     
