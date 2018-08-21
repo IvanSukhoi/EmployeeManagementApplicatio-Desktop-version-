@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.API.Repositories;
+using EmployeeManagement.API.TokenProvider;
 using EmployeeManagement.API.WebClient;
 using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.UI.ViewModels;
@@ -30,6 +31,7 @@ namespace EmployeeManagement.UI.DI
             container.RegisterType<IEmployeeRepository, EmployeeRepository>();
             container.RegisterType<ISettingsRepository, SettingsRepository>();
             container.RegisterType<IUserRepository, UserRepository>();
+            container.RegisterType<IAuthorizationManager, AuthorizationManager>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<IRegistryHelper, RegistryHelper>();
             container.RegisterType<ISettingsHelper, SettingsHelper>();
@@ -71,6 +73,8 @@ namespace EmployeeManagement.UI.DI
             container.RegisterType<IWebClient, WebClient>();
 
             container.RegisterType<IDialogService, DialogService>();
+
+            container.RegisterType<ITokenProvider, TokenProvider>(new ContainerControlledLifetimeManager());
 
             return container;
         }

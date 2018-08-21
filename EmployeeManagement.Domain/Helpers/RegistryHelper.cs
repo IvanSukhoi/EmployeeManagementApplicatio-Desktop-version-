@@ -23,15 +23,11 @@ namespace EmployeeManagement.Domain.Helpers
             }
         }
 
-        public void RemoveData(string name, string value)
+        public void RemoveData(string name)
         {
             using (var userKey = Registry.CurrentUser.OpenSubKey("Software", true)?.CreateSubKey("ApplicationUsers"))
             {
-                if (userKey != null)
-                {
-                    userKey.DeleteValue(name);
-                    userKey.DeleteValue(value);
-                }
+                userKey?.DeleteValue(name);
             }
         }
     }

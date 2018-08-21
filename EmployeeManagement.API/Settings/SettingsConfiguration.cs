@@ -8,31 +8,14 @@ namespace EmployeeManagement.API.Settings
 
         public static class ApiUrls
         {
-            public static class Employee
-            {
-                public static string GetByDepartmentId => "Employee/GetByDepartmentId/";
-                public static string GetbyId => "Employee/GetById/";
-                public static string Create => "Employee/Create";
-                public static string Save => "Employee/Update";
-                public static string Delete => "Employee/Delete/";
-            }
-
-            public static class Department
-            {
-                public static string GetAll => "Department/GetAll";
-                public static string GetById => "Department/GetById/";
-            }
-
-            public static class Settings
-            {
-                public static string GetById => "Settings/GetById/";
-                public static string Save => "Settings/Save";
-            }
-
-            public static class User
-            {
-                public static string GetUserModel => "User/GetUserModel";
-            }
+            public static string GetEmployeeUrl => "employee/";
+            public static string GetEmployeeByDepartmentIdUrl => "employee/department/";
+            public static string GetDepartmentUrl => "department/";
+            public static string GetSettingsUrl => "settings/";
+            public static string GetUserUrl => "account/";
+            public static string GetUserByRefreshtokenUrl = "account/refreshtoken";
+            public static string GetTokenUrl => "jwt/signin";
+            public static string GetRefreshTokenUrl => "jwt/token";
         }
     }
 }

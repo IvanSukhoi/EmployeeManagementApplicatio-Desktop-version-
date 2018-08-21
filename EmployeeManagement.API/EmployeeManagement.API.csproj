@@ -55,12 +55,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiInterfaces\IAuthorizationManager.cs" />
     <Compile Include="ApiInterfaces\IDepartmentRepository.cs" />
     <Compile Include="ApiInterfaces\IEmployeeRepository.cs" />
     <Compile Include="ApiInterfaces\ISettingsRepository.cs" />
+    <Compile Include="ApiInterfaces\ITokenProvider.cs" />
     <Compile Include="ApiInterfaces\IUserRepository.cs" />
     <Compile Include="ApiInterfaces\IWebClient.cs" />
+    <Compile Include="Repositories\AuthorizationManager.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Settings\SettingsConfiguration.cs" />
+    <Compile Include="TokenProvider\JsonWebToken.cs" />
+    <Compile Include="TokenProvider\TokenProvider.cs" />
     <Compile Include="WebClient\WebClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />

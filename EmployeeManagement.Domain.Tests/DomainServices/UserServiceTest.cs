@@ -23,7 +23,7 @@ namespace EmployeeManagement.Domain.Tests.DomainServices
         [Test]
         public async Task GetUserModelAsync_ReturnUser_Correct()
         {
-            var expectedValue = await _userRepository.GetUserModelAsync("Login1", "Password1");
+            var expectedValue = await _userRepository.GetByLoginAsync("Login1", "Password1");
 
             AssertPropertyValue(expectedValue, _userModels.FirstOrDefault(x => x.Login == "Login1" && x.Password == "Password1"));
         }
@@ -55,7 +55,7 @@ namespace EmployeeManagement.Domain.Tests.DomainServices
                 }
             };
 
-            A.CallTo(() => _userRepository.GetUserModelAsync(A<string>.Ignored, A<string>.Ignored)).ReturnsLazily(
+            A.CallTo(() => _userRepository.GetByLoginAsync(A<string>.Ignored, A<string>.Ignored)).ReturnsLazily(
                 (string login, string password) =>
                     _userModels.FirstOrDefault(x => x.Login == login && x.Password == password));
         }

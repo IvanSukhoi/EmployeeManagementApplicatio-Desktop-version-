@@ -6,7 +6,6 @@
         xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
         xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
         xmlns:enums="clr-namespace:EmployeeManagement.Contracts.Enums;assembly=EmployeeManagement.Contracts"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="{x:Static res:Resource.Main}" Style="{DynamicResource MainWindowStyle}"
         Icon="../Images/kfm_home.ico">

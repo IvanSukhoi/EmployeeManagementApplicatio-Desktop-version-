@@ -34,7 +34,7 @@ namespace EmployeeManagement.API.Tests.Repositories
                 new EmployeeModel(){FirstName = "Alex", Id = 11, DepartmentId = 1, Sex = Sex.Male}
             };
 
-            A.CallTo(() => _webClient.GetAsync<List<EmployeeModel>>(SettingsConfiguration.ApiUrls.Employee.GetByDepartmentId + "1"))
+            A.CallTo(() => _webClient.GetAsync<List<EmployeeModel>>(SettingsConfiguration.ApiUrls.ApllicationUrl.GetByDepartmentId + "1"))
                 .ReturnsLazily(() => employeeModels);
 
             var employees = await _employeeRepository.GetByDepartmentIdAsync(1);
@@ -49,7 +49,7 @@ namespace EmployeeManagement.API.Tests.Repositories
         [Test]
         public void GetByDepartmentIdAsync_InvalidOperationException_InCorrect()
         {
-            A.CallTo(() => _webClient.GetAsync<List<EmployeeModel>>(SettingsConfiguration.ApiUrls.Employee.GetByDepartmentId + "-1")).Throws<InvalidOperationException>();
+            A.CallTo(() => _webClient.GetAsync<List<EmployeeModel>>(SettingsConfiguration.ApiUrls.ApllicationUrl.GetByDepartmentId + "-1")).Throws<InvalidOperationException>();
 
             Assert.ThrowsAsync<InvalidOperationException>(() => _employeeRepository.GetByDepartmentIdAsync(-1));
         }
@@ -69,7 +69,7 @@ namespace EmployeeManagement.API.Tests.Repositories
                 Profession = Profession.Manager,
             };
 
-            A.CallTo(() => _webClient.GetAsync<EmployeeModel>(SettingsConfiguration.ApiUrls.Employee.GetbyId + "1")).Returns(employeeModel);
+            A.CallTo(() => _webClient.GetAsync<EmployeeModel>(SettingsConfiguration.ApiUrls.ApllicationUrl.GetbyId + "1")).Returns(employeeModel);
 
             var expectedValue = await _employeeRepository.GetByIdAsync(1);
 
@@ -79,7 +79,7 @@ namespace EmployeeManagement.API.Tests.Repositories
         [Test]
         public void GetByIdAsync_InvalidOperatingException_Incorrect()
         {
-            A.CallTo(() => _webClient.GetAsync<EmployeeModel>(SettingsConfiguration.ApiUrls.Employee.GetbyId + "-1"))
+            A.CallTo(() => _webClient.GetAsync<EmployeeModel>(SettingsConfiguration.ApiUrls.ApllicationUrl.GetbyId + "-1"))
                 .Throws<InvalidOperationException>();
 
             Assert.ThrowsAsync<InvalidOperationException>(() => _employeeRepository.GetByIdAsync(-1));
@@ -112,7 +112,7 @@ namespace EmployeeManagement.API.Tests.Repositories
                 Profession = Profession.Manager,
             };
 
-            A.CallTo(() => _webClient.PostAsync<EmployeeModel, EmployeeModel>(SettingsConfiguration.ApiUrls.Employee.Create, employeeModel))
+            A.CallTo(() => _webClient.PostAsync<EmployeeModel, EmployeeModel>(SettingsConfiguration.ApiUrls.ApllicationUrl.Create, employeeModel))
                 .ReturnsLazily(() => newEmployeeModel);
 
             var expectedValue = await _employeeRepository.CreateAsync(employeeModel);
@@ -126,7 +126,7 @@ namespace EmployeeManagement.API.Tests.Repositories
             var employeeModel = new EmployeeModel();
 
             A.CallTo(() =>
-                _webClient.PostAsync<EmployeeModel, EmployeeModel>(SettingsConfiguration.ApiUrls.Employee.Create,
+                _webClient.PostAsync<EmployeeModel, EmployeeModel>(SettingsConfiguration.ApiUrls.ApllicationUrl.Create,
                     employeeModel)).Throws<InvalidOperationException>();
 
             Assert.ThrowsAsync<InvalidOperationException>(() => _employeeRepository.CreateAsync(employeeModel));
@@ -135,7 +135,7 @@ namespace EmployeeManagement.API.Tests.Repositories
         [Test]
         public void  DeleteAsync_RemoveEmployeeModel_Correct()
         {
-            A.CallTo(() => _webClient.DeleteAsync(SettingsConfiguration.ApiUrls.Employee.Delete + "1")).Returns(new HttpResponseMessage());
+            A.CallTo(() => _webClient.DeleteAsync(SettingsConfiguration.ApiUrls.ApllicationUrl.Delete + "1")).Returns(new HttpResponseMessage());
 
             Assert.DoesNotThrowAsync(() => _employeeRepository.DeleteAsync(1));
         }
@@ -143,7 +143,7 @@ namespace EmployeeManagement.API.Tests.Repositories
         [Test]
         public void DeleteAsync_InvalidOperationException_InCorrect()
         {
-            A.CallTo(() => _webClient.DeleteAsync(SettingsConfiguration.ApiUrls.Employee.Delete + "-1"))
+            A.CallTo(() => _webClient.DeleteAsync(SettingsConfiguration.ApiUrls.ApllicationUrl.Delete + "-1"))
                 .Throws<InvalidOperationException>();
 
             Assert.ThrowsAsync<InvalidOperationException>(() => _employeeRepository.DeleteAsync(-1));
@@ -154,7 +154,7 @@ namespace EmployeeManagement.API.Tests.Repositories
         {
             var employeeModel = new EmployeeModel();
 
-            A.CallTo(() => _webClient.PutAsync(SettingsConfiguration.ApiUrls.Employee.Save, employeeModel))
+            A.CallTo(() => _webClient.PutAsync(SettingsConfiguration.ApiUrls.ApllicationUrl.Save, employeeModel))
                 .Returns(new HttpResponseMessage());
 
             Assert.DoesNotThrowAsync(() => _employeeRepository.SaveAsync(employeeModel));
@@ -165,7 +165,7 @@ namespace EmployeeManagement.API.Tests.Repositories
         {
             var employeeModel = new EmployeeModel();
 
-            A.CallTo(() => _webClient.PutAsync(SettingsConfiguration.ApiUrls.Employee.Save, employeeModel)).Throws<InvalidOperationException>();
+            A.CallTo(() => _webClient.PutAsync(SettingsConfiguration.ApiUrls.ApllicationUrl.Save, employeeModel)).Throws<InvalidOperationException>();
 
             Assert.ThrowsAsync<InvalidOperationException>(() => _employeeRepository.SaveAsync(employeeModel));
         }

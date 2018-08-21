@@ -5,18 +5,23 @@ using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.API.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
         private readonly IWebClient _webClient;
 
-        public UserRepository(IWebClient webClient)
+        public UserRepository(IWebClient webClient, IAuthorizationManager authorizationManager) : base(webClient, authorizationManager) 
         {
             _webClient = webClient;
         }
 
-        public async Task<UserModel> GetUserModelAsync(string login, string password)
+        public async Task<UserModel> GetByLoginAsync(string login)
         {
-            return await _webClient.PostAsync<UserModel, string[]>(SettingsConfiguration.ApiUrls.User.GetUserModel, new[] { login, password });
+            return await _webClient.PostAsync<UserModel, string>(SettingsConfiguration.ApiUrls.GetUserUrl, login);
+        }
+
+        public async Task<UserModel> GetByRefreshTokenAsync(string refreshToken)
+        {
+            return await _webClient.PostAsync<UserModel, string>(SettingsConfiguration.ApiUrls.GetUserByRefreshtokenUrl, refreshToken);
         }
     }
 }

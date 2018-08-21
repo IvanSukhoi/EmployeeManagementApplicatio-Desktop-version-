@@ -14,9 +14,14 @@ namespace EmployeeManagement.Domain.DomainServices
             _userRepository = userRepository;
         }
 
-        public async Task<UserModel> GetUserModelAsync(string login, string password)
+        public async Task<UserModel> GetByLoginAsync(string login)
         {
-            return await _userRepository.GetUserModelAsync(login, password);
+            return await _userRepository.GetByLoginAsync(login);
+        }
+
+        public async Task<UserModel> GetByRefreshTokenAsync(string refreshToken)
+        {
+            return await _userRepository.GetByRefreshTokenAsync(refreshToken);
         }
     }
 }

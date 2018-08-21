@@ -5,6 +5,7 @@ namespace EmployeeManagement.API.ApiInterfaces
 {
     public interface IUserRepository
     {
-        Task<UserModel> GetUserModelAsync(string login, string password);
+        Task<UserModel> GetByLoginAsync(string login);
+        Task<UserModel> GetByRefreshTokenAsync(string refreshToken);
     }
 }

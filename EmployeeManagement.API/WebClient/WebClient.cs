@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using EmployeeManagement.API.ApiInterfaces;
+using System.Net.Http.Headers;
 using EmployeeManagement.API.Settings;
+using EmployeeManagement.API.ApiInterfaces;
 
 namespace EmployeeManagement.API.WebClient
 {
     public class WebClient : IWebClient
     {
-        public async Task<T> GetAsync<T>(string url) where T : class 
+        public Func<Task> UpdateAuthorizationFunc { get; set; }
+        public Func<string> GetAccessTokenFunc { get; set; }
+
+        public async Task<T> GetAsync<T>(string url, bool isAuthenticated = true) where T : class 
         {
             using (var httpClient = new HttpClient())
             {
-                SetHttpClient(httpClient);
+                await SetHttpClient(httpClient, isAuthenticated);
+
                 var response = await httpClient.GetAsync(SettingsConfiguration.BaseUrl + url);
 
                 if (response.IsSuccessStatusCode)
@@ -25,12 +29,12 @@ namespace EmployeeManagement.API.WebClient
             }
         }
 
-        public async Task<TK> PostAsync<TK, T>(string url, T o) where TK: class  
+        public async Task<TK> PostAsync<TK, T>(string url, T o, bool isAuthenticated = true) where TK: class  
                                                               where T: class 
         {
             using (var httpClient = new HttpClient())
             {
-                SetHttpClient(httpClient);
+                await SetHttpClient(httpClient, isAuthenticated);
                 var response = await httpClient.PostAsJsonAsync(SettingsConfiguration.BaseUrl + url, o);
 
                 if (response.IsSuccessStatusCode) 
@@ -42,11 +46,11 @@ namespace EmployeeManagement.API.WebClient
             }
         }
 
-        public async Task<HttpResponseMessage> DeleteAsync(string url)
+        public async Task<HttpResponseMessage> DeleteAsync(string url, bool isAuthenticated = true)
         {
             using (var httpClient = new HttpClient())
             {
-                SetHttpClient(httpClient);
+                await SetHttpClient(httpClient, isAuthenticated);
                 var response = await httpClient.DeleteAsync(SettingsConfiguration.BaseUrl + url);
 
                 if (response.IsSuccessStatusCode)
@@ -58,11 +62,11 @@ namespace EmployeeManagement.API.WebClient
             }
         }
 
-        public async Task<HttpResponseMessage> PutAsync<T>(string url, T o) where T : class 
+        public async Task<HttpResponseMessage> PutAsync<T>(string url, T o, bool isAuthenticated = true) where T : class 
         {
             using (var httpClient = new HttpClient())
             {
-                SetHttpClient(httpClient);
+                await SetHttpClient(httpClient, isAuthenticated);
                 var response = await httpClient.PutAsJsonAsync(SettingsConfiguration.BaseUrl + url, o);
 
                 if (response.IsSuccessStatusCode)
@@ -74,9 +78,15 @@ namespace EmployeeManagement.API.WebClient
             }
         }
 
-        public void SetHttpClient(HttpClient httpClient)
+        private async Task SetHttpClient(HttpClient httpClient, bool isAuthenticated)
         {
-             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (isAuthenticated)
+            {
+                await UpdateAuthorizationFunc.Invoke();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessTokenFunc.Invoke());
+            }
+
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
     }
 }

@@ -34,7 +34,7 @@ namespace EmployeeManagement.API.Tests.Repositories
 
             A.CallTo(() => _webClient.PostAsync<UserModel, string[]>(SettingsConfiguration.ApiUrls.User.GetUserModel, A<string[]>.Ignored)).Returns(userModel);
 
-            var expectedValue = await _userRepository.GetUserModelAsync("Login1", "Password1");
+            var expectedValue = await _userRepository.GetByLoginAsync("Login1", "Password1");
 
             AssertPropertyValue(expectedValue, userModel);
         }
@@ -47,7 +47,7 @@ namespace EmployeeManagement.API.Tests.Repositories
                     A<string[]>.Ignored)).Throws<InvalidOperationException>();
 
             Assert.ThrowsAsync<InvalidOperationException>(
-                () => _userRepository.GetUserModelAsync("Login1", "Password1"));
+                () => _userRepository.GetByLoginAsync("Login1", "Password1"));
         }
 
         public void AssertPropertyValue(UserModel expectedValue, UserModel userModel)

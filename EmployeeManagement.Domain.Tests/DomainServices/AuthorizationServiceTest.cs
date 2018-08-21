@@ -128,7 +128,7 @@ namespace EmployeeManagement.Domain.Tests.DomainServices
                 }
             };
 
-            A.CallTo(() => _userService.GetUserModelAsync(A<string>.Ignored, A<string>.Ignored)).
+            A.CallTo(() => _userService.GetByLoginAsync(A<string>.Ignored, A<string>.Ignored)).
                 ReturnsLazily((string login, string password) => _userModels.FirstOrDefault(x => x.Login == login && x.Password == password));
 
             A.CallTo(() => _registryHelper.SetData("Login", A<string>.Ignored)).Invokes((string name, string login) =>
