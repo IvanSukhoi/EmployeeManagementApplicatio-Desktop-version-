@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.Contracts.Models;
+using EmployeeManagement.Contracts.Settings;
 using EmployeeManagement.Domain.DomainInterfaces;
 
 namespace EmployeeManagement.Domain.DomainServices
@@ -9,17 +9,18 @@ namespace EmployeeManagement.Domain.DomainServices
     public class AuthorizationService : IAuthorizationService
     {
         private UserModel _currentUser;
-        private readonly IRegistryHelper _registryHelper;
+
+        private readonly IRegistryManager _registryManager;
         private readonly IUserService _userService;
         private readonly IAuthorizationManager _authorizationManager;
 
         public bool IsLogged => _currentUser != null;
         public bool IsRemembered { get; set; }
 
-        public AuthorizationService(IUserService userService, IRegistryHelper registryHelper, IAuthorizationManager authorizationManager)
+        public AuthorizationService(IUserService userService, IRegistryManager registryManager, IAuthorizationManager authorizationManager)
         {
             _userService = userService;
-            _registryHelper = registryHelper;
+            _registryManager = registryManager;
             _authorizationManager = authorizationManager;
         }
 
@@ -31,7 +32,7 @@ namespace EmployeeManagement.Domain.DomainServices
                 Password = password
             });
 
-            if (_authorizationManager.IsAuthorization())
+            if (_authorizationManager.IsAuthorized())
             {
                 _currentUser = await _userService.GetByLoginAsync(login);
             }
@@ -39,6 +40,9 @@ namespace EmployeeManagement.Domain.DomainServices
             if(_currentUser == null) return;
             if (!rememberMe) return;
             IsRemembered = true;
+
+            _registryManager.SetData(SettingsConfiguration.RegistrySettings.RefreshToken, 
+                _authorizationManager.GetRefreshToken());
         }
 
         public void LogOut()
@@ -46,21 +50,24 @@ namespace EmployeeManagement.Domain.DomainServices
             _currentUser = null;
             if (IsRemembered)
             {
-                _registryHelper.RemoveData("RefreshToken");
+                _registryManager.RemoveData(SettingsConfiguration
+                    .RegistrySettings
+                    .RefreshToken);
             }
         }
 
         public async Task<bool> IsAuthorized()
         {
-            _authorizationManager.UpdateRefreshTokenHandler += UpdateRefreshToken;
-            var refreshToken = _registryHelper.GetData("RefreshToken");
+            var refreshToken = _registryManager.GetData(SettingsConfiguration
+                .RegistrySettings
+                .RefreshToken);
 
             if (refreshToken != null)
             {
                 await _authorizationManager.SetAuthorizationAsync(refreshToken);
             }
 
-            if (_authorizationManager.IsAuthorization())
+            if (_authorizationManager.IsAuthorized())
             {
                 _currentUser = await _userService.GetByRefreshTokenAsync(refreshToken);
             }
@@ -76,18 +83,6 @@ namespace EmployeeManagement.Domain.DomainServices
         public UserModel GetCurrentUser()
         {
             return _currentUser;
-        }
-
-        public void UpdateRefreshToken(object sender, EventArgs eventArgs)
-        {
-            var refToken = _registryHelper.GetData("RefreshToken");
-
-            if (refToken != null)
-            {
-                _registryHelper.RemoveData("RefreshToken");
-            }
-
-            _registryHelper.SetData("RefreshToken", _authorizationManager.GetRefreshToken());
         }
     }
 }

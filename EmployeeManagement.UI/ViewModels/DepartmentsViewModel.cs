@@ -1,13 +1,13 @@
-﻿using EmployeeManagement.UI.Annotations;
-using System.Runtime.CompilerServices;
-using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Enums;
+using Prism.Mvvm;
+using Prism.Regions;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class DepartmentsViewModel : INotifyPropertyChanged
+    public class DepartmentsViewModel : BindableBase, IRegionMemberLifetime
     {
+
         private EmployeeDetailsViewModel _employeeDetailsViewModel;
         public EmployeeDetailsViewModel EmployeeDetailsViewModel
         {
@@ -15,7 +15,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _employeeDetailsViewModel = value;
-                OnPropertyChanged(nameof(EmployeeDetailsViewModel));
+                RaisePropertyChanged(nameof(EmployeeDetailsViewModel));
             }
         }
 
@@ -26,7 +26,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _employeeListViewModel = value;
-                OnPropertyChanged(nameof(EmployeeListViewModel));
+                RaisePropertyChanged(nameof(EmployeeListViewModel));
             }
         }
 
@@ -38,18 +38,11 @@ namespace EmployeeManagement.UI.ViewModels
 
         public async Task InitAsync(Departments department)
         {
-            _employeeListViewModel.AssignEmployeeHandler += _employeeDetailsViewModel.SetEmployeeHandler;
-            _employeeDetailsViewModel.UpdateEmployeeHandler += _employeeListViewModel.UpdateCurrentEmployeeHandler;
-            await _employeeDetailsViewModel.SetDepartments();
+            _employeeListViewModel.SubscribeToTheEvent();
+            _employeeDetailsViewModel.SubscribeToTheEvent();
             await _employeeListViewModel.UpdateEmployees(department);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public bool KeepAlive => false;
     }
 }

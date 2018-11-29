@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
 using EmployeeManagement.API.Repositories;
-using EmployeeManagement.API.Settings;
 using EmployeeManagement.Contracts.Models;
+using EmployeeManagement.Contracts.Settings;
 using FakeItEasy;
 using NUnit.Framework;
 
@@ -13,14 +13,18 @@ namespace EmployeeManagement.API.Tests.Repositories
 {
     public class DepartmentRepositoryTest
     {
-        private DepartmentRepository _departmentRepository;
+        private IDepartmentRepository _departmentRepository;
+
         private IWebClient _webClient;
+        private IAuthorizationManager _authorizationManager;
 
         [SetUp]
         public void SetUp()
         {
             _webClient = A.Fake<IWebClient>();
-            _departmentRepository = new DepartmentRepository(_webClient);
+            _authorizationManager = A.Fake<IAuthorizationManager>();
+
+            _departmentRepository = new DepartmentRepository(_webClient, _authorizationManager);
         }
 
         [Test]
@@ -28,26 +32,23 @@ namespace EmployeeManagement.API.Tests.Repositories
         {
             var departmentModels = new List<DepartmentModel>
             {
-                new DepartmentModel {Name = "IT", Id = 1, QuantityEmployees = 12},
-                new DepartmentModel {Name = "Bokkeeping", Id = 2, QuantityEmployees = 20},
+                new DepartmentModel {Id = 1},
+                new DepartmentModel {Id = 2},
             };
 
-            A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(SettingsConfiguration.ApiUrls.Department.GetAll))
+            A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(SettingsConfiguration.ApiUrls.GetDepartment, true))
                 .Returns(departmentModels);
 
             var departments = _departmentRepository.GetAllAsync().Result;
 
             Assert.That(2, Is.EqualTo(departments.Count));
-
-            Assert.That("IT", Is.EqualTo(departments.First().Name));
             Assert.That(1, Is.EqualTo(departments.First().Id));
-            Assert.That(12, Is.EqualTo(departments.First().QuantityEmployees));
         }
 
         [Test]
         public void GetAllAsync_InvalidOperationException_InCorrect()
         {
-            A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(SettingsConfiguration.ApiUrls.Department.GetAll))
+            A.CallTo(() => _webClient.GetAsync<List<DepartmentModel>>(SettingsConfiguration.ApiUrls.GetDepartment, true))
                 .Throws<InvalidOperationException>();
 
             Assert.ThrowsAsync<InvalidOperationException>(() => _departmentRepository.GetAllAsync());
@@ -58,16 +59,14 @@ namespace EmployeeManagement.API.Tests.Repositories
         {
             var departmentModel = new DepartmentModel
             {
-                Name = "IT",
                 Id = 1,
                 QuantityEmployees = 25
             };
             
-            A.CallTo(() => _webClient.GetAsync<DepartmentModel>(SettingsConfiguration.ApiUrls.Department.GetById + "1")).ReturnsLazily(() => departmentModel);
+            A.CallTo(() => _webClient.GetAsync<DepartmentModel>(SettingsConfiguration.ApiUrls.GetDepartment + "1", true)).ReturnsLazily(() => departmentModel);
 
             var department = await _departmentRepository.GetByIdAsync(1);
 
-            Assert.That("IT", Is.EqualTo(department.Name));
             Assert.That(1, Is.EqualTo(department.Id));
             Assert.That(25, Is.EqualTo(department.QuantityEmployees));
         }
@@ -75,7 +74,7 @@ namespace EmployeeManagement.API.Tests.Repositories
         [Test]
         public void GetByIdAsync_InvalidOperatingException_InCorrect()
         {
-            A.CallTo(() => _webClient.GetAsync<DepartmentModel>(SettingsConfiguration.ApiUrls.Department.GetById + "-1"))
+            A.CallTo(() => _webClient.GetAsync<DepartmentModel>(SettingsConfiguration.ApiUrls.GetDepartment + "-1", true))
                 .Throws<InvalidOperationException>();
 
             Assert.ThrowsAsync<InvalidOperationException>(() => _departmentRepository.GetByIdAsync(-1));

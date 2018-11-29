@@ -1,6 +1,6 @@
-﻿namespace EmployeeManagement.Domain.DomainInterfaces
+﻿namespace EmployeeManagement.API.ApiInterfaces
 {
-    public interface IRegistryHelper
+    public interface IRegistryManager
     {
         void SetData(string name, string value);
         string GetData(string name);

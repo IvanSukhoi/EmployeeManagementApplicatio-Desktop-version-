@@ -2,8 +2,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
-using EmployeeManagement.API.Settings;
 using EmployeeManagement.API.ApiInterfaces;
+using EmployeeManagement.Contracts.Settings;
 
 namespace EmployeeManagement.API.WebClient
 {
@@ -22,7 +22,7 @@ namespace EmployeeManagement.API.WebClient
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return await (response?.Content).ReadAsAsync<T>();
+                    return await (response.Content).ReadAsAsync<T>();
                 }
 
                 throw new InvalidOperationException("Object with such id does not exist");
@@ -35,11 +35,12 @@ namespace EmployeeManagement.API.WebClient
             using (var httpClient = new HttpClient())
             {
                 await SetHttpClient(httpClient, isAuthenticated);
+
                 var response = await httpClient.PostAsJsonAsync(SettingsConfiguration.BaseUrl + url, o);
 
                 if (response.IsSuccessStatusCode) 
                 {
-                    return await (response?.Content).ReadAsAsync<TK>();
+                    return await (response.Content).ReadAsAsync<TK>();
                 }
 
                 throw  new InvalidOperationException("Object with such id can not be created");
@@ -51,6 +52,7 @@ namespace EmployeeManagement.API.WebClient
             using (var httpClient = new HttpClient())
             {
                 await SetHttpClient(httpClient, isAuthenticated);
+
                 var response = await httpClient.DeleteAsync(SettingsConfiguration.BaseUrl + url);
 
                 if (response.IsSuccessStatusCode)
@@ -67,6 +69,7 @@ namespace EmployeeManagement.API.WebClient
             using (var httpClient = new HttpClient())
             {
                 await SetHttpClient(httpClient, isAuthenticated);
+
                 var response = await httpClient.PutAsJsonAsync(SettingsConfiguration.BaseUrl + url, o);
 
                 if (response.IsSuccessStatusCode)

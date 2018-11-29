@@ -1,19 +1,17 @@
-﻿using System.ComponentModel;
-using EmployeeManagement.UI.DelegateCommand;
-using System.Deployment.Application;
-using System.Runtime.CompilerServices;
+﻿using System.Deployment.Application;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using EmployeeManagement.Contracts.Enums;
-using EmployeeManagement.UI.Annotations;
 using EmployeeManagement.UI.UiInterfaces;
-using EmployeeManagement.UI.UiInterfaces.ViewModels;
+using Prism.Commands;
+using Prism.Mvvm;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class MainViewModel : IMainViewModel, INotifyPropertyChanged
+    public class MainViewModel: BindableBase
     {
-        public IDelegateCommand SelectByDepartmentCommand { protected set; get; }
-        public IDelegateCommand ChangeSettingsCommand { protected set; get; }
+        public ICommand SelectByDepartmentCommand { protected set; get; }
+        public ICommand ChangeSettingsCommand { protected set; get; }
 
         private readonly INavigationManager _navigationManager;
 
@@ -24,7 +22,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _currentDepartment = value;
-                OnPropertyChanged(nameof(CurrentDepartment));
+                RaisePropertyChanged(nameof(CurrentDepartment));
             }
         }
 
@@ -35,7 +33,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _currentPage = value;
-                OnPropertyChanged(nameof(CurrentPage));
+                RaisePropertyChanged(nameof(CurrentPage));
             }
         }
 
@@ -47,15 +45,15 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _version = value;
-                OnPropertyChanged(nameof(Version));
+                RaisePropertyChanged(nameof(Version));
             }
         }
 
         public MainViewModel(INavigationManager navigationManager)
         {
             _navigationManager = navigationManager;
-            SelectByDepartmentCommand = new DelegateCommandAsync(ExecuteSelectByDepartmentAsync);
-            ChangeSettingsCommand = new DelegateCommandAsync(ExecuteChangeSettingsAsync);
+            SelectByDepartmentCommand = new DelegateCommand<object>(async (_) => await ExecuteSelectByDepartmentAsync(_));
+            ChangeSettingsCommand = new DelegateCommand<object>(async (_) => await ExecuteChangeSettingsAsync(_));
         }
 
         public async Task InitAsync()
@@ -83,14 +81,6 @@ namespace EmployeeManagement.UI.ViewModels
             CurrentPage = (Contracts.Enums.Pages)parameter;
 
             await _navigationManager.Navigate(CurrentPage, Departments.NotSelected);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

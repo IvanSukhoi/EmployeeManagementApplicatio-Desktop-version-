@@ -1,53 +1,59 @@
 ﻿using System.Threading.Tasks;
-using System.Windows.Navigation;
 using EmployeeManagement.Contracts.Enums;
-using EmployeeManagement.UI.DI;
 using EmployeeManagement.UI.Pages;
 using EmployeeManagement.UI.UiInterfaces;
+using Microsoft.Practices.Unity;
+using Prism.Regions;
 
 namespace EmployeeManagement.UI.Managers
 {
     public class NavigationManager : INavigationManager
     {
-        private NavigationService _navigationService;
         private readonly UnityServiceLocator _unityServiceLocator;
+        private readonly IRegionManager _regionManager;
 
-        public NavigationManager(UnityServiceLocator unityServiceLocator)
+        public NavigationManager(UnityServiceLocator unityServiceLocator, IRegionManager regionManager)
         {
             _unityServiceLocator = unityServiceLocator;
-        }
-
-        public void SetNavigationService(NavigationService navigationService)
-        {
-            _navigationService = navigationService;
+            _regionManager = regionManager;
         }
 
         public async Task Navigate(Contracts.Enums.Pages page, Departments department)
         {
+            var contentRegion = _regionManager.Regions["ContentRegion"];
+
             switch (page)
             {
                 case Contracts.Enums.Pages.HomePage:
                     var homePage = _unityServiceLocator.GetInstance<HomePage>();
                     await homePage.Init();
-                    _navigationService.Navigate(homePage);
+
+                    contentRegion.Add(homePage);
+                    contentRegion.Activate(homePage);
                     break;
 
                 case Contracts.Enums.Pages.EmployeeListPage:
                     var employeeListPage = _unityServiceLocator.GetInstance<DepartmentsPage>();
                     await employeeListPage.InitAsync(department);
-                    _navigationService.Navigate(employeeListPage);
+
+                    contentRegion.Add(employeeListPage);
+                    contentRegion.Activate(employeeListPage);
                     break;
 
                 case Contracts.Enums.Pages.SettingsPage:
                     var settingsPage = _unityServiceLocator.GetInstance<SettingsPage>();
                     await settingsPage.InitAsync();
-                    _navigationService.Navigate(settingsPage);
+
+                    contentRegion.Add(settingsPage);
+                    contentRegion.Activate(settingsPage);
                     break;
 
                 default:
                     var defaultPage = _unityServiceLocator.GetInstance<HomePage>();
                     await defaultPage.Init();
-                    _navigationService.Navigate(defaultPage);
+
+                    contentRegion.Add(defaultPage);
+                    contentRegion.Activate(defaultPage);
                     break;
             }
         }

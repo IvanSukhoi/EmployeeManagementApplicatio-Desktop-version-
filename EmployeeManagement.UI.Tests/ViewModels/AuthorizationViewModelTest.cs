@@ -2,6 +2,7 @@
 using System.Windows;
 using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.Services;
 using EmployeeManagement.UI.ViewModels;
 using EmployeeManagement.UI.Windows;
 using FakeItEasy;
@@ -38,7 +39,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
             A.CallTo(() => _authorizationService.LogInAsync(A<string>.Ignored, A<string>.Ignored, A<bool>.Ignored)).Invokes(
                 () => { _isLogged = true; });
 
-            await _authorizationViewModel.ExecutePrintResultAuthorization(new object());
+            await _authorizationViewModel.ExecutePrintResultAuthorizationAsync();
 
             Assert.That(_messageBoxTitle, Is.EqualTo("Successful Authorization!"));
             Assert.That(_messageBoxText, Is.EqualTo("Authorization"));
@@ -52,7 +53,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
             A.CallTo(() => _authorizationService.LogInAsync(A<string>.Ignored, A<string>.Ignored, A<bool>.Ignored)).Invokes(
                 () => { _isLogged = false; });
 
-            await _authorizationViewModel.ExecutePrintResultAuthorization(new object());
+            await _authorizationViewModel.ExecutePrintResultAuthorizationAsync();
 
             Assert.That(_messageBoxTitle, Is.EqualTo("Failed Authorization!"));
             Assert.That(_messageBoxText, Is.EqualTo("Authorization"));

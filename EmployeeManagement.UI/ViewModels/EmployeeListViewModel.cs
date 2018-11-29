@@ -1,21 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using EmployeeManagement.UI.Annotations;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Input;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.Domain.Mappings;
-using EmployeeManagement.UI.DelegateCommand;
-using EmployeeManagement.UI.Extensions;
-using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.Events;
+using EmployeeManagement.UI.UiInterfaces.Services;
+using Prism.Commands;
+using Prism.Events;
+using Prism.Mvvm;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class EmployeeListViewModel : INotifyPropertyChanged
+    public class EmployeeListViewModel: BindableBase
     {
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
@@ -23,98 +26,97 @@ namespace EmployeeManagement.UI.ViewModels
 
         private readonly IMapperWrapper _mapperWrapper;
 
-        public delegate void AssignItemEventHandler(EmployeeViewModel employeeViewModel);
-        public event AssignItemEventHandler AssignEmployeeHandler;
+        private readonly IEventAggregator _eventAggregator;
 
-        public IDelegateCommand CreateEmployeeCommand { protected set; get; }
+        private ICollectionView _employees;
 
-        public Departments CurrentDepartment { get; set; }
-
-        public EmployeeListViewModel(IEmployeeService employeeService, IMapperWrapper mapperWrapper, IDepartmentService departmentService, IResourceManagerService resourceManagerService)
-        {
-            _employeeService = employeeService;
-            _mapperWrapper = mapperWrapper;
-            _departmentService = departmentService;
-            _resourceManagerService = resourceManagerService;
-            CreateEmployeeCommand = new DelegateCommandAsync(ExecuteCreateEmployee);
-        }
-
-        private ObservableCollection<EmployeeViewModel> _employees;
-
-        public ObservableCollection<EmployeeViewModel> Employees
+        public ICollectionView Employees
         {
             get => _employees;
             set
             {
                 _employees = value;
-                OnPropertyChanged(nameof(Employees));
+                RaisePropertyChanged(nameof(Employees));
             }
         }
 
-        private EmployeeViewModel _currentEmployeeModel;
-        public EmployeeViewModel CurrentEmployeeViewModel
+        private ObservableCollection<EmployeeViewModel> _employeeViewModels; 
+
+        public ICommand CreateEmployeeCommand { protected set; get; }
+
+        public EmployeeViewModel EmployeeViewModel { get; set; }
+
+        public Departments CurrentDepartment { get; set; }
+
+
+        public EmployeeListViewModel(IEmployeeService employeeService, IMapperWrapper mapperWrapper, IDepartmentService departmentService, IResourceManagerService resourceManagerService, IEventAggregator eventAggregator)
         {
-            get => _currentEmployeeModel;
-            set
-            {
-                _currentEmployeeModel = value;
-                OnAssignEmployee(CurrentEmployeeViewModel);
-            }
+            _employeeService = employeeService;
+            _mapperWrapper = mapperWrapper;
+            _departmentService = departmentService;
+            _resourceManagerService = resourceManagerService;
+            _eventAggregator = eventAggregator;
+            CreateEmployeeCommand = new DelegateCommand(async () => await ExecuteCreateEmployeeAsync());
         }
 
-        public async Task ExecuteCreateEmployee(object parameter)
+        public void SubscribeToTheEvent()
+        {
+            _eventAggregator.GetEvent<SaveEmployeeViewModelEvent>().Subscribe(UpdateCurrentEmployeeHandler);
+        }
+
+        public async Task ExecuteCreateEmployeeAsync()
         {
             var department = await _departmentService.GetByDepartmentIdAsync((int)CurrentDepartment);
-            CurrentEmployeeViewModel = new EmployeeViewModel
+            EmployeeViewModel = new EmployeeViewModel
             {
                 IsNew = true,
                 DepartmentId = (int)CurrentDepartment,
                 DepartmentName = department.Name
             };
+
+            _eventAggregator.GetEvent<UpdateEmployeeViewModelEvent>().Publish(EmployeeViewModel);
         }
 
         public async Task UpdateEmployees(Departments department)
         {
+            _employeeViewModels = new ObservableCollection<EmployeeViewModel>();
+
             CurrentDepartment = department;
-            Employees = new ObservableCollection<EmployeeViewModel>();
 
             var listEmployees = _mapperWrapper.Map<List<EmployeeModel>, List<EmployeeViewModel>>(await _employeeService.GetByDepartmentIdAsync((int)department));
-                
             listEmployees.ForEach(x => x.DepartmentName = _resourceManagerService.GetString(x.DepartmentName));
 
-            Employees.AddRange(listEmployees);
+            _employeeViewModels.AddRange(listEmployees);
 
-            CurrentEmployeeViewModel = Employees.FirstOrDefault();
+            Employees = new ListCollectionView(_employeeViewModels);
+            Employees.CurrentChanged += SelectedItemChanged;
+
+            Employees.MoveCurrentToFirst();
+            EmployeeViewModel = Employees.CurrentItem as EmployeeViewModel;
+            _eventAggregator.GetEvent<UpdateEmployeeViewModelEvent>().Publish(EmployeeViewModel);
         }
 
         public void UpdateCurrentEmployeeHandler()
         {
-            if ((!CurrentEmployeeViewModel.IsNew && CurrentEmployeeViewModel.IsEditedDepartment) || CurrentEmployeeViewModel.IsDeleted)
+            if ((!EmployeeViewModel.IsNew && EmployeeViewModel.IsEditedDepartment) || EmployeeViewModel.IsDeleted)
             {
-                Employees.Remove(CurrentEmployeeViewModel);
-                CurrentEmployeeViewModel = Employees.FirstOrDefault();
+                _employeeViewModels.Remove(EmployeeViewModel);
+                EmployeeViewModel = _employeeViewModels.FirstOrDefault();
             }
 
-            if (CurrentEmployeeViewModel != null && CurrentEmployeeViewModel.IsNew)
+            if (EmployeeViewModel != null && EmployeeViewModel.IsNew)
             {
-                Employees.Add(CurrentEmployeeViewModel);
-                CurrentEmployeeViewModel.IsNew = false;
+                _employeeViewModels.Add(EmployeeViewModel);
+                EmployeeViewModel.IsNew = false;
             }
 
-            OnPropertyChanged(nameof(Employees));
+            RaisePropertyChanged(nameof(Employees));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void SelectedItemChanged(object sender, EventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected virtual void OnAssignEmployee(EmployeeViewModel employeemodel)
-        {
-            AssignEmployeeHandler?.Invoke(employeemodel);
+            EmployeeViewModel = Employees.CurrentItem as EmployeeViewModel;
+            _eventAggregator.GetEvent<UpdateEmployeeViewModelEvent>().Publish(EmployeeViewModel);
         }
     }
 }

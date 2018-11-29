@@ -1,4 +1,4 @@
-﻿namespace EmployeeManagement.UI.UiInterfaces
+﻿namespace EmployeeManagement.UI.UiInterfaces.Services
 {
     public interface IApplicationService
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
 
 namespace EmployeeManagement.API.Repositories
@@ -11,19 +10,17 @@ namespace EmployeeManagement.API.Repositories
         public BaseRepository(IWebClient webClient, IAuthorizationManager authorizationManager)
         {
             _authorizationManager = authorizationManager;
+
             webClient.GetAccessTokenFunc = _authorizationManager.GetAccessToken;
             webClient.UpdateAuthorizationFunc = UpdateAuthorizationAsync;
         }
 
         public async Task UpdateAuthorizationAsync()
         {
-            if (!_authorizationManager.IsValidAuthorization())
+            if (!_authorizationManager.IsValidAccessToken())
             {
                 await _authorizationManager.UpdateAuthorizationAsync();
             }
         }
-
-        public void  ErrorProcessing()
-        { }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.UI.Settings.Localization;
 using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.Services;
 
 namespace EmployeeManagement.UI.Services
 {

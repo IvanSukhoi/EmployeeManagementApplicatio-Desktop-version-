@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using EmployeeManagement.UI.UiInterfaces.Windows;
 
 namespace EmployeeManagement.UI.UiInterfaces
 {

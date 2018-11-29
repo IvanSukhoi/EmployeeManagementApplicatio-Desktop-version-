@@ -25,7 +25,11 @@ namespace EmployeeManagement.UI.Helpers
 
         public void SetLanguage(SettingsModel settings)
         {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(settings.Language == Language.Russian ? "ru-RU" : "en-US");
+            System.Threading.Thread.CurrentThread.CurrentUICulture =
+                System.Globalization.CultureInfo.GetCultureInfo(settings.Language == Language.Russian ? "ru-RU" : "en-US");
+
+            System.Threading.Thread.CurrentThread.CurrentCulture =
+                System.Threading.Thread.CurrentThread.CurrentUICulture;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.Windows;
-using Unity;
+using Microsoft.Practices.Unity;
 
 namespace EmployeeManagement.UI.DI.WindowFactory
 {
@@ -44,7 +44,6 @@ namespace EmployeeManagement.UI.DI.WindowFactory
         public void Close<T>() where T : Window
         {
             var serviceType = typeof(T);
-
             if (!_list.ContainsKey(serviceType)) return;
 
             if (serviceType == typeof(TrayWindow))

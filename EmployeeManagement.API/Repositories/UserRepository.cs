@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
-using EmployeeManagement.API.Settings;
 using EmployeeManagement.Contracts.Models;
+using EmployeeManagement.Contracts.Settings;
 
 namespace EmployeeManagement.API.Repositories
 {
@@ -16,12 +16,12 @@ namespace EmployeeManagement.API.Repositories
 
         public async Task<UserModel> GetByLoginAsync(string login)
         {
-            return await _webClient.PostAsync<UserModel, string>(SettingsConfiguration.ApiUrls.GetUserUrl, login);
+            return await _webClient.PostAsync<UserModel, string>(SettingsConfiguration.ApiUrls.GetUser, login);
         }
 
         public async Task<UserModel> GetByRefreshTokenAsync(string refreshToken)
         {
-            return await _webClient.PostAsync<UserModel, string>(SettingsConfiguration.ApiUrls.GetUserByRefreshtokenUrl, refreshToken);
+            return await _webClient.PostAsync<UserModel, string>(SettingsConfiguration.ApiUrls.GetUserByRefreshToken, refreshToken);
         }
     }
 }

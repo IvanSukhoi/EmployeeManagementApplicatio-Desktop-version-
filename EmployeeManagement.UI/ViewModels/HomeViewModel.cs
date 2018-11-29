@@ -4,16 +4,17 @@ using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.UI.Extensions;
 using EmployeeManagement.UI.Settings.Localization;
-using Unity.Interception.Utilities;
+using Microsoft.Practices.ObjectBuilder2;
+using Prism.Regions;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel : IRegionMemberLifetime
     {
         public ObservableCollection<DepartmentModel> Departments { get; set; }
 
         private readonly IDepartmentService _departmentService;
-        
+
         public HomeViewModel(IDepartmentService departmentService)
         {
             _departmentService = departmentService;
@@ -25,5 +26,7 @@ namespace EmployeeManagement.UI.ViewModels
             Departments.AddRange(await _departmentService.GetAllAsync());
             Departments.ForEach(x => x.Name = Resource.ResourceManager.GetString(x.Name));
         }
+
+        public bool KeepAlive => false;
     }
 }

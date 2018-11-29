@@ -1,17 +1,18 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainInterfaces;
-using EmployeeManagement.UI.Annotations;
-using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.Services;
 using EmployeeManagement.UI.Windows;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class SettingsViewModel : INotifyPropertyChanged
+    public class SettingsViewModel: BindableBase, IRegionMemberLifetime
     {
         private readonly ISettingsService _settingsService;
         private readonly IAuthorizationService _authorizationService;
@@ -19,7 +20,9 @@ namespace EmployeeManagement.UI.ViewModels
         private readonly IWindowFactory _windowFactory;
 
         private readonly ISettingsHelper _settingsHelper;
-        
+
+        private readonly IWindowService _windowService;
+
         private SettingsModel _settingsModel;
         public SettingsModel SettingsModel
         {
@@ -27,25 +30,26 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _settingsModel = value;
-                OnPropertyChanged(nameof(SettingsModel));
+                RaisePropertyChanged(nameof(SettingsModel));
             }
         }
 
-        public IDelegateCommand SelectTopicCommand { protected set; get; }
-        public IDelegateCommand SelectLanguageCommand { protected set; get; }
-        public IDelegateCommand RestartMainWindowCommand { protected set; get; }
-        public IDelegateCommand BackToCurrentLanguageCommand { protected set; get; }
+        public ICommand SelectTopicCommand { protected set; get; }
+        public ICommand SelectLanguageCommand { protected set; get; }
+        public ICommand RestartMainWindowCommand { protected set; get; }
+        public ICommand BackToCurrentLanguageCommand { protected set; get; }
 
-        public SettingsViewModel(ISettingsService settingsService, IAuthorizationService authorizationService, IWindowFactory windowFactory, ISettingsHelper settingsHelper)
+        public SettingsViewModel(ISettingsService settingsService, IAuthorizationService authorizationService, IWindowFactory windowFactory, ISettingsHelper settingsHelper, IWindowService windowService)
         {
             _settingsService = settingsService;
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
             _settingsHelper = settingsHelper;
-            SelectTopicCommand = new DelegateCommandAsync(ExecuteSelectThemeAsync);
-            SelectLanguageCommand = new DelegateCommandAsync(ExecuteSelectLanguageAsync);
-            RestartMainWindowCommand = new DelegateCommandAsync(ExecuteRestartMainWindowAsync);
-            BackToCurrentLanguageCommand = new DelegateCommand.DelegateCommand(BackToCurrentLanguage);
+            _windowService = windowService;
+            SelectTopicCommand = new DelegateCommand<Theme?>(async(_) => await ExecuteSelectThemeAsync(_));
+            SelectLanguageCommand = new DelegateCommand<Language?>(async (_) => await ExecuteSelectLanguageAsync(_));
+            RestartMainWindowCommand = new DelegateCommand(async () => await ExecuteRestartMainWindowAsync());
+            BackToCurrentLanguageCommand = new DelegateCommand(BackToCurrentLanguage);
         }
 
         public async Task SetSettings()
@@ -61,56 +65,48 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _isEditingLanguage = value;
-                OnPropertyChanged(nameof(IsEditingLanguage));
+                RaisePropertyChanged(nameof(IsEditingLanguage));
             }
         }
 
         public Language CurrentLanguage { get; set; }
 
-        public async Task ExecuteSelectThemeAsync(object parameter)
+        public async Task ExecuteSelectThemeAsync(Theme? parameter)
         {
-            SettingsModel.Theme = (Theme)parameter;
-            OnPropertyChanged(nameof(SettingsModel));
+            if (parameter != null) SettingsModel.Theme = (Theme) parameter;
+            RaisePropertyChanged(nameof(SettingsModel));
 
             _settingsHelper.SetTheme(SettingsModel);
 
             await _settingsService.SaveAsync(SettingsModel);
         }
 
-        public async Task ExecuteSelectLanguageAsync(object parameter)
+        public async Task ExecuteSelectLanguageAsync(Language? parameter)
         {
-            SettingsModel.Language = (Language)parameter;
-            OnPropertyChanged(nameof(SettingsModel));
+            if (parameter != null) SettingsModel.Language = (Language) parameter;
+            RaisePropertyChanged(nameof(SettingsModel));
 
             IsEditingLanguage = true;
 
             await _settingsService.SaveAsync(SettingsModel);
         }
 
-        public async Task ExecuteRestartMainWindowAsync(object parameter)
+        public async Task ExecuteRestartMainWindowAsync()
         {
             _windowFactory.Close<MainWindow>();
-            _settingsHelper.SetLanguage(await _settingsService.GetByUserIdAsync(_authorizationService.GetCurrentUser().Id));
-            var mainWindow = _windowFactory.Create<MainWindow>();
-            await mainWindow.InitAsync();
-            mainWindow.ShowWindow();
+
+            await _windowService.CreateMainWindowAsync();
         }
 
-        public void BackToCurrentLanguage(object parameter)
+        public void BackToCurrentLanguage()
         {
             SettingsModel.Language = CurrentLanguage;
 
             IsEditingLanguage = false;
 
-            OnPropertyChanged(nameof(SettingsModel));
+            RaisePropertyChanged(nameof(SettingsModel));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public bool KeepAlive => false;
     }
 }
