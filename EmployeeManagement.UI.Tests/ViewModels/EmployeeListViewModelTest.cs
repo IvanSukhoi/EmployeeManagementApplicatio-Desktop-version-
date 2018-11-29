@@ -6,7 +6,7 @@ using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.Domain.Mappings;
-using EmployeeManagement.UI.UiInterfaces.Services;
+using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.ViewModels;
 using FakeItEasy;
 using NUnit.Framework;
@@ -36,7 +36,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         public async Task ExecuteCreateEmployee_CreateCurrentEmployeeViewModel()
         {
             _employeeListViewModel.CurrentDepartment = (Departments)2;
-            await _employeeListViewModel.ExecuteCreateEmployeeAsync();
+            await _employeeListViewModel.ExecuteCreateEmployee(new object());
 
             Assert.IsTrue(_employeeListViewModel.CurrentEmployeeViewModel.IsNew);
             Assert.That(_employeeListViewModel.CurrentEmployeeViewModel.DepartmentId, Is.EqualTo(2));

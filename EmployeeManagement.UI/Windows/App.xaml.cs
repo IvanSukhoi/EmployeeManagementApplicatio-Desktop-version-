@@ -2,7 +2,7 @@
 using EmployeeManagement.UI.DI;
 using EmployeeManagement.UI.DI.WindowFactory;
 using Microsoft.HockeyApp;
-using Microsoft.Practices.Unity;
+using Unity;
 
 namespace EmployeeManagement.UI.Windows
 {
@@ -14,11 +14,9 @@ namespace EmployeeManagement.UI.Windows
 
             HockeyClient.Current.Configure("6e556c8e5ac64fd4a7f9c56d52888a4d");
             await HockeyClient.Current.SendCrashesAsync(true);
-            
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Run();
 
-            await bootstrapper.Container.Resolve<WindowFactory>().Create<TrayWindow>().InitAsync();
+            var trayWindow = RegistrationUnity.Setup().Resolve<WindowFactory>().Create<TrayWindow>();
+            await trayWindow.Init();
         }
     }
 }

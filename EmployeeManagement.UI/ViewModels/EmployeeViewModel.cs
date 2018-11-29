@@ -1,9 +1,11 @@
-﻿using EmployeeManagement.Contracts.Enums;
-using Prism.Mvvm;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using EmployeeManagement.Contracts.Enums;
+using EmployeeManagement.UI.Annotations;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class EmployeeViewModel: BindableBase
+    public class EmployeeViewModel : INotifyPropertyChanged
     {
         private string _firstName;
 
@@ -13,7 +15,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _firstName = value;
-                RaisePropertyChanged(nameof(FirstName));
+                OnPropertyChanged(nameof(FirstName));
             }
         }
 
@@ -24,7 +26,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _middleName = value;
-                RaisePropertyChanged(nameof(MiddleName));
+                OnPropertyChanged(nameof(MiddleName));
             }
         }
 
@@ -36,7 +38,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _lastName = value;
-                RaisePropertyChanged(nameof(LastName));
+                OnPropertyChanged(nameof(LastName));
             }
         }
 
@@ -48,7 +50,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _profession = value;
-                RaisePropertyChanged(nameof(Profession));
+                OnPropertyChanged(nameof(Profession));
             }
         }
 
@@ -59,7 +61,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _position = value;
-                RaisePropertyChanged(nameof(Position));
+                OnPropertyChanged(nameof(Position));
             }
         }
 
@@ -79,7 +81,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _departmentName = value;
-                RaisePropertyChanged(nameof(DepartmentName));
+                OnPropertyChanged(nameof(DepartmentName));
             }
         }
 
@@ -88,5 +90,13 @@ namespace EmployeeManagement.UI.ViewModels
         public bool IsEditedDepartment { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

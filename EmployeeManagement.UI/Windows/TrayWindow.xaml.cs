@@ -11,8 +11,8 @@ namespace EmployeeManagement.UI.Windows
             InitializeComponent();
         }
 
-        public async Task InitAsync()
-        {
+        public async Task Init()
+        { 
             await ((TrayViewModel) DataContext).InitAsync();
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace EmployeeManagement.UI.UiInterfaces.Services
+﻿namespace EmployeeManagement.UI.UiInterfaces
 {
     public interface IResourceManagerService
     {

@@ -1,58 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using EmployeeManagement.Contracts.Enums;
 using EmployeeManagement.Contracts.Models;
 using EmployeeManagement.Domain.DomainInterfaces;
 using EmployeeManagement.Domain.Mappings;
-using EmployeeManagement.UI.Events;
+using EmployeeManagement.UI.Annotations;
+using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.Settings.Localization;
-using Prism.Commands;
-using Prism.Events;
-using Prism.Mvvm;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class EmployeeDetailsViewModel : BindableBase
+    public class EmployeeDetailsViewModel : INotifyPropertyChanged
     {
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
 
         private readonly IMapperWrapper _mapperWrapper;
 
-        private readonly IEventAggregator _eventAggregator;
+        public delegate void UpdateItemEventHandler();
+        public event UpdateItemEventHandler UpdateEmployeeHandler;
 
-        public ICommand EditCommand { protected set; get; }
-        public ICommand CancelCommand { protected set; get; }
-        public ICommand SaveCommand { protected set; get; }
-        public ICommand OpenDeletePopupCommand { protected set; get; }
-        public ICommand DeleteEmployeeCommand { protected set; get; }
-        public ICommand CancelToListEmployeeCommand { protected set; get; }
+        public IDelegateCommand EditCommand { protected set; get; }
+        public IDelegateCommand CancelCommand { protected set; get; }
+        public IDelegateCommand SaveCommand { protected set; get; }
+        public IDelegateCommand OpenDeletePopupCommand { protected set; get; }
+        public IDelegateCommand DeleteEmployeeCommand { protected set; get; }
+        public IDelegateCommand CancelToListEmployeeCommand { protected set; get; }
 
         public List<DepartmentModel> Departments { get; set; }
         public List<Sex> SexTypes => Enum.GetValues(typeof(Sex)).Cast<Sex>().ToList();
         public List<Profession> ProfessionTypes => Enum.GetValues(typeof(Profession)).Cast<Profession>().ToList();
         public List<Position> PositionTypes => Enum.GetValues(typeof(Position)).Cast<Position>().ToList();
 
-        public EmployeeDetailsViewModel(IEmployeeService employeeService, IDepartmentService departmentService, IMapperWrapper mapperWrapper, IEventAggregator eventAggregator)
+        public EmployeeDetailsViewModel(IEmployeeService employeeService, IDepartmentService departmentService, IMapperWrapper mapperWrapper)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
             _mapperWrapper = mapperWrapper;
-            _eventAggregator = eventAggregator;
-            EditCommand = new DelegateCommand(async () => await ExecuteEditEmployeeAsync());
-            CancelCommand = new DelegateCommand(ExecuteCancel);
-            SaveCommand = new DelegateCommand(async () => await ExecuteSaveEmployee());
-            OpenDeletePopupCommand = new DelegateCommand(ExecuteOpenDeletePopup);
-            DeleteEmployeeCommand = new DelegateCommand<int?>(async (x) => await ExecuteDeleteEmployeeAsync(x));
-            CancelToListEmployeeCommand = new DelegateCommand(ExecuteCancelToListEmployee);
-        }
-
-        public void SubscribeToTheEvent()
-        {
-            _eventAggregator.GetEvent<UpdateEmployeeViewModelEvent>().Subscribe(SetEmployeeHandler);
+            EditCommand = new DelegateCommand.DelegateCommand(ExecuteEditEmployee);
+            CancelCommand = new DelegateCommand.DelegateCommand(ExecuteCancel);
+            SaveCommand = new DelegateCommandAsync(ExecuteSaveEmployee);
+            OpenDeletePopupCommand = new DelegateCommand.DelegateCommand(ExecuteOpenDeletePopup);
+            DeleteEmployeeCommand = new DelegateCommandAsync(ExecuteDeleteEmployee);
+            CancelToListEmployeeCommand = new DelegateCommand.DelegateCommand(ExecuteCancelTolistEmployee);
         }
 
         public EmployeeViewModel CurrentEmployeeViewModel { get; set; }
@@ -65,7 +59,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _isEditingEmployee = value;
-                RaisePropertyChanged(nameof(IsEditingEmployee));
+                OnPropertyChanged(nameof(IsEditingEmployee));
             }
         }
 
@@ -77,7 +71,7 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _employeeViewModel = value;
-                RaisePropertyChanged(nameof(EmployeeViewModel));
+                OnPropertyChanged(nameof(EmployeeViewModel));
             }
         }
 
@@ -89,25 +83,28 @@ namespace EmployeeManagement.UI.ViewModels
             set
             {
                 _isDeletePopupOpen = value;
-                RaisePropertyChanged(nameof(IsDeletePopupOpen));
+                OnPropertyChanged(nameof(IsDeletePopupOpen));
             }
         }
 
-        public async Task ExecuteEditEmployeeAsync()
+        public async Task SetDepartments()
         {
             Departments = await _departmentService.GetAllAsync();
             Departments.ForEach(x => x.Name = Resource.ResourceManager.GetString(x.Name));
+        }
 
+        public void ExecuteEditEmployee(object parameter)
+        {
             IsEditingEmployee = true;
         }
 
-        public void ExecuteCancel()
+        public void ExecuteCancel(object parameter)
         {
             AssignEmployeeModel();
             IsEditingEmployee = false;
         }
 
-        public async Task ExecuteSaveEmployee()
+        public async Task ExecuteSaveEmployee(object parameter)
         {
             if (EmployeeViewModel.IsNew)
             {
@@ -126,26 +123,25 @@ namespace EmployeeManagement.UI.ViewModels
 
             IsEditingEmployee = false;
             _mapperWrapper.Map(EmployeeViewModel, CurrentEmployeeViewModel);
-
-            _eventAggregator.GetEvent<SaveEmployeeViewModelEvent>().Publish();
+            OnUpdateEmployee();
         }
 
-        public void ExecuteOpenDeletePopup()
+        public void ExecuteOpenDeletePopup(object parameter)
         {
             IsDeletePopupOpen = true;
         }
 
-        public async Task ExecuteDeleteEmployeeAsync(int? employeeId)
+        public async Task ExecuteDeleteEmployee(object parameter)
         {
             CurrentEmployeeViewModel.IsDeleted = true;
-            await _employeeService.DeleteAsync((int)employeeId);
+            await _employeeService.DeleteAsync((int)parameter);
 
             IsDeletePopupOpen = false;
 
-            _eventAggregator.GetEvent<SaveEmployeeViewModelEvent>().Publish();
+            OnUpdateEmployee();
         }
 
-        public void ExecuteCancelToListEmployee()
+        public void ExecuteCancelTolistEmployee(object parameter)
         {
             IsDeletePopupOpen = false;
         }
@@ -159,6 +155,19 @@ namespace EmployeeManagement.UI.ViewModels
             {
                 IsEditingEmployee = employee.IsNew;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void OnUpdateEmployee()
+        {
+            UpdateEmployeeHandler?.Invoke();
         }
 
         public virtual void AssignEmployeeModel()

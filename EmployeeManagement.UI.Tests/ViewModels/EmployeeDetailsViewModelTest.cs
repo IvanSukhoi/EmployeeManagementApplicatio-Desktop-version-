@@ -34,7 +34,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         [Test]
         public void ExecuteEditEmployee_ChangeIsEditing_Employee()
         {
-            _employeeDetailsViewModel.ExecuteEditEmployeeAsync(new object());
+            _employeeDetailsViewModel.ExecuteEditEmployee(new object());
             
             Assert.IsTrue(_employeeDetailsViewModel.IsEditingEmployee);
         }
@@ -86,7 +86,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         [Test]
         public async Task ExecuteDeleteEmployee_DeleteEmployee_Correct()
         {
-            await _employeeDetailsViewModel.ExecuteDeleteEmployeeAsync(1);
+            await _employeeDetailsViewModel.ExecuteDeleteEmployee(1);
 
             A.CallTo(() => _employeeService.DeleteAsync(A<int>.That.Matches(x => x > 0))).MustHaveHappened();
             Assert.IsTrue(_employeeDetailsViewModel.CurrentEmployeeViewModel.IsDeleted);
@@ -97,7 +97,7 @@ namespace EmployeeManagement.UI.Tests.ViewModels
         [Test]
         public void ExecuteCancelToListEmployee_ChangeIsDeletePopupOpen_Correct()
         {
-            _employeeDetailsViewModel.ExecuteCancelToListEmployee(new object());
+            _employeeDetailsViewModel.ExecuteCancelTolistEmployee(new object());
 
             Assert.IsFalse(_employeeDetailsViewModel.IsDeletePopupOpen);
         }

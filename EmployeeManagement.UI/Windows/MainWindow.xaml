@@ -6,7 +6,6 @@
         xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
         xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
         xmlns:enums="clr-namespace:EmployeeManagement.Contracts.Enums;assembly=EmployeeManagement.Contracts"
-        xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="{x:Static res:Resource.Main}" Style="{DynamicResource MainWindowStyle}"
         Icon="../Images/kfm_home.ico">
@@ -36,7 +35,7 @@
         </Grid.ColumnDefinitions>
 
         <Border  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="10"  Margin="0 0 0 5">
-            <TextBlock Text="{x:Static res:Resource.Title}" 
+            <TextBlock Text="EmployeeManagementApplication" 
                        Style="{DynamicResource TextBlockMain}" Background="#FF2583A6" FontFamily="Segoe Print"/>
         </Border>
 
@@ -198,8 +197,8 @@
             </Control.Template>
         </Control>
 
-        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" NavigationUIVisibility="Hidden" prism:RegionManager.RegionName="ContentRegion" Style="{DynamicResource FrameStyle}" />
-
+        <Frame Name="Frame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="9" Style="{DynamicResource FrameStyle}" />
+        
         <TextBlock  Margin="10 0 0 0" Grid.Column="0" Grid.Row="9">
             <Run Text="Version: "/>
             <Run Text="{Binding Version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

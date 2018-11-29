@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
+using EmployeeManagement.API.Settings;
 using EmployeeManagement.Contracts.Models;
-using EmployeeManagement.Contracts.Settings;
 
 namespace EmployeeManagement.API.Repositories
 {
@@ -16,14 +17,14 @@ namespace EmployeeManagement.API.Repositories
 
         public async Task<SettingsModel> GetByUserIdAsync(int id)
         {
-            return await _webClient.GetAsync<SettingsModel>(SettingsConfiguration.ApiUrls.GetSettings + id);
+            return await _webClient.GetAsync<SettingsModel>(SettingsConfiguration.ApiUrls.GetSettingsUrl + id);
         }
 
         public async Task SaveAsync(SettingsModel settingsModel)
         {
             if (settingsModel != null)
             {
-                await _webClient.PostAsync<SettingsModel, SettingsModel>(SettingsConfiguration.ApiUrls.GetSettings, settingsModel);
+                await _webClient.PostAsync<SettingsModel, SettingsModel>(SettingsConfiguration.ApiUrls.GetSettingsUrl, settingsModel);
             }
         }
     }

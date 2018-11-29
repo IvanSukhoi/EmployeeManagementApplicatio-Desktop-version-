@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmployeeManagement.API.ApiInterfaces;
+using EmployeeManagement.API.Settings;
 using EmployeeManagement.Contracts.Models;
-using EmployeeManagement.Contracts.Settings;
 
 namespace EmployeeManagement.API.Repositories
 {
@@ -17,28 +18,28 @@ namespace EmployeeManagement.API.Repositories
 
         public async Task<List<EmployeeModel>> GetByDepartmentIdAsync(int departmentId)
         {
-            return await _webClient.GetAsync<List<EmployeeModel>>(SettingsConfiguration.ApiUrls.GetEmployeeByDepartmentId + departmentId);
+            return await _webClient.GetAsync<List<EmployeeModel>>(SettingsConfiguration.ApiUrls.GetEmployeeByDepartmentIdUrl + departmentId);
         }
 
         public async Task<EmployeeModel> GetByIdAsync(int id)
         {
-            return await _webClient.GetAsync<EmployeeModel>(SettingsConfiguration.ApiUrls.GetEmployee + id);
+            return await _webClient.GetAsync<EmployeeModel>(SettingsConfiguration.ApiUrls.GetEmployeeUrl + id);
         }
 
         public async Task<EmployeeModel> CreateAsync(EmployeeModel employeeModel)
         {
-            return await _webClient.PostAsync<EmployeeModel, EmployeeModel>(SettingsConfiguration.ApiUrls.GetEmployee, employeeModel);
+            return await _webClient.PostAsync<EmployeeModel, EmployeeModel>(SettingsConfiguration.ApiUrls.GetEmployeeUrl, employeeModel);
         }
 
         public async Task SaveAsync(EmployeeModel employeeModel)
         {
             if (employeeModel != null)
-                await _webClient.PutAsync(SettingsConfiguration.ApiUrls.GetEmployee, employeeModel);
+                await _webClient.PutAsync(SettingsConfiguration.ApiUrls.GetEmployeeUrl, employeeModel);
         }
        
         public async Task DeleteAsync(int id)
         {
-            await _webClient.DeleteAsync(SettingsConfiguration.ApiUrls.GetEmployee + id);
+            await _webClient.DeleteAsync(SettingsConfiguration.ApiUrls.GetEmployeeUrl + id);
         }
     }
 }

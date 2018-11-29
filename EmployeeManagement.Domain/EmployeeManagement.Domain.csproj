@@ -57,6 +57,7 @@
     <Compile Include="DomainInterfaces\IAuthorizationService.cs" />
     <Compile Include="DomainInterfaces\IDepartmentService.cs" />
     <Compile Include="DomainInterfaces\IEmployeeService.cs" />
+    <Compile Include="DomainInterfaces\IRegistryHelper.cs" />
     <Compile Include="DomainInterfaces\ISettingsService.cs" />
     <Compile Include="DomainServices\DepartmentService.cs" />
     <Compile Include="DomainServices\EmployeeService.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="DomainInterfaces\IUserService.cs" />
     <Compile Include="Mappings\IMapperWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="DomainServices\AuthorizationService.cs" />
     <Compile Include="DomainServices\UserService.cs" />
   </ItemGroup>

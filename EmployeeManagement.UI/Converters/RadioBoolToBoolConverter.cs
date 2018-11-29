@@ -5,7 +5,7 @@ using EmployeeManagement.Contracts.Enums;
 
 namespace EmployeeManagement.UI.Converters
 {
-    public class ThemeToBoolConverter: IValueConverter
+    public class RadioBoolToIntConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

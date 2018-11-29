@@ -1,9 +1,9 @@
-﻿using EmployeeManagement.API.ApiInterfaces;
+﻿using EmployeeManagement.Domain.DomainInterfaces;
 using Microsoft.Win32;
 
-namespace EmployeeManagement.API.Managers
+namespace EmployeeManagement.Domain.Helpers
 {
-    public class RegistryManager : IRegistryManager
+    public class RegistryHelper : IRegistryHelper
     {
         public void SetData(string name, string value)
         {

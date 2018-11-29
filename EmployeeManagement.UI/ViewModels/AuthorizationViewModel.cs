@@ -1,21 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using EmployeeManagement.Domain.DomainInterfaces;
+using EmployeeManagement.UI.Annotations;
+using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.UiInterfaces;
-using EmployeeManagement.UI.UiInterfaces.Services;
+using EmployeeManagement.UI.UiInterfaces.ViewModels;
 using EmployeeManagement.UI.Windows;
-using Prism.Commands;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class AuthorizationViewModel
+    public class AuthorizationViewModel : IAuthorizationViewModel, INotifyPropertyChanged
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly IWindowFactory _windowFactory;
         private readonly IDialogService _dialogService;
 
-        public ICommand LogInCommand { protected set; get; }
+        public IDelegateCommand LogInCommand { protected set; get; }
 
         public string Login { get; set; }
         public string Password { get; set; }
@@ -26,10 +28,10 @@ namespace EmployeeManagement.UI.ViewModels
             _authorizationService = authorizationService;
             _windowFactory = windowFactory;
             _dialogService = dialogService;
-            LogInCommand = new DelegateCommand(async () => await ExecutePrintResultAuthorizationAsync());
+            LogInCommand = new DelegateCommandAsync(ExecutePrintResultAuthorization);
         }
 
-        public async Task ExecutePrintResultAuthorizationAsync()
+        public async Task ExecutePrintResultAuthorization(object parametr)
         {
             await _authorizationService.LogInAsync(Login, Password, RememberMe);
             if (_authorizationService.IsLogged)
@@ -41,6 +43,14 @@ namespace EmployeeManagement.UI.ViewModels
             {
                 _dialogService.ShowMessageBox("Failed Authorization!", "Authorization");
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

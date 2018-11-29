@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
-namespace EmployeeManagement.UI.UiInterfaces.Services
+namespace EmployeeManagement.UI.UiInterfaces
 {
     public interface IDialogService
     {

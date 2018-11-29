@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EmployeeManagement.Contracts.Models;
 
 namespace EmployeeManagement.API.ApiInterfaces
@@ -8,9 +9,11 @@ namespace EmployeeManagement.API.ApiInterfaces
         Task SetAuthorizationAsync(UserModel userModel);
         Task SetAuthorizationAsync(string refreshToken);
         Task UpdateAuthorizationAsync();
-        bool IsValidAccessToken();
-        bool IsAuthorized();
+        bool IsValidAuthorization();
+        bool IsAuthorization();
         string GetRefreshToken();
         string GetAccessToken();
+
+        event EventHandler UpdateRefreshTokenHandler;
     }
 }

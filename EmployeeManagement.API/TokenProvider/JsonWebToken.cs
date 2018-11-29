@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EmployeeManagement.API.Token
+namespace EmployeeManagement.API.TokenProvider
 {
     public class JsonWebToken
     {

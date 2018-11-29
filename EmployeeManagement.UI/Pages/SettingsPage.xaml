@@ -4,16 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:converters="clr-namespace:EmployeeManagement.UI.Converters"
-      xmlns:settings="clr-namespace:EmployeeManagement.Contracts.Enums;assembly=EmployeeManagement.Contracts"
       xmlns:res="clr-namespace:EmployeeManagement.UI.Settings.Localization"
+      xmlns:settings="clr-namespace:EmployeeManagement.Contracts.Enums;assembly=EmployeeManagement.Contracts"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsPage"
       x:Name="Page">
 
     <Page.Resources>
-        <converters:ThemeToBoolConverter x:Key="ThemeToBoolConverter"/>
-        <converters:LanguageToBoolConverter x:Key="LanguageToBoolConverter"/>
+        <converters:RadioBoolToIntConverter x:Key="RadioBoolToIntConverter"/>
     </Page.Resources>
 
     <Grid Style="{DynamicResource GridSettings}" Background="LightGray">
@@ -25,11 +24,11 @@
         
         <GroupBox Header="{x:Static res:Resource.Theme}" Grid.Row="0" Style="{DynamicResource GroupBoxStyle}">
             <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
-                <RadioButton Content="{x:Static res:Resource.Ligth}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Theme, Converter={StaticResource ThemeToBoolConverter}, 
+                <RadioButton Content="{x:Static res:Resource.Ligth}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Theme, Converter={StaticResource RadioBoolToIntConverter}, 
                     ConverterParameter={x:Static settings:Theme.Ligth}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Ligth}" Background="White"/>
 
-                <RadioButton Content="{x:Static res:Resource.Dark}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Theme, Converter={StaticResource ThemeToBoolConverter}, 
+                <RadioButton Content="{x:Static res:Resource.Dark}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Theme, Converter={StaticResource RadioBoolToIntConverter}, 
                     ConverterParameter={x:Static settings:Theme.Dark}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectTopicCommand}" CommandParameter="{x:Static settings:Theme.Dark}"/>
             </StackPanel>
@@ -37,12 +36,10 @@
 
         <GroupBox Header="{x:Static res:Resource.Language}" Grid.Row="1" Style="{DynamicResource GroupBoxStyle}">
             <StackPanel Style="{DynamicResource BasicStackPanelStyle}">
-                
-                <RadioButton Content="{x:Static res:Resource.English}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Language, Converter={StaticResource LanguageToBoolConverter}, 
+                <RadioButton Content="{x:Static res:Resource.English}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Language, Converter={StaticResource RadioBoolToIntConverter}, 
                     ConverterParameter={x:Static settings:Language.English}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectLanguageCommand}" CommandParameter="{x:Static settings:Language.English}"/>
-
-                <RadioButton Content="{x:Static res:Resource.Russian}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Language, Converter={StaticResource LanguageToBoolConverter}, 
+                <RadioButton Content="{x:Static res:Resource.Russian}" Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=SettingsModel.Language, Converter={StaticResource RadioBoolToIntConverter}, 
                     ConverterParameter={x:Static settings:Language.Russian}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              Command="{Binding SelectLanguageCommand}" CommandParameter="{x:Static settings:Language.Russian}"/>
 

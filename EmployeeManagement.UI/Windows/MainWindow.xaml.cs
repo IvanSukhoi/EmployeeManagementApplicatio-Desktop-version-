@@ -1,26 +1,27 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
-using EmployeeManagement.UI.ViewModels;
+using System.Windows.Navigation;
+using EmployeeManagement.UI.UiInterfaces;
+using EmployeeManagement.UI.UiInterfaces.ViewModels;
 
 namespace EmployeeManagement.UI.Windows
 {
     public partial class MainWindow
     {
-        public MainWindow()
-        {}
+        public MainWindow() { }
 
-        public MainWindow(MainViewModel mainViewModel/*, INavigationManager navigationManager*/)
+        public MainWindow(IMainViewModel mainViewModel, INavigationManager navigationManager)
         {
             InitializeComponent();
             DataContext = mainViewModel;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            //Frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
-            //navigationManager.SetNavigationService(Frame.NavigationService);
+            Frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+            navigationManager.SetNavigationService(Frame.NavigationService);
         }
 
         public virtual async Task InitAsync()
         {
-           await ((MainViewModel)DataContext).InitAsync();
+           await ((IMainViewModel)DataContext).InitAsync();
         }
 
         public virtual void ShowWindow()

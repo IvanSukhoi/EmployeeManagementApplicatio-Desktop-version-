@@ -1,15 +1,16 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using EmployeeManagement.Domain.DomainInterfaces;
+using EmployeeManagement.UI.Annotations;
+using EmployeeManagement.UI.DelegateCommand;
 using EmployeeManagement.UI.UiInterfaces;
 using EmployeeManagement.UI.UiInterfaces.Services;
 using EmployeeManagement.UI.Windows;
-using Prism.Commands;
-using Prism.Mvvm;
 
 namespace EmployeeManagement.UI.ViewModels
 {
-    public class TrayViewModel: BindableBase
+    public class TrayViewModel : INotifyPropertyChanged
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly IApplicationService _applicationService;
@@ -17,10 +18,9 @@ namespace EmployeeManagement.UI.ViewModels
 
         private readonly IWindowFactory _windowFactory;
 
-        public ICommand TransitionToMainCommand { protected set; get; }
-        public ICommand TransitionToExitCommand { protected set; get; }
-        public ICommand TransitionToAuthorizationCommand { protected set; get; }
-
+        public IDelegateCommand TransitionToMainCommand { protected set; get; }
+        public IDelegateCommand TransitionToExitCommand { protected set; get; }
+        public IDelegateCommand TransitionToAuthorizationCommand { protected set; get; }
 
         public TrayViewModel(IAuthorizationService authorizationService, IWindowFactory windowFactory, IApplicationService applicationService, IWindowService windowService)
         {
@@ -28,9 +28,9 @@ namespace EmployeeManagement.UI.ViewModels
             _windowFactory = windowFactory;
             _applicationService = applicationService;
             _windowService = windowService;
-            TransitionToMainCommand = new DelegateCommand(async () => await ExecuteTransitionToMainAsync());
-            TransitionToAuthorizationCommand = new DelegateCommand(ExecuteTransitionToAuthorization);
-            TransitionToExitCommand = new DelegateCommand(ExecuteTransitionToExit);
+            TransitionToMainCommand = new DelegateCommandAsync(ExecuteTransitionToMainAsync);
+            TransitionToAuthorizationCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToAuthorization);
+            TransitionToExitCommand = new DelegateCommand.DelegateCommand(ExecuteTransitionToExit);
         }
 
         public bool IsLogged => _authorizationService.IsLogged;
@@ -45,32 +45,40 @@ namespace EmployeeManagement.UI.ViewModels
             {
                 _windowService.CreateAuthorizationWindow();
             }
-            RaisePropertyChanged(nameof(IsLogged));
+            OnPropertyChanged(nameof(IsLogged));
         }
 
-        public async Task ExecuteTransitionToMainAsync()
+        public async Task ExecuteTransitionToMainAsync(object parametr)
         {
              await _windowService.CreateMainWindowAsync();
         }
 
-        public void ExecuteTransitionToExit()
+        public void ExecuteTransitionToExit(object parametr)
         {
              _applicationService.Shutdown();
         }
 
-        public void ExecuteTransitionToAuthorization()
+        public void ExecuteTransitionToAuthorization(object parametr)
         {
             if (!_authorizationService.IsLogged)
             {
                 _windowService.CreateAuthorizationWindow();
-                RaisePropertyChanged(nameof(IsLogged));
+                OnPropertyChanged(nameof(IsLogged));
             }
             else
             {
                 _authorizationService.LogOut();
                 _windowFactory.Close<MainWindow>();
-                RaisePropertyChanged(nameof(IsLogged));
+                OnPropertyChanged(nameof(IsLogged));
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
